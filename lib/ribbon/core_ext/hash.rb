@@ -6,10 +6,12 @@ module Ribbon
     # Includes a method to convert hashes to ribbons.
     module Hash
 
+      # Converts this hash to a Ribbon::Object.
       def to_ribbon
         ::Ribbon::Object.new self
       end
 
+      # Same as #to_ribbon.
       alias to_rbon to_ribbon
 
     end
