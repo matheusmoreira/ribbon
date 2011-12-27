@@ -88,6 +88,18 @@ module Ribbon
       ribbon
     end
 
+    # Converts +ribbon+ and all Ribbons inside into hashes.
+    def self.to_hash(ribbon)
+      {}.tap do |hash|
+        ribbon.__hash__.each do |key, value|
+          hash[key] = case value
+            when ::Ribbon::Object then to_hash value
+            else value
+          end
+        end
+      end
+    end
+
     # Merges +old+'s hash with +new+'s. This is equivalent to calling
     # <tt>merge!</tt> on +old+'s hash and passing it +new+'s hash and the given
     # block.
