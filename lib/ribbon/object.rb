@@ -49,11 +49,13 @@ module Ribbon
       end
     end
 
+    # Computes a simple key:value string for easy visualization.
     def to_s
       values = __hash__.map { |k, v| "#{k}:#{v}" }
       "<Ribbon #{values.join}>"
     end
 
+    # Same as #to_s.
     alias :inspect :to_s
 
     # If <tt>object</tt> is a Hash, converts it to a Ribbon::Object. If it is
