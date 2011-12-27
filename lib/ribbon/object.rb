@@ -4,7 +4,8 @@ module Ribbon
   # method calls. This is done via <tt>method_missing</tt>.
   #
   # In order to make room for as many method names as possible, Ribbon::Object
-  # inherits from BasicObject.
+  # inherits from BasicObject and implements as many methods as possible at the
+  # class level.
   class Object < BasicObject
 
     # The internal Hash.
@@ -15,6 +16,7 @@ module Ribbon
     # Merges the internal hash with the given one.
     def initialize(hash = {}, &block)
       __hash__.merge! hash, &block
+      ::Ribbon::Object.convert_all! self
     end
 
     # Gets a value by key.
@@ -66,6 +68,17 @@ module Ribbon
         when ::Array then object.map { |element| convert element }
         else object
       end
+    end
+
+    # Converts all values in the given ribbon.
+    def self.convert_all!(ribbon)
+      ribbon.__hash__.each do |key, value|
+        ribbon[key] = case value
+          when ::Ribbon::Object then convert_all! value
+          else convert value
+        end
+      end
+      ribbon
     end
 
   end
