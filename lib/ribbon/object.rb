@@ -51,10 +51,14 @@ module Ribbon
       end
     end
 
-    # Computes a simple key:value string for easy visualization.
-    def to_s
-      values = __hash__.map { |k, v| "#{k}:#{v}" }
-      "<Ribbon #{values.join}>"
+    # Computes a simple key:value string for easy visualization. If given a
+    # block, yields the key and value and the value returned from the block will
+    # be used as the string.
+    def to_s(&block)
+      values = __hash__.map do |k, v|
+        if block then yield k, v else "#{k}:#{v}" end
+      end
+      "<Ribbon #{values.join ' '}>"
     end
 
     # Same as #to_s.
