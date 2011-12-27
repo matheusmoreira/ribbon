@@ -16,7 +16,7 @@ module Ribbon
 
     end
 
-    class ::Hash; include ::Ribbon::CoreExt::Hash; end
+    ::Hash.send :include, ::Ribbon::CoreExt::Hash
 
   end
 end
