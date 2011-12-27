@@ -15,7 +15,7 @@ module Ribbon
 
     # Merges the internal hash with the given one.
     def initialize(hash = {}, &block)
-      __hash__.merge! hash, &block
+      ::Ribbon::Object.merge! self, hash, &block
       ::Ribbon::Object.convert_all! self
     end
 
@@ -31,10 +31,10 @@ module Ribbon
 
     # Handles the following cases:
     #
-    #   options.method = value  =>  rbon[method] = value
-    #   options.method!  value  =>  rbon[method] = value
-    #   options.method?         =>  rbon[method] ? true : false
-    #   options.method          =>  rbon[method]
+    #   ribbon.method = value  =>  ribbon[method] = value
+    #   ribbon.method!  value  =>  ribbon[method] = value
+    #   ribbon.method?         =>  ribbon[method] ? true : false
+    #   ribbon.method          =>  ribbon[method]
     def method_missing(method, *args, &block)
       m = method.to_s.strip.chop.strip.to_sym
       case method.to_s[-1]
@@ -86,6 +86,14 @@ module Ribbon
         end
       end
       ribbon
+    end
+
+    # Merges +old+'s hash with +new+'s. This is equivalent to calling
+    # <tt>merge!</tt> on +old+'s hash and passing it +new+'s hash and the given
+    # block.
+    def self.merge!(old, new, &block)
+      old_hash, new_hash = old.__hash__, new.__hash__
+      old_hash.merge! new_hash, &block
     end
 
   end
