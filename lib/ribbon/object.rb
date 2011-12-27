@@ -79,7 +79,7 @@ module Ribbon
 
     # Converts all values in the given ribbon.
     def self.convert_all!(ribbon)
-      ribbon.__hash__.each do |key, value|
+      each(ribbon) do |key, value|
         ribbon[key] = case value
           when ::Ribbon::Object then convert_all! value
           else convert value
@@ -91,7 +91,7 @@ module Ribbon
     # Converts +ribbon+ and all Ribbons inside into hashes.
     def self.to_hash(ribbon)
       {}.tap do |hash|
-        ribbon.__hash__.each do |key, value|
+        each(ribbon) do |key, value|
           hash[key] = case value
             when ::Ribbon::Object then to_hash value
             else value
@@ -111,6 +111,10 @@ module Ribbon
     # Returns the hash keys of the given ribbon.
     def self.keys(ribbon)
       ribbon.__hash__.keys
+    end
+
+    def self.each(ribbon, &block)
+      ribbon.__hash__.each &block
     end
 
   end
