@@ -15,7 +15,7 @@ module Ribbon
 
     # Merges the internal hash with the given one.
     def initialize(hash = {}, &block)
-      ::Ribbon::Object.merge! self, hash, &block
+      __hash__.merge! hash, &block
       ::Ribbon::Object.convert_all! self
     end
 
