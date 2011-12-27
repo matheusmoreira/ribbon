@@ -51,14 +51,17 @@ module Ribbon
       end
     end
 
-    # Computes a simple key:value string for easy visualization. If given a
-    # block, yields the key and value and the value returned from the block will
-    # be used as the string.
+    # Computes a simple key:value string for easy visualization.
+    #
+    # If given a block, yields the key and value and the value returned from the
+    # block will be used as the string. The block will also be passed to any
+    # internal Ribbon::Object instances.
     def to_s(&block)
-      values = __hash__.map do |k, v|
-        if block then yield k, v else "#{k}:#{v}" end
+      values = __hash__.map do |key, value|
+        value = value.to_s &block if ::Ribbon::Object === value
+        block ? block.call(key, value) : "#{key}:#{value}"
       end
-      "<Ribbon #{values.join ' '}>"
+      "{ Ribbon #{values.join ', '} }"
     end
 
     # Same as #to_s.
