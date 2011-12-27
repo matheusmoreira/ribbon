@@ -96,6 +96,11 @@ module Ribbon
       old_hash.merge! new_hash, &block
     end
 
+    # Returns the hash keys of the given ribbon.
+    def self.keys(ribbon)
+      ribbon.__hash__.keys
+    end
+
   end
 
 end
