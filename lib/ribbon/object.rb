@@ -59,7 +59,7 @@ module Ribbon
     def to_s(&block)
       values = __hash__.map do |key, value|
         value = value.to_s &block if ::Ribbon::Object === value
-        block ? block.call(key, value) : "#{key}:#{value}"
+        block ? block.call(key, value) : "#{key.to_s}: #{value.inspect}"
       end
       "{ Ribbon #{values.join ', '} }"
     end
