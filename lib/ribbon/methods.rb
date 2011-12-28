@@ -14,6 +14,12 @@ module Ribbon
       ribbon.__hash__.each &block
     end
 
+    # Yields a key, value pair to the given block and returns an array
+    # containing the values returned by the block on each iteration.
+    def map(ribbon, &block)
+      ribbon.__hash__.map &block
+    end
+
     # Merges +old+'s hash with +new+'s. This is equivalent to calling
     # <tt>merge!</tt> on +old+'s hash and passing it +new+'s hash and the given
     # block.
