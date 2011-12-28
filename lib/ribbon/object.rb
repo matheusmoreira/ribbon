@@ -113,6 +113,7 @@ module Ribbon
       ribbon.__hash__.keys
     end
 
+    # Yields a key, value pair to the given block.
     def self.each(ribbon, &block)
       ribbon.__hash__.each &block
     end
