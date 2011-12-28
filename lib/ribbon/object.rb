@@ -1,3 +1,5 @@
+require 'ribbon/methods'
+
 module Ribbon
 
   # Contains a hash whose keys that are symbols or strings can be accessed via
@@ -7,6 +9,8 @@ module Ribbon
   # inherits from BasicObject and implements as many methods as possible at the
   # class level.
   class Object < BasicObject
+
+    extend ::Ribbon::Methods
 
     # The internal Hash.
     def __hash__
