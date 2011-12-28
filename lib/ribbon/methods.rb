@@ -1,5 +1,3 @@
-require 'ribbon/object'
-
 module Ribbon
 
   # Methods that operate on Ribbons. These should be included at the class level
@@ -60,3 +58,5 @@ module Ribbon
   end
 
 end
+
+require 'ribbon/object'
