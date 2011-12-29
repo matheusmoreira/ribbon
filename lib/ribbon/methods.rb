@@ -66,6 +66,15 @@ module Ribbon
       ::Ribbon::Object === object
     end
 
+    # Converts the ribbon to a hash and serializes it with YAML. To get a ribbon
+    # back from the serialized hash, you can simply load the hash and pass it to
+    # the Ribbon::Object constructor:
+    #
+    #   ribbon = Ribbon::Object.new YAML.load(str)
+    def to_yaml(ribbon)
+      to_hash(ribbon).to_yaml
+    end
+
   end
 
 end
