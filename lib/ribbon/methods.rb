@@ -61,6 +61,11 @@ module Ribbon
       ribbon
     end
 
+    # Returns +true+ if the given +object+ is a Ribbon.
+    def instance?(object)
+      ::Ribbon::Object === object
+    end
+
   end
 
 end
