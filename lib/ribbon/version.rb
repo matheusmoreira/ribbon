@@ -16,7 +16,7 @@ module Ribbon
     # Patch version.
     #
     # Increments denote changes in implementation.
-    PATCH = 4
+    PATCH = 5
 
     # Build version.
     #
