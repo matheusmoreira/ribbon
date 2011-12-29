@@ -10,7 +10,7 @@ module Ribbon
   # class level.
   class Object < BasicObject
 
-    extend ::Ribbon::Methods
+    extend Methods
 
     # The internal Hash.
     def __hash__
@@ -20,7 +20,7 @@ module Ribbon
     # Merges the internal hash with the given one.
     def initialize(hash = {}, &block)
       __hash__.merge! hash, &block
-      ::Ribbon::Object.convert_all! self
+      Object.convert_all! self
     end
 
     # Gets a value by key.
@@ -48,24 +48,35 @@ module Ribbon
           self[m] ? true : false
         else
           self[method] = if __hash__.has_key? method
-            ::Ribbon::Object.convert self[method]
+            Object.convert self[method]
           else
-            ::Ribbon::Object.new
+            Object.new
           end
       end
     end
 
     # Computes a simple key:value string for easy visualization.
     #
-    # If given a block, yields the key and value and the value returned from the
-    # block will be used as the string. The block will also be passed to any
-    # internal Ribbon::Object instances.
-    def to_s(&block)
-      values = __hash__.map do |key, value|
-        value = value.to_s &block if ::Ribbon::Object === value
-        block ? block.call(key, value) : "#{key.to_s}: #{value.inspect}"
-      end
-      "{ Ribbon #{values.join ', '} }"
+    # In +opts+ can be specified several options that customize how the string
+    # is generated. Among those options:
+    #
+    # [:separator]  Used to separate a key/value pair. Default is <tt>': '</tt>.
+    # [:key]        Symbol that will be sent to the key in order to obtain its
+    #               string representation. Defaults to <tt>:to_s</tt>.
+    # [:value]      Symbol that will be sent to the value in order to obtain its
+    #               string representation. Defaults to <tt>:inspect</tt>.
+    #
+    # No matter what is given as the key or value of a
+    def to_s(opts = {})
+      ksym = opts.fetch(:key,   :to_s).to_sym
+      vsym = opts.fetch(:value, :inspect).to_sym
+      separator = opts.fetch(:separator, ': ').to_s
+      values = Object.map(self) do |k, v|
+        k = if Object.instance? k then k.to_s opts else k.send ksym end
+        v = if Object.instance? v then v.to_s opts else v.send vsym end
+        "#{k}#{separator}#{v}"
+      end.join ', '
+      "{Ribbon #{values}}"
     end
 
     # Same as #to_s.
