@@ -1,6 +1,6 @@
-require 'ribbon/object'
+require 'ribbon'
 
-module Ribbon
+class Ribbon < BasicObject
   module CoreExt
 
     # Includes a method to convert hashes to ribbons.
@@ -8,7 +8,7 @@ module Ribbon
 
       # Converts this hash to a Ribbon::Object.
       def to_ribbon
-        ::Ribbon::Object.new self
+        Ribbon.new self
       end
 
       # Same as #to_ribbon.

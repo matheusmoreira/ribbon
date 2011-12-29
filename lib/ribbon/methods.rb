@@ -1,4 +1,4 @@
-module Ribbon
+class Ribbon < BasicObject
 
   # Methods that operate on Ribbons. These should be included at the class level
   # in order to keep as many names available for use with ribbons as possible.
@@ -33,7 +33,7 @@ module Ribbon
       {}.tap do |hash|
         each(ribbon) do |key, value|
           hash[key] = case value
-            when ::Ribbon::Object then to_hash value
+            when Ribbon then to_hash value
             else value
           end
         end
@@ -44,7 +44,7 @@ module Ribbon
     # an Array, converts any hashes inside.
     def convert(object)
       case object
-        when ::Hash then ::Ribbon::Object.new object
+        when ::Hash then Ribbon.new object
         when ::Array then object.map { |element| convert element }
         else object
       end
@@ -54,7 +54,7 @@ module Ribbon
     def convert_all!(ribbon)
       each(ribbon) do |key, value|
         ribbon[key] = case value
-          when ::Ribbon::Object then convert_all! value
+          when Ribbon then convert_all! value
           else convert value
         end
       end
@@ -63,7 +63,7 @@ module Ribbon
 
     # Returns +true+ if the given +object+ is a Ribbon.
     def instance?(object)
-      ::Ribbon::Object === object
+      Ribbon === object
     end
 
     # Converts the ribbon to a hash and serializes it with YAML. To get a ribbon
@@ -79,4 +79,4 @@ module Ribbon
 
 end
 
-require 'ribbon/object'
+require 'ribbon'

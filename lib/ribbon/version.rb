@@ -1,4 +1,4 @@
-module Ribbon
+class Ribbon < BasicObject
 
   # Ribbon's version.
   module Version
