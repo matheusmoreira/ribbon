@@ -46,7 +46,7 @@ class Ribbon < BasicObject
     @hash ||= {}
   end
 
-  # Initializes the new Ribbon, merging the internal hash with the given one and
+  # Initializes the new ribbon, merging the internal hash with the given one and
   # converting all internal objects. See Ribbon::convert_all! for details.
   def initialize(hash = {}, &block)
     __hash__.merge! hash, &block
@@ -87,7 +87,7 @@ class Ribbon < BasicObject
     end
   end
 
-  # If <tt>object</tt> is a Hash, converts it to a Ribbon. If it is an Array,
+  # If <tt>object</tt> is a hash, converts it to a ribbon. If it is an array,
   # converts any hashes inside.
   def self.convert(object)
     case object
@@ -97,7 +97,7 @@ class Ribbon < BasicObject
     end
   end
 
-  # Converts all values in the given Ribbon.
+  # Converts all values in the given ribbon.
   def self.convert_all!(ribbon)
     ribbon.__hash__.each do |key, value|
       ribbon[key] = case value
@@ -108,7 +108,7 @@ class Ribbon < BasicObject
     ribbon
   end
 
-  # Computes a simple key: value string for easy visualization of this Ribbon.
+  # Computes a simple key: value string for easy visualization of this ribbon.
   #
   # In +opts+ can be specified several options that customize how the string
   # is generated. Among those options:
@@ -137,22 +137,22 @@ class Ribbon < BasicObject
     extract_hash_from(old).merge! extract_hash_from(ribbon), &block
   end
 
-  # Returns +true+ if the given +object+ is a Ribbon.
+  # Returns +true+ if the given +object+ is a ribbon.
   def self.instance?(object)
     self === object
   end
 
-  # Returns +true+ if the given Ribbon is wrapped.
+  # Returns +true+ if the given ribbon is wrapped.
   def self.wrapped?(ribbon)
     Wrapper === ribbon
   end
 
-  # Wraps a Ribbon instance in a Ribbon::Wrapper.
+  # Wraps a ribbon instance in a Ribbon::Wrapper.
   def self.wrap(ribbon)
     Wrapper.new ribbon
   end
 
-  # Unwraps the +ribbon+ if it is wrapped and returns its hash. Returns nil in
+  # Unwraps the +ribbon+ if it is wrapped and returns its hash. Returns +nil+ in
   # any other case.
   def self.extract_hash_from(ribbon)
     ribbon = ribbon.ribbon if ::Ribbon.wrapped? ribbon
@@ -161,7 +161,7 @@ class Ribbon < BasicObject
 
   class << self
 
-    # Wraps a Ribbon instance in a Ribbon::Wrapper.
+    # Wraps a ribbon instance in a Ribbon::Wrapper.
     #
     #   Ribbon[ribbon].keys
     alias [] wrap
@@ -170,8 +170,8 @@ class Ribbon < BasicObject
 
   private
 
-  # Computes a string value recursively for the given Ribbon and all Ribbons
-  # inside it. This implementation avoids creating additional Ribbon or
+  # Computes a string value recursively for the given ribbon and all ribbons
+  # inside it. This implementation avoids creating additional ribbon or
   # Ribbon::Wrapper objects.
   def to_s_recursive(opts, ribbon = self)
     ksym = opts.fetch(:key,   :to_s).to_sym
