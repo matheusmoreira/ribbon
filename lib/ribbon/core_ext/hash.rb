@@ -6,7 +6,7 @@ class Ribbon < BasicObject
     # Includes a method to convert hashes to ribbons.
     module Hash
 
-      # Converts this hash to a Ribbon::Object.
+      # Converts this hash to a Ribbon.
       def to_ribbon
         Ribbon.new self
       end
