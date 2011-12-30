@@ -82,5 +82,23 @@ class Ribbon < BasicObject
     self === object
   end
 
+  # Returns +true+ if the given Ribbon is wrapped.
+  def self.wrapped?(ribbon)
+    Wrapper === ribbon
+  end
+
+  # Wraps a Ribbon instance.
+  def self.wrap(ribbon)
+    Wrapper.new ribbon
+  end
+
+  class << self
+
+    # Wraps a Ribbon instance.
+    #
+    #   Ribbon[ribbon]
+    alias [] wrap
+
+  end
 
 end
