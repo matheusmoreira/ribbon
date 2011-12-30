@@ -66,7 +66,7 @@ class Ribbon < BasicObject
     end
   end
 
-  # Converts all values in the given ribbon.
+  # Converts all values in the given Ribbon.
   def self.convert_all!(ribbon)
     ribbon.__hash__.each do |key, value|
       ribbon[key] = case value
