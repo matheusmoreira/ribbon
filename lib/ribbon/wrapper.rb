@@ -94,6 +94,8 @@ class Ribbon < BasicObject
       vsym = opts.fetch(:value, :inspect).to_sym
       separator = opts.fetch(:separator, ': ').to_s
       values = ribbon.__hash__.map do |k, v|
+        k = k.ribbon if Ribbon.wrapped? k
+        v = v.ribbon if Ribbon.wrapped? v
         k = if Ribbon.instance? k then to_s_recursive opts, k else k.send ksym end
         v = if Ribbon.instance? v then to_s_recursive opts, v else v.send vsym end
         "#{k}#{separator}#{v}"
