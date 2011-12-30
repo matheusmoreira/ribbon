@@ -96,6 +96,8 @@ class Ribbon < BasicObject
     Wrapper.new ribbon
   end
 
+  # Unwraps the +ribbon+ if it is wrapped and returns its hash. Returns nil in
+  # any other case.
   def self.extract_hash_from(ribbon)
     ribbon = ribbon.ribbon if ::Ribbon.wrapped? ribbon
     ribbon = ribbon.__hash__ if ::Ribbon.instance? ribbon
