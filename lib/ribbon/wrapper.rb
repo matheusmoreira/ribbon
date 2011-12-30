@@ -69,6 +69,11 @@ class Ribbon < BasicObject
       wrap_all_recursive!
     end
 
+    # Unwraps all ribbons contained by this wrapper's ribbon.
+    def unwrap_all!
+      unwrap_all_recursive!
+    end
+
     # Converts the wrapped Ribbon and all Ribbons inside into hashes.
     def to_hash
       to_hash_recursive
@@ -115,6 +120,18 @@ class Ribbon < BasicObject
         end
       end
       wrapper
+    end
+
+    # Recursively unwraps all Ribbons inside. This implementation avoids the
+    # creation of additional Ribbon or Ribbon::Wrapper objects.
+    def unwrap_all_recursive!(ribbon = self)
+      ribbon.__hash__.each do |key, value|
+        ribbon[key] = case value
+          when ::Ribbon::Wrapper then unwrap_all_recursive! value.ribbon
+          else value
+        end
+      end
+      ribbon
     end
 
   end
