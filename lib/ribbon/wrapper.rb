@@ -32,7 +32,19 @@ class Ribbon < BasicObject
     end
 
     # The wrapped Ribbon object.
-    attr_accessor :ribbon
+    attr :ribbon
+
+    # Wraps +ribbon+. If it is already wrapped, uses the wrapped ribbon as this
+    # wrapper's ribbon. If it is a hash, creates a new Ribbon with its data. If
+    # it is something else, an ArgumentError will be raised.
+    def ribbon=(ribbon)
+      @ribbon = case ribbon
+        when Wrapper then ribbon.ribbon
+        when Hash then Ribbon.new ribbon
+        when Ribbon then ribbon
+        else raise ArgumentError, "Can't wrap #{ribbon.class}"
+      end
+    end
 
     # Wraps a Ribbon object, providing many general-purpose methods that were
     # not defined in the Ribbon itself.
