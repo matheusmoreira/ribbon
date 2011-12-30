@@ -53,14 +53,7 @@ class Ribbon < BasicObject
 
     # Converts the wrapped Ribbon and all Ribbons inside into hashes.
     def to_hash
-      {}.tap do |hash|
-        each do |key, value|
-          hash[key] = case value
-            when Ribbon then Wrapper[value].to_hash
-            else value
-          end
-        end
-      end
+      to_hash_recursive
     end
 
     # Converts the wrapped Ribbon to a hash and serializes it with YAML. To get
@@ -105,6 +98,20 @@ class Ribbon < BasicObject
         "#{k}#{separator}#{v}"
       end.join ', '
       "{#{values}}"
+    end
+
+    # Converts the wrapped Ribbon and all Ribbons inside into hashes using
+    # recursion. This implementation avoids the creation of additional Ribbon or
+    # Ribbon::Wrapper objects.
+    def to_hash_recursive(ribbon = self.ribbon)
+      {}.tap do |hash|
+        ribbon.__hash__.each do |key, value|
+          hash[key] = case value
+            when Ribbon then to_hash_recursive value
+            else value
+          end
+        end
+      end
     end
 
   end
