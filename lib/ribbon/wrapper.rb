@@ -36,7 +36,7 @@ class Ribbon < BasicObject
 
     # Wraps a Ribbon object, providing many general-purpose methods that were
     # not defined in the Ribbon itself.
-    def initialize(ribbon)
+    def initialize(ribbon = Ribbon.new)
       self.ribbon = ribbon
     end
 
