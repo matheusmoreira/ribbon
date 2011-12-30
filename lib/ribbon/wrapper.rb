@@ -56,7 +56,7 @@ class Ribbon < BasicObject
       hash.map &block
     end
 
-    # Returns the hash keys of the given ribbon.
+    # Returns the hash keys of the wrapped ribbon.
     def keys
       hash.keys
     end
