@@ -87,7 +87,7 @@ class Ribbon < BasicObject
     Wrapper === ribbon
   end
 
-  # Wraps a Ribbon instance.
+  # Wraps a Ribbon instance in a Ribbon::Wrapper.
   def self.wrap(ribbon)
     Wrapper.new ribbon
   end
