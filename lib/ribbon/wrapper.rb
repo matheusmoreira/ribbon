@@ -48,7 +48,8 @@ class Ribbon < BasicObject
     # Forwards the method, arguments and block to the wrapped Ribbon's hash, if
     # it responds to the method, or to the ribbon itself otherwise.
     def method_missing(method, *args, &block)
-      (hash.respond_to? method ? hash : ribbon).__send__ method, *args, &block
+      if hash.respond_to? method then hash
+      else ribbon end.__send__ method, *args, &block
     end
 
     # Converts the wrapped Ribbon and all Ribbons inside into hashes.
