@@ -1,16 +1,19 @@
 require 'ribbon/version'
 require 'ribbon/wrapper'
 
-# Ruby Object Notation.
+# == Ruby Object Notation.
 #
-# Inspired by JSON and OpenStruct.
+# ==== Inspired by JSON and OpenStruct.
 #
-# Contains a hash whose keys that are symbols can be accessed via method calls.
-# This is done via <tt>method_missing</tt>.
+# Ribbons are essentially hashes that use method calls as keys. This is done via
+# <tt>method_missing</tt>. On top of that, one may still use it as a
+# general-purpose hash, since the <tt>[key]</tt> and <tt>[key] = value</tt>
+# methods are defined.
 #
 # In order to make room for as many method names as possible, Ribbon inherits
-# from BasicObject and implements as many methods as possible at the class
-# level.
+# from BasicObject and doesn't implement any methods. Ribbons are designed to be
+# used together with Ribbon::Wrapper, which provides the methods useful for
+# computation.
 class Ribbon < BasicObject
 
   # The internal Hash.
