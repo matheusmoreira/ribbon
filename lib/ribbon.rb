@@ -56,8 +56,8 @@ class Ribbon < BasicObject
     end
   end
 
-  # If <tt>object</tt> is a Hash, converts it to a Ribbon::Object. If it is
-  # an Array, converts any hashes inside.
+  # If <tt>object</tt> is a Hash, converts it to a Ribbon. If it is an Array,
+  # converts any hashes inside.
   def self.convert(object)
     case object
       when ::Hash then self.new object
