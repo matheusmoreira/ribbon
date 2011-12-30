@@ -18,7 +18,8 @@ class Ribbon < BasicObject
     @hash ||= {}
   end
 
-  # Merges the internal hash with the given one.
+  # Initializes the new Ribbon, merging the internal hash with the given one and
+  # converting all internal objects. See Ribbon::convert_all! for details.
   def initialize(hash = {}, &block)
     __hash__.merge! hash, &block
    ::Ribbon.convert_all! self
