@@ -96,6 +96,11 @@ class Ribbon < BasicObject
     Wrapper.new ribbon
   end
 
+  def self.extract_hash_from(ribbon)
+    ribbon = ribbon.ribbon if ::Ribbon.wrapped? ribbon
+    ribbon = ribbon.__hash__ if ::Ribbon.instance? ribbon
+  end
+
   class << self
 
     # Wraps a Ribbon instance in a Ribbon::Wrapper.
