@@ -64,10 +64,10 @@ class Ribbon < BasicObject
     end
 
     # Converts the wrapped Ribbon to a hash and serializes it with YAML. To get
-    # a ribbon back from the serialized hash, you can simply load the hash and
-    # pass it to the Ribbon::Object constructor:
+    # a Ribbon back from the serialized hash, you can simply load the hash and
+    # pass it to the Ribbon constructor:
     #
-    #   ribbon = Ribbon::Object.new YAML.load(str)
+    #   ribbon = Ribbon.new YAML.load(str)
     def to_yaml
       to_hash.to_yaml
     end
