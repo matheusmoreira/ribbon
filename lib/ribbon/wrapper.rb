@@ -107,7 +107,7 @@ class Ribbon < BasicObject
       {}.tap do |hash|
         ribbon.__hash__.each do |key, value|
           hash[key] = case value
-            when Ribbon then to_hash_recursive value
+            when ::Ribbon then to_hash_recursive value
             else value
           end
         end
