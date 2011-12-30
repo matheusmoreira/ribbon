@@ -54,7 +54,7 @@ class Ribbon < BasicObject
       when '=', '!'
         self[m] = args.first
       when '?'
-        self[m] ? true : false
+        __hash__[m] ? true : false
       else
         self[method]
     end
