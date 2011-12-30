@@ -71,7 +71,7 @@ class Ribbon < BasicObject
       self.ribbon = ribbon
     end
 
-    # Returns the hash of the wrapped Ribbon.
+    # Returns the hash of the wrapped ribbon.
     def hash
       ribbon.__hash__
     end
@@ -93,12 +93,12 @@ class Ribbon < BasicObject
       unwrap_all_recursive!
     end
 
-    # Converts the wrapped Ribbon and all Ribbons inside into hashes.
+    # Converts the wrapped Ribbon and all ribbons inside into hashes.
     def to_hash
       to_hash_recursive
     end
 
-    # Converts the wrapped Ribbon to a hash and serializes it with YAML. To get
+    # Converts the wrapped ribbon to a hash and serializes it with YAML. To get
     # a Ribbon back from the serialized hash, you can simply load the hash and
     # pass it to the Ribbon constructor:
     #
@@ -114,9 +114,9 @@ class Ribbon < BasicObject
 
     private
 
-    # Converts the wrapped Ribbon and all Ribbons inside into hashes using
-    # recursion. This implementation avoids the creation of additional Ribbon or
-    # Ribbon::Wrapper objects.
+    # Converts the wrapped ribbon and all ribbons inside into hashes using
+    # recursion. This implementation avoids the creation of additional ribbon or
+    # wrapper objects.
     def to_hash_recursive(ribbon = self.ribbon)
       {}.tap do |hash|
         ribbon.__hash__.each do |key, value|
@@ -129,8 +129,8 @@ class Ribbon < BasicObject
       end
     end
 
-    # Recursively wraps all Ribbons inside. This implementation avoids the
-    # creation of additional Ribbon or Ribbon::Wrapper objects.
+    # Recursively wraps all ribbons inside. This implementation avoids the
+    # creation of additional ribbon or wrapper objects.
     def wrap_all_recursive!(wrapper = self)
       wrapper.hash.each do |key, value|
         wrapper.hash[key] = case value
@@ -141,8 +141,8 @@ class Ribbon < BasicObject
       wrapper
     end
 
-    # Recursively unwraps all Ribbons inside. This implementation avoids the
-    # creation of additional Ribbon or Ribbon::Wrapper objects.
+    # Recursively unwraps all ribbons inside. This implementation avoids the
+    # creation of additional ribbon or wrapper objects.
     def unwrap_all_recursive!(ribbon = self)
       ribbon.__hash__.each do |key, value|
         ribbon[key] = case value
