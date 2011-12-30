@@ -1,5 +1,5 @@
-require 'ribbon/methods'
 require 'ribbon/version'
+require 'ribbon/wrapper'
 
 # Ruby Object Notation.
 #
@@ -12,8 +12,6 @@ require 'ribbon/version'
 # from BasicObject and implements as many methods as possible at the class
 # level.
 class Ribbon < BasicObject
-
-  extend Methods
 
   # The internal Hash.
   def __hash__
@@ -58,6 +56,14 @@ class Ribbon < BasicObject
     end
   end
 
+  # If <tt>object</tt> is a Hash, converts it to a Ribbon::Object. If it is
+  # an Array, converts any hashes inside.
+  def self.convert(object)
+    case object
+      when ::Hash then self.new object
+      when ::Array then object.map { |element| convert element }
+      else object
+    end
   # Computes a simple key:value string for easy visualization.
   #
   # In +opts+ can be specified several options that customize how the string
@@ -80,6 +86,22 @@ class Ribbon < BasicObject
       "#{k}#{separator}#{v}"
     end.join ', '
     "{Ribbon #{values}}"
+  end
+
+  # Converts all values in the given ribbon.
+  def self.convert_all!(ribbon)
+    ribbon.__hash__.each do |key, value|
+      ribbon[key] = case value
+        when self then convert_all! value
+        else convert value
+      end
+    end
+    ribbon
+  end
+
+  # Returns +true+ if the given +object+ is a Ribbon.
+  def self.instance?(object)
+    self === object
   end
 
   # Same as #to_s.
