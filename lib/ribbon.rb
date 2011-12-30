@@ -64,28 +64,6 @@ class Ribbon < BasicObject
       when ::Array then object.map { |element| convert element }
       else object
     end
-  # Computes a simple key:value string for easy visualization.
-  #
-  # In +opts+ can be specified several options that customize how the string
-  # is generated. Among those options:
-  #
-  # [:separator]  Used to separate a key/value pair. Default is <tt>': '</tt>.
-  # [:key]        Symbol that will be sent to the key in order to obtain its
-  #               string representation. Defaults to <tt>:to_s</tt>.
-  # [:value]      Symbol that will be sent to the value in order to obtain its
-  #               string representation. Defaults to <tt>:inspect</tt>.
-  #
-  # No matter what is given as the key or value of a
-  def to_s(opts = {})
-    ksym = opts.fetch(:key,   :to_s).to_sym
-    vsym = opts.fetch(:value, :inspect).to_sym
-    separator = opts.fetch(:separator, ': ').to_s
-    values = ::Ribbon.map(self) do |k, v|
-      k = if ::Ribbon.instance? k then k.to_s opts else k.send ksym end
-      v = if ::Ribbon.instance? v then v.to_s opts else v.send vsym end
-      "#{k}#{separator}#{v}"
-    end.join ', '
-    "{Ribbon #{values}}"
   end
 
   # Converts all values in the given ribbon.
@@ -104,7 +82,5 @@ class Ribbon < BasicObject
     self === object
   end
 
-  # Same as #to_s.
-  alias :inspect :to_s
 
 end
