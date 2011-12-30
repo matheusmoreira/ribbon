@@ -30,7 +30,11 @@ class Ribbon < BasicObject
 
   # Gets a value by key.
   def [](key)
-    __hash__[key]
+    __hash__[key] = if __hash__.has_key? key
+      ::Ribbon.convert __hash__[key]
+    else
+      ::Ribbon.new
+    end
   end
 
   # Sets a value by key.
@@ -52,11 +56,7 @@ class Ribbon < BasicObject
       when '?'
         self[m] ? true : false
       else
-        self[method] = if __hash__.has_key? method
-          ::Ribbon.convert self[method]
-        else
-          ::Ribbon.new
-        end
+        self[method]
     end
   end
 
