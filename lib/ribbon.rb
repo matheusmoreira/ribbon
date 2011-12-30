@@ -94,9 +94,9 @@ class Ribbon < BasicObject
 
   class << self
 
-    # Wraps a Ribbon instance.
+    # Wraps a Ribbon instance in a Ribbon::Wrapper.
     #
-    #   Ribbon[ribbon]
+    #   Ribbon[ribbon].keys
     alias [] wrap
 
   end
