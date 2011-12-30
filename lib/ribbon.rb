@@ -10,9 +10,35 @@ require 'ribbon/wrapper'
 # general-purpose hash, since the <tt>[key]</tt> and <tt>[key] = value</tt>
 # methods are defined.
 #
-# In order to make room for as many method names as possible, Ribbon inherits
-# from BasicObject and doesn't implement any methods. In order to gain access
-# to general-purpose computation methods, wrap the ribbon with Ribbon::Wrapper.
+# Ribbons support cascading references seamlessly. If you access a property that
+# hasn't been set, a new ribbon is created and returned, allowing you to
+# continue your calls:
+#
+#   r = Ribbon.new
+#   r.a.b.c = 10
+#
+# Appending a <tt>!</tt> to the end of the property sets the value and returns
+# the receiver:
+#
+#   r.x!(10).y!(20).z!(30)    # Equivalent to: r.x = 10; r.y = 20; r.z = 30
+#    => {x: 10, y: 20, z: 30}
+#
+# Appending a <tt>?</tt> to the end of the property allows you to peek at the
+# contents of the property without creating a new ribbon if it is missing:
+#
+#   r.p?
+#    => nil
+#
+# Seamless reference cascade using arbitrary keys are also supported via the
+# <tt>[key]</tt> and <tt>[key] = value</tt> operators, which allow you to
+# directly manipulate the internal hash:
+#
+#   r[:j][:k][:l]
+#
+# Keep in mind that the <tt>[key]</tt> operator will always create new ribbons
+# for missing properties, which is something that may not be desirable; consider
+# wrapping the ribbon with a Ribbon::Wrapper in order to have better access to
+# the underlying hash.
 class Ribbon < BasicObject
 
   # The internal Hash.
