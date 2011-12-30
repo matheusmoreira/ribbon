@@ -72,7 +72,7 @@ class Ribbon < BasicObject
   #   ribbon.method          =>  ribbon[method]
   #   ribbon.method = value  =>  ribbon[method] = value
   #   ribbon.method!  value  =>  ribbon[method] = value; self
-  #   ribbon.method?         =>  ribbon.__hash__[method] ? true : false
+  #   ribbon.method?         =>  ribbon.__hash__[method]
   def method_missing(method, *args, &block)
     m = method.to_s.strip.gsub(/[=?!]$/, '').strip.to_sym
     case method.to_s[-1]
