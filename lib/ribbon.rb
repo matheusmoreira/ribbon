@@ -43,17 +43,19 @@ class Ribbon < BasicObject
 
   # Handles the following cases:
   #
-  #   ribbon.method = value  =>  ribbon[method] = value
-  #   ribbon.method!  value  =>  ribbon[method] = value
-  #   ribbon.method?         =>  ribbon[method] ? true : false
   #   ribbon.method          =>  ribbon[method]
+  #   ribbon.method = value  =>  ribbon[method] = value
+  #   ribbon.method!  value  =>  ribbon[method] = value; self
+  #   ribbon.method?         =>  ribbon.__hash__[method] ? true : false
   def method_missing(method, *args, &block)
-    m = method.to_s.strip.chop.strip.to_sym
+    m = method.to_s.strip.gsub(/[=?!]$/, '').strip.to_sym
     case method.to_s[-1]
-      when '=', '!'
+      when '='
         self[m] = args.first
+      when '!'
+        self[m] = args.first; self
       when '?'
-        __hash__[m] ? true : false
+        self.__hash__[m]
       else
         self[method]
     end
