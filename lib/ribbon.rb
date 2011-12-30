@@ -81,6 +81,23 @@ class Ribbon < BasicObject
     ribbon
   end
 
+  # Computes a simple key: value string for easy visualization of this Ribbon.
+  #
+  # In +opts+ can be specified several options that customize how the string
+  # is generated. Among those options:
+  #
+  # [:separator]  Used to separate a key/value pair. Default is <tt>': '</tt>.
+  # [:key]        Symbol that will be sent to the key in order to obtain its
+  #               string representation. Defaults to <tt>:to_s</tt>.
+  # [:value]      Symbol that will be sent to the value in order to obtain its
+  #               string representation. Defaults to <tt>:inspect</tt>.
+  def to_s(opts = {})
+    to_s_recursive opts
+  end
+
+  # Same as #to_s.
+  alias inspect to_s
+
   # Returns +true+ if the given +object+ is a Ribbon.
   def self.instance?(object)
     self === object
@@ -110,6 +127,25 @@ class Ribbon < BasicObject
     #   Ribbon[ribbon].keys
     alias [] wrap
 
+  end
+
+  private
+
+  # Computes a string value recursively for the given Ribbon and all Ribbons
+  # inside it. This implementation avoids creating additional Ribbon or
+  # Ribbon::Wrapper objects.
+  def to_s_recursive(opts, ribbon = self)
+    ksym = opts.fetch(:key,   :to_s).to_sym
+    vsym = opts.fetch(:value, :inspect).to_sym
+    separator = opts.fetch(:separator, ': ').to_s
+    values = ribbon.__hash__.map do |k, v|
+      k = k.ribbon if ::Ribbon.wrapped? k
+      v = v.ribbon if ::Ribbon.wrapped? v
+      k = if ::Ribbon.instance? k then to_s_recursive opts, k else k.send ksym end
+      v = if ::Ribbon.instance? v then to_s_recursive opts, v else v.send vsym end
+      "#{k}#{separator}#{v}"
+    end.join ', '
+    "{#{values}}"
   end
 
 end
