@@ -64,6 +64,11 @@ class Ribbon < BasicObject
       else ribbon end.__send__ method, *args, &block
     end
 
+    # Wraps all ribbons contained by this wrapper's ribbon.
+    def wrap_all!
+      wrap_all_recursive!
+    end
+
     # Converts the wrapped Ribbon and all Ribbons inside into hashes.
     def to_hash
       to_hash_recursive
@@ -98,6 +103,18 @@ class Ribbon < BasicObject
           end
         end
       end
+    end
+
+    # Recursively wraps all Ribbons inside. This implementation avoids the
+    # creation of additional Ribbon or Ribbon::Wrapper objects.
+    def wrap_all_recursive!(wrapper = self)
+      wrapper.hash.each do |key, value|
+        wrapper.hash[key] = case value
+          when ::Ribbon then wrap_all_recursive! ::Ribbon::Wrapper[value]
+          else value
+        end
+      end
+      wrapper
     end
 
   end
