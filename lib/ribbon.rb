@@ -144,12 +144,12 @@ class Ribbon < BasicObject
 
   # Returns +true+ if the given ribbon is wrapped.
   def self.wrapped?(ribbon)
-    Wrapper === ribbon
+    ::Ribbon::Wrapper === ribbon
   end
 
   # Wraps a ribbon instance in a Ribbon::Wrapper.
   def self.wrap(ribbon)
-    Wrapper.new ribbon
+    ::Ribbon::Wrapper.new ribbon
   end
 
   # Unwraps the +ribbon+ if it is wrapped and returns its hash. Returns +nil+ in
