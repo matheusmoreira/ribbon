@@ -51,35 +51,6 @@ class Ribbon < BasicObject
       (hash.respond_to? method ? hash : ribbon).__send__ method, *args, &block
     end
 
-    # Yields a key => value pair to the given block and returns an array
-    # containing the values returned by the block on each iteration.
-    def map(&block)
-      hash.map &block
-    end
-
-    # Returns the hash keys of the wrapped ribbon.
-    def keys
-      hash.keys
-    end
-
-    # Returns the values present in the hash of the wrapped ribbon.
-    def values
-      hash.values
-    end
-
-    # Yields a key => value pair to the given block.
-    def each(&block)
-      hash.each &block
-    end
-
-    # Same as #each.
-    alias each_pair each
-
-    # Merges the hash of the wrapped Ribbon with +new+'s.
-    def merge!(new, &block)
-      hash.merge! new.__hash__, &block
-    end
-
     # Converts the wrapped Ribbon and all Ribbons inside into hashes.
     def to_hash
       {}.tap do |hash|
