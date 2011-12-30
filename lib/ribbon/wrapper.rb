@@ -61,6 +61,11 @@ class Ribbon < BasicObject
       hash.keys
     end
 
+    # Returns the values present in the hash of the wrapped ribbon.
+    def values
+      hash.values
+    end
+
     # Yields a key => value pair to the given block.
     def each(&block)
       hash.each &block
