@@ -97,6 +97,18 @@ class Ribbon < BasicObject
   # Same as #to_s.
   alias inspect to_s
 
+  # Merges the hash of +new+ with the hash of +old+, creating a new ribbon in
+  # the process.
+  def self.merge(old, new, &block)
+    new extract_hash_from(old).merge(extract_hash_from(ribbon), &block)
+  end
+
+  # Merges the hash of +new+ with the hash of +old+, modifying +old+'s hash in
+  # the process.
+  def self.merge!(old, new, &block)
+    extract_hash_from(old).merge! extract_hash_from(ribbon), &block
+  end
+
   # Returns +true+ if the given +object+ is a Ribbon.
   def self.instance?(object)
     self === object

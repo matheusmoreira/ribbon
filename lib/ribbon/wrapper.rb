@@ -64,22 +64,6 @@ class Ribbon < BasicObject
       else ribbon end.__send__ method, *args, &block
     end
 
-    # Merges the hash of this wrapped Ribbon with the given +ribbon+, which can
-    # be a Ribbon::Wrapper, a Ribbon or a hash.
-    #
-    # This method returns a new hash.
-    def merge(ribbon, &block)
-      hash.merge Ribbon.extract_hash_from(ribbon), &block
-    end
-
-    # Merges the hash of this wrapped Ribbon with the given +ribbon+, which can
-    # be a Ribbon::Wrapper, a Ribbon or a hash.
-    #
-    # This method modifies the hash of this wrapped Ribbon.
-    def merge!(ribbon, &block)
-      hash.merge! Ribbon.extract_hash_from(ribbon), &block
-    end
-
     # Converts the wrapped Ribbon and all Ribbons inside into hashes.
     def to_hash
       to_hash_recursive
