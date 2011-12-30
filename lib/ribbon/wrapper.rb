@@ -34,11 +34,6 @@ class Ribbon < BasicObject
     # The wrapped Ribbon object.
     attr_accessor :ribbon
 
-    # Forwards the method, arguments and block to the wrapped Ribbon.
-    def method_missing(method, *args, &block)
-      ribbon.__send__ method, *args, &block
-    end
-
     # Wraps a Ribbon object, providing many general-purpose methods that were
     # not defined in the Ribbon itself.
     def initialize(ribbon)
@@ -48,6 +43,12 @@ class Ribbon < BasicObject
     # Returns the hash of the wrapped Ribbon.
     def hash
       ribbon.__hash__
+    end
+
+    # Forwards the method, arguments and block to the wrapped Ribbon's hash, if
+    # it responds to the method, or to the ribbon itself otherwise.
+    def method_missing(method, *args, &block)
+      (hash.respond_to? method ? hash : ribbon).__send__ method, *args, &block
     end
 
     # Yields a key => value pair to the given block and returns an array
