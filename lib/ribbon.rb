@@ -11,9 +11,8 @@ require 'ribbon/wrapper'
 # methods are defined.
 #
 # In order to make room for as many method names as possible, Ribbon inherits
-# from BasicObject and doesn't implement any methods. Ribbons are designed to be
-# used together with Ribbon::Wrapper, which provides the methods useful for
-# computation.
+# from BasicObject and doesn't implement any methods. In order to gain access
+# to general-purpose computation methods, wrap the ribbon with Ribbon::Wrapper.
 class Ribbon < BasicObject
 
   # The internal Hash.
