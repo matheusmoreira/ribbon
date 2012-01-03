@@ -8,7 +8,7 @@ class Ribbon < BasicObject
 
       # If the last argument is a hash, removes and converts it to a ribbon,
       # otherwise returns an empty ribbon.
-      def extract_options_as_ribbon!
+      def extract_ribbon!
         ::Ribbon.new last.is_a?(Hash) ? pop : {}
       end
 
