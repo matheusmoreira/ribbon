@@ -70,6 +70,8 @@ class Ribbon < BasicObject
   # Handles the following cases:
   #
   #   ribbon.method          =>  ribbon[method]
+  #   ribbon.method   value  =>  ribbon[method] = value; ribbon[method]
+  #   ribbon.method  &block  =>  ribbon[method, &block]
   #   ribbon.method = value  =>  ribbon[method] = value
   #   ribbon.method!  value  =>  ribbon[method] = value; self
   #   ribbon.method?         =>  ribbon.__hash__[method]
