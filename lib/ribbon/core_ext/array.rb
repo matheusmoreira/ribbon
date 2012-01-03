@@ -17,6 +17,12 @@ class Ribbon < BasicObject
         end
       end
 
+      # Extracts the last argument as a wrapped ribbon, or returns an empty one.
+      # See #extract_ribbon! for details.
+      def extract_wrapped_ribbon!
+        ::Ribbon.wrap extract_options_as_ribbon!
+      end
+
       alias extract_options_as_ribbon! extract_ribbon!
 
     end
