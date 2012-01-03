@@ -24,6 +24,7 @@ class Ribbon < BasicObject
       end
 
       alias extract_options_as_ribbon! extract_ribbon!
+      alias extract_options_as_wrapped_ribbon! extract_wrapped_ribbon!
 
     end
 
