@@ -17,6 +17,8 @@ class Ribbon < BasicObject
         end
       end
 
+      alias extract_options_as_ribbon! extract_ribbon!
+
     end
 
     ::Array.send :include, ::Ribbon::CoreExt::Array
