@@ -75,6 +75,47 @@ They work just like the regular method calls, which means you can chain them.
     > r[:these_properties][:do_not][:exist]
     > r[:they][:will_be] = :created
 
+### Ribbon Wrappers
+
+Since Ribbons inherit from BasicObject, they don't include many general-purpose
+methods. In order to solve that problem, `Ribbon::Wrapper` is provided. With a
+wrapped Ribbon instance, you can treat it as if it were an ordinary hash.
+
+    > w = Ribbon::Wrapper.new
+    > w[:x]
+     => nil
+    > w.fetch :x, 10
+     => 10
+
+All undefined methods will be forwarded to the Ribbon's internal hash. However,
+if the hash doesn't respond to the method, it will be forwarded to the Ribbon
+itself. In other words, you can use wrapped ribbons as if they weren't wrapped,
+too.
+
+    > w.x?
+     => nil
+    > w.x.y.z = 10
+     => 10
+
+One big difference to be aware of is that dynamic property creation and access
+via square brackets isn't available with wrapped ribbons, because hashes respond
+to `[]`.
+
+    > w[:undefined][:property]
+     => NoMethodError: undefined method `[]' for nil:NilClass
+
+Also noteworthy is the fact that wrapping a ribbon will not modify it; nested
+ribbons will not be wrapped. However, the are the methods `wrap_all!` and
+`unwrap_all!`, which will recursively wrap and unwrap every ribbon,
+respectively, are available.
+
+In addition to that, many other useful methods are implemented, such as
+`to_hash`, which recursively converts the ribbon and all nested ribbons to pure
+hashes, and `to_yaml`, which serializes the ribbon in YAML format.
+
+Finally, you may access the wrapped ribbon's internal hash using the `hash`
+attribute, and access the wrapped ribbon itself using the `ribbon` attribute.
+
 ---
 
 Originally part of [Acclaim](https://github.com/matheusmoreira/acclaim).
