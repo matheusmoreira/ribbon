@@ -54,12 +54,12 @@ class Ribbon < BasicObject
   end
 
   # Gets a value by key.
-  def [](key)
-    __hash__[key] = if __hash__.has_key? key
-      ::Ribbon.convert __hash__[key]
-    else
-      ::Ribbon.new
-    end
+  def [](key, &block)
+    value = if __hash__.has_key? key then ::Ribbon.convert __hash__[key]
+    else ::Ribbon.new end
+    if block.arity.zero? then value.instance_eval &block
+    else block.call value end if block
+    self[key] = value
   end
 
   # Sets a value by key.
