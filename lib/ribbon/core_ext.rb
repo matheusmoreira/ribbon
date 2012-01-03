@@ -5,4 +5,5 @@ class Ribbon < BasicObject
 
 end
 
+require 'ribbon/core_ext/array'
 require 'ribbon/core_ext/hash'
