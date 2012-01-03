@@ -103,6 +103,9 @@ class Ribbon < BasicObject
     # pass it to the Ribbon constructor:
     #
     #   ribbon = Ribbon.new YAML.load(str)
+    #
+    # Alternatively, you can pass a YAML string to the Wrapper::from_yaml
+    # method.
     def to_yaml
       to_hash.to_yaml
     end
@@ -151,6 +154,12 @@ class Ribbon < BasicObject
         end
       end
       ribbon
+    end
+
+    # Deserializes the hash from the +string+ using YAML and uses it to
+    # construct a new wrapped Ribbon.
+    def self.from_yaml(string)
+      ::Ribbon::Wrapper.new YAML.load(string)
     end
 
   end
