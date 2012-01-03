@@ -108,6 +108,23 @@ class Ribbon < BasicObject
     end
   end
 
+  # Computes a simple key: value string for easy visualization of this ribbon.
+  #
+  # In +opts+ can be specified several options that customize how the string
+  # is generated. Among those options:
+  #
+  # [:separator]  Used to separate a key/value pair. Default is <tt>': '</tt>.
+  # [:key]        Symbol that will be sent to the key in order to obtain its
+  #               string representation. Defaults to <tt>:to_s</tt>.
+  # [:value]      Symbol that will be sent to the value in order to obtain its
+  #               string representation. Defaults to <tt>:inspect</tt>.
+  def to_s(opts = {})
+    to_s_recursive opts
+  end
+
+  # Same as #to_s.
+  alias inspect to_s
+
   # If <tt>object</tt> is a hash, converts it to a ribbon. If it is an array,
   # converts any hashes inside.
   def self.convert(object)
@@ -128,23 +145,6 @@ class Ribbon < BasicObject
     end
     ribbon
   end
-
-  # Computes a simple key: value string for easy visualization of this ribbon.
-  #
-  # In +opts+ can be specified several options that customize how the string
-  # is generated. Among those options:
-  #
-  # [:separator]  Used to separate a key/value pair. Default is <tt>': '</tt>.
-  # [:key]        Symbol that will be sent to the key in order to obtain its
-  #               string representation. Defaults to <tt>:to_s</tt>.
-  # [:value]      Symbol that will be sent to the value in order to obtain its
-  #               string representation. Defaults to <tt>:inspect</tt>.
-  def to_s(opts = {})
-    to_s_recursive opts
-  end
-
-  # Same as #to_s.
-  alias inspect to_s
 
   # Merges the hash of +new+ with the hash of +old+, creating a new ribbon in
   # the process.
