@@ -83,7 +83,7 @@ class Ribbon < BasicObject
       when '?'
         self.__hash__[m]
       else
-        self[method]
+        self[method, &block]
     end
   end
 
