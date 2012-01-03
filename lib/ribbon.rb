@@ -17,6 +17,19 @@ require 'ribbon/wrapper'
 #   r = Ribbon.new
 #   r.a.b.c = 10
 #
+# You can also assign properties by passing an argument to the method:
+#
+#   r.a.b.c 10
+#
+# If you pass a block, the value will be yielded:
+#
+#   r.a { |a| a.b { |b| b.c 10 } }
+#
+# If the block passed takes no arguments, it will be <tt>instance_eval</tt>ed on
+# the value instead:
+#
+#   r.a { b { c 10 } }
+#
 # Appending a <tt>!</tt> to the end of the property sets the value and returns
 # the receiver:
 #
