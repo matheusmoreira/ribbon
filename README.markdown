@@ -46,8 +46,8 @@ context of the value instance. The above example could be rewritten as:
 
     > Ribbon.new.tap do |config|
         config.music do
-          music.file do
-            file.extensions %w(flac mp3 ogg wma)
+          file do
+            extensions %w(flac mp3 ogg wma)
           end
         end
       end
