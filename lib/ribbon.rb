@@ -149,7 +149,7 @@ class Ribbon < BasicObject
   # Merges the hash of +new+ with the hash of +old+, creating a new ribbon in
   # the process.
   def self.merge(old, new, &block)
-    new extract_hash_from(old).merge(extract_hash_from(new), &block)
+    self.new extract_hash_from(old).merge(extract_hash_from(new), &block)
   end
 
   # Merges the hash of +new+ with the hash of +old+, modifying +old+'s hash in
