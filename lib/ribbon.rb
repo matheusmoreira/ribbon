@@ -156,6 +156,8 @@ class Ribbon < BasicObject
   # the process.
   def self.merge!(old, new, &block)
     extract_hash_from(old).merge! extract_hash_from(new), &block
+    old
+  end
   end
 
   # Returns +true+ if the given +object+ is a ribbon.
