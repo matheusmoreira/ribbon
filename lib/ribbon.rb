@@ -158,6 +158,17 @@ class Ribbon < BasicObject
     extract_hash_from(old).merge! extract_hash_from(new), &block
     old
   end
+
+  # Merges the +new+ ribbon and all nested ribbons with the +old+ ribbon
+  # recursively, returning a new ribbon.
+  def self.deep_merge(old, new)
+    deep :merge, old, new
+  end
+
+  # Merges the +new+ ribbon and all nested ribbons with the +old+ ribbon
+  # recursively, modifying all ribbons in place.
+  def self.deep_merge!(old, new)
+    deep :merge!, old, new
   end
 
   # Returns +true+ if the given +object+ is a ribbon.
@@ -192,6 +203,19 @@ class Ribbon < BasicObject
     #
     #   Ribbon[ribbon].keys
     alias [] wrap
+
+    private
+
+    # Common logic for deep merge functions. +merge_func+ should be either
+    # +merge+ or +merge!+, and denotes which function will be used to merge
+    # recursively. +args+ will be forwarded to the merge function.
+    #
+    # The values of the new hash will always be used.
+    def deep(merge_func, old, new)
+      self.send merge_func, old, new do |key, old, new|
+        instance?(old) && instance?(new) ? deep(merge_func, old, new) : new
+      end
+    end
 
   end
 
