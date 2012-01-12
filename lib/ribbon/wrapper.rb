@@ -83,6 +83,14 @@ class Ribbon < BasicObject
       else ribbon end.__send__ method, *args, &block
     end
 
+    def deep_merge(ribbon)
+      ::Ribbon.deep_merge self, ribbon
+    end
+
+    def deep_merge!(ribbon)
+      ::Ribbon.deep_merge! self, ribbon
+    end
+
     # Wraps all ribbons contained by this wrapper's ribbon.
     def wrap_all!
       wrap_all_recursive!
