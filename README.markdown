@@ -11,8 +11,9 @@ and natural to use. It allows the dynamic definition of arbitrary attributes,
 which can easily be nested.
 
     > r = Ribbon.new
-    > r.a.b.c = :d
      => {}
+    > r.a.b.c = :d
+     => :d
     > r
      => {a: {b: {c: :d}}}
 
@@ -32,7 +33,7 @@ You can also set the property if you give an argument to the method.
 
 If you give it a block, the value of the option will be yielded to it.
 
-    > Ribbon.new.tap do |config|
+    > Ribbon.new do |config|
         config.music do |music|
           music.file do |file|
             file.extensions %w(flac mp3 ogg wma)
@@ -44,7 +45,7 @@ If you give it a block, the value of the option will be yielded to it.
 If the block takes no arguments (arity of zero), it will be evaluated in the
 context of the value instance. The above example could be rewritten as:
 
-    > Ribbon.new.tap do |config|
+    > Ribbon.new do
         config.music do
           file do
             extensions %w(flac mp3 ogg wma)
@@ -62,6 +63,15 @@ be created and stored in its place.
     > r
      => {}
 
+You may also provide a return value or a block:
+
+    > r.z? :no_value
+     => :no_value
+    > r.z? { :value_from_block }
+     => :value_from_block
+    > r.z? { raise 'Value not found' }
+     => RuntimeError: Value not found
+
 If you append a `!` to the name of the property and give it an argument, the
 value of the property will be set to it and the receiver will be returned,
 allowing you to chain multiple assignments in a single line.
@@ -78,8 +88,8 @@ They work just like the regular method calls, which means you can chain them.
 ### Ribbon Wrappers
 
 Since Ribbons inherit from BasicObject, they don't include many general-purpose
-methods. In order to solve that problem, `Ribbon::Wrapper` is provided. With a
-wrapped Ribbon instance, you can treat it as if it were an ordinary hash.
+methods. In order to solve that problem, `Ribbon::Wrapper` is provided. You can
+treat wrapped ribbons as if it were ordinary hashes.
 
     > w = Ribbon::Wrapper.new
     > w[:x]
