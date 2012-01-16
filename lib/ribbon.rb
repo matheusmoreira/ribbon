@@ -101,7 +101,8 @@ class Ribbon < BasicObject
       when '!'
         self[m] = args.first; self
       when '?'
-        self.__hash__.fetch m, *args, &block
+        begin self.__hash__.fetch m, *args, &block
+        rescue ::KeyError; nil end
       else
         self[method] = args.first unless args.empty?
         self[method, &block]
