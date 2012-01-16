@@ -129,6 +129,12 @@ class Ribbon < BasicObject
   # The class methods.
   class << self
 
+    # A Proc which returns a new ribbon as the default value for the given hash
+    # key.
+    def default_value_proc
+      @default_value_proc ||= (proc { |hash, key| hash[key] = Ribbon.new })
+    end
+
     # If <tt>object</tt> is a hash, converts it to a ribbon. If it is an array,
     # converts any hashes inside.
     def convert(object)
