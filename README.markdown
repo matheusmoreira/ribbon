@@ -46,7 +46,7 @@ If the block takes no arguments (arity of zero), it will be evaluated in the
 context of the value instance. The above example could be rewritten as:
 
     > Ribbon.new do
-        config.music do
+        music do
           file do
             extensions %w(flac mp3 ogg wma)
           end
