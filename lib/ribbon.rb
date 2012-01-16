@@ -132,8 +132,8 @@ class Ribbon < BasicObject
     # converts any hashes inside.
     def convert(object)
       case object
-        when ::Hash then self.new object
-        when ::Array then object.map { |element| convert element }
+        when Hash then Ribbon.new object
+        when Array then object.map { |element| convert element }
         else object
       end
     end
@@ -142,7 +142,7 @@ class Ribbon < BasicObject
     def convert_all!(ribbon)
       ribbon.__hash__.each do |key, value|
         ribbon[key] = case value
-          when self then convert_all! value
+          when Ribbon then convert_all! value
           else convert value
         end
       end
@@ -181,21 +181,21 @@ class Ribbon < BasicObject
 
     # Returns +true+ if the given ribbon is wrapped.
     def wrapped?(ribbon)
-      ::Ribbon::Wrapper === ribbon
+      Ribbon::Wrapper === ribbon
     end
 
     # Wraps a ribbon instance in a Ribbon::Wrapper.
     def wrap(ribbon = ::Ribbon.new)
-      ::Ribbon::Wrapper.new ribbon
+      Ribbon::Wrapper.new ribbon
     end
 
     # Unwraps the +ribbon+ if it is wrapped and returns its hash. Returns +nil+
     # in any other case.
     def extract_hash_from(ribbon)
       case ribbon
-        when ::Ribbon::Wrapper then ribbon.hash
-        when ::Ribbon then ribbon.__hash__
-        when ::Hash then ribbon
+        when Ribbon::Wrapper then ribbon.hash
+        when Ribbon then ribbon.__hash__
+        when Hash then ribbon
         else nil
       end
     end
