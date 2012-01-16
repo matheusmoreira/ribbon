@@ -211,6 +211,12 @@ class Ribbon < BasicObject
       end
     end
 
+    # Deserializes the hash from the +string+ using YAML and uses it to
+    # construct a new ribbon.
+    def from_yaml(string)
+      Ribbon.new YAML.load(string)
+    end
+
     # Wraps a ribbon instance in a Ribbon::Wrapper.
     #
     #   Ribbon[ribbon].keys
