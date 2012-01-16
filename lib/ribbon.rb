@@ -56,7 +56,7 @@ class Ribbon < BasicObject
 
   # The internal Hash.
   def __hash__
-    @hash ||= {}
+    @hash ||= (::Hash.new &::Ribbon.default_value_proc)
   end
 
   # Initializes the new ribbon, merging the internal hash with the given one and
@@ -68,8 +68,7 @@ class Ribbon < BasicObject
 
   # Gets a value by key.
   def [](key, &block)
-    value = if __hash__.has_key? key then ::Ribbon.convert __hash__[key]
-    else ::Ribbon.new end
+    value = ::Ribbon.convert __hash__[key]
     if block.arity.zero? then value.instance_eval &block
     else block.call value end if block
     self[key] = value
