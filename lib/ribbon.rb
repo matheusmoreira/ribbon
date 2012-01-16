@@ -164,14 +164,14 @@ class Ribbon < BasicObject
 
     # Merges the +new+ ribbon and all nested ribbons with the +old+ ribbon
     # recursively, returning a new ribbon.
-    def deep_merge(old, new)
-      deep :merge, old, new
+    def deep_merge(old, new, &block)
+      deep :merge, old, new, &block
     end
 
     # Merges the +new+ ribbon and all nested ribbons with the +old+ ribbon
     # recursively, modifying all ribbons in place.
-    def deep_merge!(old, new)
-      deep :merge!, old, new
+    def deep_merge!(old, new, &block)
+      deep :merge!, old, new, &block
     end
 
     # Returns +true+ if the given +object+ is a ribbon.
