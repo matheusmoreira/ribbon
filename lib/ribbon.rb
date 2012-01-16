@@ -213,7 +213,7 @@ class Ribbon < BasicObject
     #
     # The values of the new hash will always be used.
     def deep(merge_func, old, new)
-      self.send merge_func, old, new do |key, old, new|
+      send merge_func, old, new do |key, old, new|
         instance?(old) && instance?(new) ? deep(merge_func, old, new) : new
       end
     end
