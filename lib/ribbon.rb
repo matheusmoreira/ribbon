@@ -176,7 +176,7 @@ class Ribbon < BasicObject
 
     # Returns +true+ if the given +object+ is a ribbon.
     def instance?(object)
-      self === object
+      Ribbon === object
     end
 
     # Returns +true+ if the given ribbon is wrapped.
