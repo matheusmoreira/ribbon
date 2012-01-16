@@ -41,15 +41,6 @@ class Ribbon < BasicObject
   #   => 10
   class Wrapper
 
-    class << self
-
-      # Wraps a Ribbon instance.
-      #
-      #   Ribbon::Wrapper[ribbon]
-      alias [] new
-
-    end
-
     # The wrapped Ribbon object.
     attr :ribbon
 
@@ -121,6 +112,16 @@ class Ribbon < BasicObject
     # Delegates to Ribbon#to_s.
     def to_s
       ribbon.to_s
+    end
+
+    # The class methods.
+    class << self
+
+      # Wraps a Ribbon instance.
+      #
+      #   Ribbon::Wrapper[ribbon]
+      alias [] new
+
     end
 
     private
