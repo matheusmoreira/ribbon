@@ -84,11 +84,11 @@ class Ribbon < BasicObject
     end
 
     def deep_merge(ribbon)
-      ::Ribbon.deep_merge self, ribbon
+      Ribbon.deep_merge self, ribbon
     end
 
     def deep_merge!(ribbon)
-      ::Ribbon.deep_merge! self, ribbon
+      Ribbon.deep_merge! self, ribbon
     end
 
     # Wraps all ribbons contained by this wrapper's ribbon.
@@ -132,8 +132,8 @@ class Ribbon < BasicObject
       {}.tap do |hash|
         ribbon.__hash__.each do |key, value|
           hash[key] = case value
-            when ::Ribbon then to_hash_recursive value
-            when ::Ribbon::Wrapper then to_hash_recursive value.ribbon
+            when Ribbon then to_hash_recursive value
+            when Ribbon::Wrapper then to_hash_recursive value.ribbon
             else value
           end
         end
@@ -145,7 +145,7 @@ class Ribbon < BasicObject
     def wrap_all_recursive!(wrapper = self)
       wrapper.hash.each do |key, value|
         wrapper.hash[key] = case value
-          when ::Ribbon then wrap_all_recursive! ::Ribbon::Wrapper[value]
+          when Ribbon then wrap_all_recursive! Ribbon::Wrapper[value]
           else value
         end
       end
@@ -157,7 +157,7 @@ class Ribbon < BasicObject
     def unwrap_all_recursive!(ribbon = self)
       ribbon.__hash__.each do |key, value|
         ribbon[key] = case value
-          when ::Ribbon::Wrapper then unwrap_all_recursive! value.ribbon
+          when Ribbon::Wrapper then unwrap_all_recursive! value.ribbon
           else value
         end
       end
@@ -167,7 +167,7 @@ class Ribbon < BasicObject
     # Deserializes the hash from the +string+ using YAML and uses it to
     # construct a new wrapped Ribbon.
     def self.from_yaml(string)
-      ::Ribbon::Wrapper.new YAML.load(string)
+      Ribbon::Wrapper.new YAML.load(string)
     end
 
   end

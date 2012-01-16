@@ -10,9 +10,9 @@ class Ribbon < BasicObject
       # otherwise returns an empty ribbon.
       def extract_ribbon!
         case last
-          when ::Hash then Ribbon.new pop
-          when ::Ribbon then pop
-          when ::Ribbon::Wrapper then pop.ribbon
+          when Hash then Ribbon.new pop
+          when Ribbon then pop
+          when Ribbon::Wrapper then pop.ribbon
           else Ribbon.new
         end
       end
@@ -20,7 +20,7 @@ class Ribbon < BasicObject
       # Extracts the last argument as a wrapped ribbon, or returns an empty one.
       # See #extract_ribbon! for details.
       def extract_wrapped_ribbon!
-        ::Ribbon.wrap extract_options_as_ribbon!
+        Ribbon.wrap extract_options_as_ribbon!
       end
 
       # Same as #extract_ribbon!
