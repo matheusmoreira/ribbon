@@ -23,7 +23,10 @@ class Ribbon < BasicObject
         ::Ribbon.wrap extract_options_as_ribbon!
       end
 
+      # Same as #extract_ribbon!
       alias extract_options_as_ribbon! extract_ribbon!
+
+      # Same as #extract_wrapped_ribbon!
       alias extract_options_as_wrapped_ribbon! extract_wrapped_ribbon!
 
     end
