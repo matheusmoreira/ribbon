@@ -58,8 +58,9 @@ class Ribbon < BasicObject
 
     # Wraps a Ribbon object, providing many general-purpose methods that were
     # not defined in the Ribbon itself.
-    def initialize(ribbon = Ribbon.new)
+    def initialize(ribbon = Ribbon.new, &block)
       self.ribbon = ribbon
+      if block.arity.zero? then instance_eval &block else block.call self end if block
     end
 
     # Returns the hash of the wrapped ribbon.
