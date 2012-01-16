@@ -122,6 +122,12 @@ class Ribbon < BasicObject
       #   Ribbon::Wrapper[ribbon]
       alias [] new
 
+      # Deserializes the hash from the +string+ using YAML and uses it to
+      # construct a new wrapped ribbon.
+      def from_yaml(string)
+        Ribbon::Wrapper.new YAML.load(string)
+      end
+
     end
 
     private
@@ -163,12 +169,6 @@ class Ribbon < BasicObject
         end
       end
       ribbon
-    end
-
-    # Deserializes the hash from the +string+ using YAML and uses it to
-    # construct a new wrapped Ribbon.
-    def self.from_yaml(string)
-      Ribbon::Wrapper.new YAML.load(string)
     end
 
   end
