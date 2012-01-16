@@ -149,29 +149,34 @@ class Ribbon < BasicObject
       ribbon
     end
 
-    # Merges the hash of +new+ with the hash of +old+, creating a new ribbon in
-    # the process.
-    def merge(old, new, &block)
-      self.new extract_hash_from(old).merge(extract_hash_from(new), &block)
+    # Merges the hash of +new_ribbon+ with the hash of +old_ribbon+, creating a
+    # new ribbon in the process.
+    def merge(old_ribbon, new_ribbon, &block)
+      old_hash = extract_hash_from old_ribbon
+      new_hash = extract_hash_from new_ribbon
+      merged_hash = old_hash.merge new_hash, &block
+      Ribbon.new merged_hash
     end
 
-    # Merges the hash of +new+ with the hash of +old+, modifying +old+'s hash in
-    # the process.
-    def merge!(old, new, &block)
-      extract_hash_from(old).merge! extract_hash_from(new), &block
-      old
+    # Merges the hash of +new_ribbon+ with the hash of +old_ribbon+, modifying
+    # +old_ribbon+'s hash in the process.
+    def merge!(old_ribbon, new_ribbon, &block)
+      old_hash = extract_hash_from old_ribbon
+      new_hash = extract_hash_from new_ribbon
+      old_hash.merge! new_hash, &block
+      old_ribbon
     end
 
-    # Merges the +new+ ribbon and all nested ribbons with the +old+ ribbon
+    # Merges the +new_ribbon+ and all nested ribbons with the +old_ribbon+
     # recursively, returning a new ribbon.
-    def deep_merge(old, new, &block)
-      deep :merge, old, new, &block
+    def deep_merge(old_ribbon, new_ribbon, &block)
+      deep :merge, old_ribbon, new_ribbon, &block
     end
 
-    # Merges the +new+ ribbon and all nested ribbons with the +old+ ribbon
+    # Merges the +new_ribbon+ and all nested ribbons with the +old_ribbon+
     # recursively, modifying all ribbons in place.
-    def deep_merge!(old, new, &block)
-      deep :merge!, old, new, &block
+    def deep_merge!(old_ribbon, new_ribbon, &block)
+      deep :merge!, old_ribbon, new_ribbon, &block
     end
 
     # Returns +true+ if the given +object+ is a ribbon.
