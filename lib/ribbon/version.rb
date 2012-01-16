@@ -16,7 +16,7 @@ class Ribbon < BasicObject
     # Patch version.
     #
     # Increments denote changes in implementation.
-    PATCH = 5
+    PATCH = 6
 
     # Build version.
     #
