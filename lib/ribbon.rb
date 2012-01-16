@@ -212,12 +212,13 @@ class Ribbon < BasicObject
     # recursively. +args+ will be forwarded to the merge function.
     #
     # The values of the new hash will always be used.
-    def deep(merge_method, old_ribbon, new_ribbon)
+    def deep(merge_method, old_ribbon, new_ribbon, &block)
       send merge_method, old_ribbon, new_ribbon do |key, old_value, new_value|
         if instance?(old_value) and instance?(new_value)
-          deep merge_method, old_value, new_value
+          deep merge_method, old_value, new_value, &block
         else
-          new_value
+          if block.respond_to? :call then block.call key, old_value, new_value
+          else new_value end
         end
       end
     end
