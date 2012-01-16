@@ -211,7 +211,9 @@ class Ribbon < BasicObject
     # +merge+ or +merge!+, and denotes which function will be used to merge
     # recursively. +args+ will be forwarded to the merge function.
     #
-    # The values of the new hash will always be used.
+    # If given a block, it will be called with the key, the old value and the
+    # new value as parameters and its return value will be used. The value of
+    # the new hash will be used, otherwise.
     def deep(merge_method, old_ribbon, new_ribbon, &block)
       send merge_method, old_ribbon, new_ribbon do |key, old_value, new_value|
         if instance?(old_value) and instance?(new_value)
