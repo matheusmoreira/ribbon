@@ -125,79 +125,80 @@ class Ribbon < BasicObject
   # Same as #to_s.
   alias inspect to_s
 
-  # If <tt>object</tt> is a hash, converts it to a ribbon. If it is an array,
-  # converts any hashes inside.
-  def self.convert(object)
-    case object
-      when ::Hash then self.new object
-      when ::Array then object.map { |element| convert element }
-      else object
-    end
-  end
+  # The class methods.
+  class << self
 
-  # Converts all values in the given ribbon.
-  def self.convert_all!(ribbon)
-    ribbon.__hash__.each do |key, value|
-      ribbon[key] = case value
-        when self then convert_all! value
-        else convert value
+    # If <tt>object</tt> is a hash, converts it to a ribbon. If it is an array,
+    # converts any hashes inside.
+    def convert(object)
+      case object
+        when ::Hash then self.new object
+        when ::Array then object.map { |element| convert element }
+        else object
       end
     end
-    ribbon
-  end
 
-  # Merges the hash of +new+ with the hash of +old+, creating a new ribbon in
-  # the process.
-  def self.merge(old, new, &block)
-    self.new extract_hash_from(old).merge(extract_hash_from(new), &block)
-  end
-
-  # Merges the hash of +new+ with the hash of +old+, modifying +old+'s hash in
-  # the process.
-  def self.merge!(old, new, &block)
-    extract_hash_from(old).merge! extract_hash_from(new), &block
-    old
-  end
-
-  # Merges the +new+ ribbon and all nested ribbons with the +old+ ribbon
-  # recursively, returning a new ribbon.
-  def self.deep_merge(old, new)
-    deep :merge, old, new
-  end
-
-  # Merges the +new+ ribbon and all nested ribbons with the +old+ ribbon
-  # recursively, modifying all ribbons in place.
-  def self.deep_merge!(old, new)
-    deep :merge!, old, new
-  end
-
-  # Returns +true+ if the given +object+ is a ribbon.
-  def self.instance?(object)
-    self === object
-  end
-
-  # Returns +true+ if the given ribbon is wrapped.
-  def self.wrapped?(ribbon)
-    ::Ribbon::Wrapper === ribbon
-  end
-
-  # Wraps a ribbon instance in a Ribbon::Wrapper.
-  def self.wrap(ribbon = ::Ribbon.new)
-    ::Ribbon::Wrapper.new ribbon
-  end
-
-  # Unwraps the +ribbon+ if it is wrapped and returns its hash. Returns +nil+ in
-  # any other case.
-  def self.extract_hash_from(ribbon)
-    case ribbon
-      when ::Ribbon::Wrapper then ribbon.hash
-      when ::Ribbon then ribbon.__hash__
-      when ::Hash then ribbon
-      else nil
+    # Converts all values in the given ribbon.
+    def convert_all!(ribbon)
+      ribbon.__hash__.each do |key, value|
+        ribbon[key] = case value
+          when self then convert_all! value
+          else convert value
+        end
+      end
+      ribbon
     end
-  end
 
-  class << self
+    # Merges the hash of +new+ with the hash of +old+, creating a new ribbon in
+    # the process.
+    def merge(old, new, &block)
+      self.new extract_hash_from(old).merge(extract_hash_from(new), &block)
+    end
+
+    # Merges the hash of +new+ with the hash of +old+, modifying +old+'s hash in
+    # the process.
+    def merge!(old, new, &block)
+      extract_hash_from(old).merge! extract_hash_from(new), &block
+      old
+    end
+
+    # Merges the +new+ ribbon and all nested ribbons with the +old+ ribbon
+    # recursively, returning a new ribbon.
+    def deep_merge(old, new)
+      deep :merge, old, new
+    end
+
+    # Merges the +new+ ribbon and all nested ribbons with the +old+ ribbon
+    # recursively, modifying all ribbons in place.
+    def deep_merge!(old, new)
+      deep :merge!, old, new
+    end
+
+    # Returns +true+ if the given +object+ is a ribbon.
+    def instance?(object)
+      self === object
+    end
+
+    # Returns +true+ if the given ribbon is wrapped.
+    def wrapped?(ribbon)
+      ::Ribbon::Wrapper === ribbon
+    end
+
+    # Wraps a ribbon instance in a Ribbon::Wrapper.
+    def wrap(ribbon = ::Ribbon.new)
+      ::Ribbon::Wrapper.new ribbon
+    end
+
+    # Unwraps the +ribbon+ if it is wrapped and returns its hash. Returns +nil+
+    # in any other case.
+    def extract_hash_from(ribbon)
+      case ribbon
+        when ::Ribbon::Wrapper then ribbon.hash
+        when ::Ribbon then ribbon.__hash__
+        when ::Hash then ribbon
+        else nil
+      end
+    end
 
     # Wraps a ribbon instance in a Ribbon::Wrapper.
     #
