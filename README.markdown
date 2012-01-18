@@ -4,7 +4,17 @@ RuBy Object Notation
 
 Inspired by JSON and OpenStruct.
 
-## Quick Start
+# Installation
+
+Latest version:
+
+    gem install ribbon
+
+From source:
+
+    git clone git://github.com/matheusmoreira/ribbon.git
+
+# Introduction
 
 A Ribbon is a simple but powerful associative data structure designed to be easy
 and natural to use. It allows the dynamic definition of arbitrary attributes,
