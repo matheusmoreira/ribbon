@@ -1,6 +1,6 @@
 # Ribbon
 
-RuBy Object Notation
+Ruby Object Notation
 
 Inspired by JSON and OpenStruct.
 
