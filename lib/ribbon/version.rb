@@ -11,12 +11,12 @@ class Ribbon < BasicObject
     # Minor version.
     #
     # Increments denote backward-compatible changes and additions.
-    MINOR = 4
+    MINOR = 5
 
     # Patch version.
     #
     # Increments denote changes in implementation.
-    PATCH = 7
+    PATCH = 0
 
     # Build version.
     #
