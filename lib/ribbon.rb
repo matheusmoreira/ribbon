@@ -218,10 +218,10 @@ class Ribbon < BasicObject
       Ribbon.new YAML.load(string)
     end
 
-    # Wraps a ribbon instance in a Ribbon::Wrapper.
+    # Creates a new instance.
     #
-    #   Ribbon[ribbon].keys
-    alias [] wrap
+    #   Ribbon[a: :a, b: :b, c: :c]
+    alias [] new
 
     private
 
