@@ -205,7 +205,7 @@ class Ribbon < BasicObject
     # in any other case.
     def extract_hash_from(ribbon)
       case ribbon
-        when Ribbon::Wrapper then ribbon.hash
+        when Ribbon::Wrapper then ribbon.internal_hash
         when Ribbon then ribbon.__hash__
         when Hash then ribbon
         else nil

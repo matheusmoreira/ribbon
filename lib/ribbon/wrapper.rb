@@ -64,14 +64,14 @@ class Ribbon < BasicObject
     end
 
     # Returns the hash of the wrapped ribbon.
-    def hash
+    def internal_hash
       ribbon.__hash__
     end
 
     # Forwards the method, arguments and block to the wrapped Ribbon's hash, if
     # it responds to the method, or to the ribbon itself otherwise.
     def method_missing(method, *args, &block)
-      if hash.respond_to? method then hash
+      if (hash = internal_hash).respond_to? method then hash
       else ribbon end.__send__ method, *args, &block
     end
 
@@ -151,8 +151,8 @@ class Ribbon < BasicObject
     # Recursively wraps all ribbons inside. This implementation avoids the
     # creation of additional ribbon or wrapper objects.
     def wrap_all_recursive!(wrapper = self)
-      wrapper.hash.each do |key, value|
-        wrapper.hash[key] = case value
+      wrapper.internal_hash.each do |key, value|
+        wrapper.internal_hash[key] = case value
           when Ribbon then wrap_all_recursive! Ribbon::Wrapper[value]
           else value
         end
