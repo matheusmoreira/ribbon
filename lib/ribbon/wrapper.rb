@@ -45,8 +45,9 @@ class Ribbon < BasicObject
     attr :ribbon
 
     # Wraps +ribbon+. If it is already wrapped, uses the wrapped ribbon as this
-    # wrapper's ribbon. If it is a hash, creates a new Ribbon with its data. If
-    # it is something else, an ArgumentError will be raised.
+    # wrapper's ribbon. If it is a hash, creates a new Ribbon with its data.
+    #
+    # Raises ArgumentError if given something unsupported.
     def ribbon=(ribbon)
       @ribbon = case ribbon
         when Wrapper then ribbon.ribbon
