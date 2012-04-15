@@ -269,7 +269,7 @@ class Ribbon < BasicObject
         if instance?(old_value) and instance?(new_value)
           deep merge_method, old_value, new_value, &block
         else
-          if block.respond_to? :call then block.call key, old_value, new_value
+          if block then block.call key, old_value, new_value
           else new_value end
         end
       end
