@@ -90,6 +90,8 @@ class Ribbon < BasicObject
   #   ribbon.method = value          =>  ribbon[method] = value
   #   ribbon.method!  value          =>  ribbon[method] = value
   #                                      self
+  #   ribbon.method!         &block  =>  TODO
+  #   ribbon.method!  value, &block  =>  TODO
   #   ribbon.method?                 =>  ribbon.__hash__.fetch method
   #   ribbon.method?  value          =>  ribbon.__hash__.fetch method, value
   #   ribbon.method?         &block  =>  ribbon.__hash__.fetch method, &block
