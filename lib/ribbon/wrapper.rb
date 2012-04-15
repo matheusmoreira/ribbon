@@ -76,10 +76,14 @@ class Ribbon < BasicObject
       else ribbon end.__send__ method, *args, &block
     end
 
+    # Merges the +new_ribbon+ and all nested ribbons with the +old_ribbon+
+    # recursively, returning a new ribbon.
     def deep_merge(ribbon)
       Ribbon.deep_merge self, ribbon
     end
 
+    # Merges the +new_ribbon+ and all nested ribbons with the +old_ribbon+
+    # recursively, modifying all ribbons in place.
     def deep_merge!(ribbon)
       Ribbon.deep_merge! self, ribbon
     end
