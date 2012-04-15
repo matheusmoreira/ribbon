@@ -20,7 +20,7 @@ class Ribbon < BasicObject
       # Extracts the last argument as a wrapped ribbon, or returns an empty one.
       # See #extract_ribbon! for details.
       def extract_wrapped_ribbon!
-        Ribbon.wrap extract_options_as_ribbon!
+        Ribbon.wrap extract_ribbon!
       end
 
       # Same as #extract_ribbon!
