@@ -115,7 +115,6 @@ class Ribbon < BasicObject
       ribbon.to_s
     end
 
-    # The class methods.
     class << self
 
       # Wraps a Ribbon instance.

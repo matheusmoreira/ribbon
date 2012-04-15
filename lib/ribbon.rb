@@ -156,7 +156,6 @@ class Ribbon < BasicObject
   # Same as #to_s.
   alias inspect to_s
 
-  # The class methods.
   class << self
 
     # A Proc which returns a new ribbon as the default value for the given hash
