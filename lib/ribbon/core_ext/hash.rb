@@ -19,6 +19,9 @@ class Ribbon < BasicObject
       # Same as #to_ribbon.
       alias to_rbon to_ribbon
 
+      # Same as #to_ribbon_wrapper.
+      alias to_wrapped_ribbon to_ribbon_wrapper
+
     end
 
     ::Hash.send :include, ::Ribbon::CoreExt::Hash
