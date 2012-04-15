@@ -98,6 +98,7 @@ class Ribbon < BasicObject
   #   ribbon.method?                 =>  ribbon.__hash__.fetch method
   #   ribbon.method?  value          =>  ribbon.__hash__.fetch method, value
   #   ribbon.method?         &block  =>  ribbon.__hash__.fetch method, &block
+  #   ribbon.method?  value, &block  =>  ribbon.__hash__.fetch method, value, &block
   def method_missing(method, *args, &block)
     method_string = method.to_s
     key = method_string.strip.gsub(/[=?!]$/, '').strip.intern
