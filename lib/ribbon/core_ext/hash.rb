@@ -11,6 +11,11 @@ class Ribbon < BasicObject
         Ribbon.new self
       end
 
+      # Converts this hash to a Ribbon::Wrapper
+      def to_ribbon_wrapper
+        Ribbon.wrap self
+      end
+
       # Same as #to_ribbon.
       alias to_rbon to_ribbon
 
