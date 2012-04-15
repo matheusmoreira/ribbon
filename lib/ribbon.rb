@@ -67,7 +67,7 @@ class Ribbon < BasicObject
   # All objects inside the hash will be converted. See Ribbon::convert_all! for
   # details.
   def initialize(hash = {}, &block)
-    __hash__.merge! hash
+    __hash__.merge! ::Ribbon.extract_hash_from(hash)
     if block.arity.zero? then instance_eval &block else block.call self end if block
    ::Ribbon.convert_all! self
   end
