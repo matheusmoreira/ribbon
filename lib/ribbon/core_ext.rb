@@ -1,6 +1,6 @@
 class Ribbon < BasicObject
 
-  # Optional extensions to the standard library to make life easier.
+  # Optional extensions to the standard library.
   module CoreExt; end
 
 end
