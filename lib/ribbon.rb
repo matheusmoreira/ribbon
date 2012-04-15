@@ -59,8 +59,13 @@ class Ribbon < BasicObject
     @hash ||= (::Hash.new &::Ribbon.default_value_proc)
   end
 
-  # Initializes the new ribbon, merging the internal hash with the given one and
-  # converting all internal objects. See Ribbon::convert_all! for details.
+  # Creates a new ribbon using the given +hash+.
+  #
+  # If given a block, the ribbon will be yielded to it. However, if the block
+  # takes zero arguments, it will be evaluated in the context of the ribbon.
+  #
+  # All objects inside the hash will be converted. See Ribbon::convert_all! for
+  # details.
   def initialize(hash = {}, &block)
     __hash__.merge! hash
     if block.arity.zero? then instance_eval &block else block.call self end if block
