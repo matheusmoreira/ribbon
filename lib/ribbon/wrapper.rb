@@ -159,9 +159,9 @@ class Ribbon < BasicObject
       wrapper
     end
 
-    # Recursively unwraps all ribbons inside. This implementation avoids the
-    # creation of additional ribbon or wrapper objects.
-    def unwrap_all_recursive!(ribbon = self)
+    # Recursively unwraps all wrapped ribbons inside. This implementation avoids
+    # the creation of additional ribbon or wrapper objects.
+    def unwrap_all_recursive!(ribbon = self.ribbon)
       ribbon.__hash__.each do |key, value|
         ribbon[key] = case value
           when Ribbon::Wrapper then unwrap_all_recursive! value.ribbon
