@@ -76,8 +76,8 @@ class Ribbon < BasicObject
   end
 
   # Sets a value by key.
-  def []=(key, value)
-    __hash__[key] = value
+  def []=(key, *values)
+    __hash__[key] = if values.size == 1 then values.first else values end
   end
 
   # Handles the following cases:
