@@ -4,41 +4,33 @@ class Ribbon < BasicObject
 
   # Wraps around a Ribbon in order to provide general-purpose methods.
   #
-  # Ribbons are designed to use methods as hash keys. In order to maximize
-  # possibilities, many useful methods were left out of the ribbon class and
-  # implemented in this wrapper class instead.
+  # Ribbons are designed to use methods as hash keys. In order to maximize the
+  # number of possibilities, many useful methods were left out of the ribbon
+  # class and implemented in this wrapper class instead.
   #
-  # This class enables you to use ribbons like an ordinary hash. Any undefined
-  # methods called on a wrapped ribbon will be sent to its hash, or to the
-  # ribbon itself if the hash doesn't respond to the method.
+  # This class lets you to use ribbons like an ordinary hash. Any undefined
+  # methods will be sent to the ribbon's hash. If the hash doesn't respond to
+  # the method, it will be sent to the ribbon itself.
   #
-  #   r = Ribbon.new
-  #   w = Ribbon::Wrapper.new r
+  #   wrapper = Ribbon::Wrapper.new
   #
-  #   w.a.b.c
-  #   w[:a][:b][:c]
+  #   wrapper.a.b.c
+  #    => {}
+  #   wrapper.keys
+  #    => [:a]
   #
-  # Wrapped ribbons talk directly to their ribbon's hash:
+  # Keep in mind that the wrapped hash may contain other ribbons, which may not
+  # be wrapped:
   #
-  #   w[:k]
-  #   => nil
+  #   wrapper.a.b.c.keys
+  #    => {}
+  #   wrapper
+  #    => {a: {b: {c: {keys: {}}}}}
   #
-  # However, keep in mind that the wrapped hash may contain other ribbons,
-  # which may not be wrapped:
+  # You can wrap and unwrap all ribbons inside:
   #
-  #   w.a.b.c[:d]
-  #   => {}
-  #
-  # You can automatically wrap and unwrap all ribbons inside the wrapped one:
-  #
-  #   w.wrap_all!
-  #   w.unwrap_all!
-  #
-  # The wrapped ribbon receives all undefined methods that hashes won't take:
-  #
-  #   w.x = 10
-  #   w.ribbon.x
-  #   => 10
+  #   wrapper.wrap_all!
+  #   wrapper.unwrap_all!
   class Wrapper
 
     # The wrapped Ribbon object.
