@@ -248,7 +248,7 @@ class Ribbon < BasicObject
       Ribbon.new YAML.load(string)
     end
 
-    # Creates a new instance.
+    # Creates a new Ribbon instance.
     #
     #   Ribbon[a: :a, b: :b, c: :c]
     alias [] new
