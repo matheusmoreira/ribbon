@@ -75,7 +75,17 @@ class Ribbon < BasicObject
     self[key] = value
   end
 
-  # Sets a value by key.
+  # Associates the given +values+ with the given +key+.
+  #
+  #   ribbon = Ribbon.new
+  #
+  #   ribbon[:key] = :value
+  #   ribbon[:key]
+  #   # => :value
+  #
+  #   ribbon[:key] = :multiple, :values
+  #   ribbon[:key]
+  #   # => [:multiple, :values]
   def []=(key, *values)
     __hash__[key] = if values.size == 1 then values.first else values end
   end
