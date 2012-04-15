@@ -180,6 +180,7 @@ class Ribbon < BasicObject
       ribbon.__hash__.each do |key, value|
         ribbon[key] = case value
           when Ribbon then convert_all! value
+          when Ribbon::Wrapper then convert_all! value.ribbon
           else convert value
         end
       end
