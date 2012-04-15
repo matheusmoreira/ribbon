@@ -279,8 +279,7 @@ class Ribbon < BasicObject
   private
 
   # Computes a string value recursively for the given ribbon and all ribbons
-  # inside it. This implementation avoids creating additional ribbon or
-  # Ribbon::Wrapper objects.
+  # inside it.
   def __to_s_recursive__(opts, ribbon = self)
     ksym = opts.fetch(:key,   :to_s).to_sym
     vsym = opts.fetch(:value, :inspect).to_sym

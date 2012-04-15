@@ -134,8 +134,7 @@ class Ribbon < BasicObject
     private
 
     # Converts the wrapped ribbon and all ribbons inside into hashes using
-    # recursion. This implementation avoids the creation of additional ribbon or
-    # wrapper objects.
+    # recursion.
     def to_hash_recursive(ribbon = self.ribbon)
       {}.tap do |hash|
         ribbon.__hash__.each do |key, value|
@@ -148,8 +147,7 @@ class Ribbon < BasicObject
       end
     end
 
-    # Recursively wraps all ribbons and hashes inside. This implementation
-    # avoids the creation of additional ribbon or wrapper objects.
+    # Recursively wraps all ribbons and hashes inside.
     def wrap_all_recursive!(wrapper = self)
       (hash = wrapper.internal_hash).each do |key, value|
         hash[key] = case value
@@ -160,8 +158,7 @@ class Ribbon < BasicObject
       wrapper
     end
 
-    # Recursively unwraps all wrapped ribbons inside. This implementation avoids
-    # the creation of additional ribbon or wrapper objects.
+    # Recursively unwraps all wrapped ribbons inside.
     def unwrap_all_recursive!(ribbon = self.ribbon)
       ribbon.__hash__.each do |key, value|
         ribbon[key] = case value
