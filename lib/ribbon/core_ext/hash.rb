@@ -3,7 +3,7 @@ require 'ribbon'
 class Ribbon < BasicObject
   module CoreExt
 
-    # Includes a method to convert hashes to ribbons.
+    # Includes methods to convert hashes to ribbons.
     module Hash
 
       # Converts this hash to a Ribbon.
