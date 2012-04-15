@@ -257,9 +257,9 @@ class Ribbon < BasicObject
 
     private
 
-    # Common logic for deep merge functions. +merge_func+ should be either
-    # +merge+ or +merge!+, and denotes which function will be used to merge
-    # recursively. +args+ will be forwarded to the merge function.
+    # Common logic for deep merge methods. +merge_method+ should be either
+    # +:merge+ or +:merge!+, and denotes which method will be used to merge
+    # recursively. +args+ will be forwarded to the merge method.
     #
     # If given a block, it will be called with the key, the old value and the
     # new value as parameters and its return value will be used. The value of
