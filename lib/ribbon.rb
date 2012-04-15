@@ -150,7 +150,7 @@ class Ribbon < BasicObject
   # [:value]      Symbol that will be sent to the value in order to obtain its
   #               string representation. Defaults to <tt>:inspect</tt>.
   def to_s(opts = {})
-    to_s_recursive opts
+    __to_s_recursive__ opts
   end
 
   # Same as #to_s.
@@ -282,7 +282,7 @@ class Ribbon < BasicObject
   # Computes a string value recursively for the given ribbon and all ribbons
   # inside it. This implementation avoids creating additional ribbon or
   # Ribbon::Wrapper objects.
-  def to_s_recursive(opts, ribbon = self)
+  def __to_s_recursive__(opts, ribbon = self)
     ksym = opts.fetch(:key,   :to_s).to_sym
     vsym = opts.fetch(:value, :inspect).to_sym
     separator = opts.fetch(:separator, ': ').to_s
