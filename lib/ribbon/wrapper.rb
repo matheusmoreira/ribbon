@@ -150,8 +150,8 @@ class Ribbon < BasicObject
     # Recursively wraps all ribbons inside. This implementation avoids the
     # creation of additional ribbon or wrapper objects.
     def wrap_all_recursive!(wrapper = self)
-      wrapper.internal_hash.each do |key, value|
-        wrapper.internal_hash[key] = case value
+      (hash = wrapper.internal_hash).each do |key, value|
+        hash[key] = case value
           when Ribbon then wrap_all_recursive! Ribbon::Wrapper[value]
           else value
         end
