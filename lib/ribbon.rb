@@ -67,7 +67,10 @@ class Ribbon < BasicObject
    ::Ribbon.convert_all! self
   end
 
-  # Gets a value by key.
+  # Returns the value associated with the given +key+.
+  #
+  # If given a block, the value will be yielded to it. However, if the block
+  # takes zero arguments, it will be evaluated in the context of the value.
   def [](key, &block)
     value = ::Ribbon.convert __hash__[key]
     if block.arity.zero? then value.instance_eval &block
