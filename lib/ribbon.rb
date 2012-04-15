@@ -96,18 +96,20 @@ class Ribbon < BasicObject
   #   ribbon.method?  value          =>  ribbon.__hash__.fetch method, value
   #   ribbon.method?         &block  =>  ribbon.__hash__.fetch method, &block
   def method_missing(method, *args, &block)
-    m = method.to_s.strip.gsub(/[=?!]$/, '').strip.to_sym
-    case method.to_s[-1]
-      when '='
-        self[m] = args.first
-      when '!'
-        self[m] = args.first; self
-      when '?'
-        begin self.__hash__.fetch m, *args, &block
+    method_string = method.to_s
+    key = method_string.strip.gsub(/[=?!]$/, '').strip.intern
+    case method_string[-1]
+      when ?=
+        __send__ :[]=, key, *args
+      when ?!
+        __send__ :[]=, key, *args
+        self
+      when ??
+        begin self.__hash__.fetch key, *args, &block
         rescue ::KeyError; nil end
       else
-        self[method] = args.first unless args.empty?
-        self[method, &block]
+        __send__ :[]=, key, *args unless args.empty?
+        self[key, &block]
     end
   end
 
