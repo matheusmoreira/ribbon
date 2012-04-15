@@ -92,8 +92,11 @@ class Ribbon < BasicObject
   #
   #   ribbon.method!  value          =>  ribbon[method] = value
   #                                      self
-  #   ribbon.method!         &block  =>  TODO
-  #   ribbon.method!  value, &block  =>  TODO
+  #   ribbon.method!         &block  =>  ribbon[method, &block]
+  #                                      self
+  #   ribbon.method!  value, &block  =>  ribbon[method] = value
+  #                                      ribbon[method, &block]
+  #                                      self
   #
   #   ribbon.method?                 =>  ribbon.__hash__.fetch method
   #   ribbon.method?  value          =>  ribbon.__hash__.fetch method, value
@@ -106,7 +109,8 @@ class Ribbon < BasicObject
       when ?=
         __send__ :[]=, key, *args
       when ?!
-        __send__ :[]=, key, *args
+        __send__ :[]=, key, *args unless args.empty?
+        self[key, &block]
         self
       when ??
         begin self.__hash__.fetch key, *args, &block
