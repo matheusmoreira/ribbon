@@ -144,11 +144,11 @@ class Ribbon < BasicObject
   # In +opts+ can be specified several options that customize how the string
   # is generated. Among those options:
   #
-  # [:separator]  Used to separate a key/value pair. Default is <tt>': '</tt>.
+  # [:separator]  Used to separate the key/value pair. Default is <tt>': '</tt>.
   # [:key]        Symbol that will be sent to the key in order to obtain its
-  #               string representation. Defaults to <tt>:to_s</tt>.
+  #               string representation. Default is <tt>:to_s</tt>.
   # [:value]      Symbol that will be sent to the value in order to obtain its
-  #               string representation. Defaults to <tt>:inspect</tt>.
+  #               string representation. Default is <tt>:inspect</tt>.
   def to_s(opts = {})
     __to_s_recursive__ opts
   end
