@@ -307,7 +307,10 @@ class << Ribbon
     Ribbon === object
   end
 
-  # Returns +true+ if the given ribbon is wrapped.
+  # Tests whether the given object is an instance of Ribbon::Wrapper.
+  #
+  # @param object the object to be tested
+  # @return [true, false] whether the object is an instance of Ribbon::Wrapper
   def wrapped?(ribbon)
     Ribbon::Wrapper === ribbon
   end
