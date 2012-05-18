@@ -70,7 +70,7 @@ class Ribbon < BasicObject
   #
   # All objects inside the hash will be converted.
   #
-  # @param [Hash, Ribbon, Ribbon::Wrapper] hash the hash with the initial values
+  # @param [#to_hash, Ribbon, Ribbon::Wrapper] hash the hash with the initial values
   # @see CoreExt::BasicObject#__yield_or_eval__
   # @see convert_all!
   def initialize(hash = {}, &block)
@@ -231,8 +231,10 @@ class << Ribbon
 
   # Merges the hashes of the given ribbons.
   #
-  # @param [Ribbon, Ribbon::Wrapper, Hash] old_ribbon the ribbon with old values
-  # @param [Ribbon, Ribbon::Wrapper, Hash] new_ribbon the ribbon with new values
+  # @param [Ribbon, Ribbon::Wrapper, #to_hash] old_ribbon the ribbon with old
+  #                                                       values
+  # @param [Ribbon, Ribbon::Wrapper, #to_hash] new_ribbon the ribbon with new
+  #                                                       values
   # @return [Ribbon] a new ribbon containing the results of the merge
   # @yieldparam key the key which identifies both values
   # @yieldparam old_value the value from old_ribbon
@@ -249,8 +251,10 @@ class << Ribbon
 
   # Merges the hashes of the given ribbons in place.
   #
-  # @param [Ribbon, Ribbon::Wrapper, Hash] old_ribbon the ribbon with old values
-  # @param [Ribbon, Ribbon::Wrapper, Hash] new_ribbon the ribbon with new values
+  # @param [Ribbon, Ribbon::Wrapper, #to_hash] old_ribbon the ribbon with old
+  #                                                       values
+  # @param [Ribbon, Ribbon::Wrapper, #to_hash] new_ribbon the ribbon with new
+  #                                                       values
   # @return [Ribbon, Ribbon::Wrapper, Hash] old_ribbon, which will contain the
   #                                         results of the merge
   # @yieldparam key the key which identifies both values
@@ -268,8 +272,10 @@ class << Ribbon
 
   # Merges everything inside the given ribbons.
   #
-  # @param [Ribbon, Ribbon::Wrapper, Hash] old_ribbon the ribbon with old values
-  # @param [Ribbon, Ribbon::Wrapper, Hash] new_ribbon the ribbon with new values
+  # @param [Ribbon, Ribbon::Wrapper, #to_hash] old_ribbon the ribbon with old
+  #                                                       values
+  # @param [Ribbon, Ribbon::Wrapper, #to_hash] new_ribbon the ribbon with new
+  #                                                       values
   # @return [Ribbon] a new ribbon containing the results of the merge
   # @yieldparam key the key which identifies both values
   # @yieldparam old_value the value from old_ribbon
@@ -284,8 +290,10 @@ class << Ribbon
 
   # Merges everything inside the given ribbons in place.
   #
-  # @param [Ribbon, Ribbon::Wrapper, Hash] old_ribbon the ribbon with old values
-  # @param [Ribbon, Ribbon::Wrapper, Hash] new_ribbon the ribbon with new values
+  # @param [Ribbon, Ribbon::Wrapper, #to_hash] old_ribbon the ribbon with old
+  #                                                       values
+  # @param [Ribbon, Ribbon::Wrapper, #to_hash] new_ribbon the ribbon with new
+  #                                                       values
   # @return [Ribbon, Ribbon::Wrapper, Hash] old_ribbon, which will contain the
   #                                         results of the merge
   # @yieldparam key the key which identifies both values
@@ -317,7 +325,7 @@ class << Ribbon
 
   # Wraps an object in a {Ribbon::Wrapper}.
   #
-  # @param [Ribbon, Ribbon::Wrapper, Hash] object the object to be wrapped
+  # @param [Ribbon, Ribbon::Wrapper, #to_hash] object the object to be wrapped
   # @return [Ribbon::Wrapper] a new wrapped ribbon
   def wrap(object = ::Ribbon.new)
     Ribbon::Wrapper.new object
