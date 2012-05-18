@@ -330,8 +330,7 @@ class << Ribbon
     case parameter
       when Ribbon::Wrapper then parameter.internal_hash
       when Ribbon then parameter.__hash__
-      when Hash then parameter
-      else raise ArgumentError, "Couldn't extract hash from #{ribbon.inspect}"
+      else parameter.to_hash
     end
   end
 
