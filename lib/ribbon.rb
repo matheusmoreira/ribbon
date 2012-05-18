@@ -1,6 +1,6 @@
-require 'ribbon/core_ext/basic_object'
-require 'ribbon/version'
-require 'ribbon/wrapper'
+%w(core_ext/basic_object options version wrapper).each do |file|
+  require file.prepend 'ribbon/'
+end
 
 # == Ruby Object Notation.
 #
