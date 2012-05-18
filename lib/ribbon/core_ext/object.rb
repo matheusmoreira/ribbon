@@ -1,16 +1,15 @@
-require 'ribbon/core_ext/basic_object'
-
 class Ribbon < BasicObject
   module CoreExt
 
-    # Some useful methods.
+    # Methods available to all objects.
     module Object
-
-      alias yield_or_eval __yield_or_eval__
-
     end
 
     ::Object.send :include, ::Ribbon::CoreExt::Object
 
   end
+end
+
+%w(option_scope yield_or_eval).each do |file|
+  require file.prepend 'ribbon/core_ext/object/'
 end
