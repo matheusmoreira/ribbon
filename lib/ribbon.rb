@@ -1,3 +1,4 @@
+require 'ribbon/core_ext/basic_object'
 require 'ribbon/version'
 require 'ribbon/wrapper'
 
@@ -68,7 +69,7 @@ class Ribbon < BasicObject
   # details.
   def initialize(hash = {}, &block)
     __hash__.merge! ::Ribbon.extract_hash_from(hash)
-    if block.arity.zero? then instance_eval &block else block.call self end if block
+    __yield_or_eval__ &block
    ::Ribbon.convert_all! self
   end
 
@@ -78,8 +79,7 @@ class Ribbon < BasicObject
   # takes zero arguments, it will be evaluated in the context of the value.
   def [](key, &block)
     value = ::Ribbon.convert __hash__[key]
-    if block.arity.zero? then value.instance_eval &block
-    else block.call value end if block
+    value.__yield_or_eval__ &block
     self[key] = value
   end
 
