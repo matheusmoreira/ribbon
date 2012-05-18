@@ -62,13 +62,17 @@ class Ribbon < BasicObject
     @hash ||= (::Hash.new &::Ribbon.default_value_proc)
   end
 
-  # Creates a new ribbon using the given +hash+.
+  # Initializes a new ribbon.
   #
   # If given a block, the ribbon will be yielded to it. However, if the block
-  # takes zero arguments, it will be evaluated in the context of the ribbon.
+  # doesn't take any arguments, it will be evaluated in the context of the
+  # ribbon.
   #
-  # All objects inside the hash will be converted. See Ribbon::convert_all! for
-  # details.
+  # All objects inside the hash will be converted.
+  #
+  # @param [Hash, Ribbon, Ribbon::Wrapper] hash the hash with the initial values
+  # @see CoreExt::BasicObject#__yield_or_eval__
+  # @see convert_all!
   def initialize(hash = {}, &block)
     __hash__.merge! ::Ribbon.extract_hash_from(hash)
     __yield_or_eval__ &block
