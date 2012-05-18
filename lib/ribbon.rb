@@ -211,7 +211,12 @@ class << Ribbon
     end
   end
 
-  # Converts all values in the given ribbon.
+  # Converts all values inside the given ribbon.
+  #
+  # @param [Ribbon, Ribbon::Wrapper] ribbon the ribbon whose values are to be
+  #                                         converted
+  # @return [Ribbon, Ribbon::Wrapper] the ribbon with all values converted
+  # @see convert
   def convert_all!(ribbon)
     ribbon.__hash__.each do |key, value|
       ribbon[key] = case value
