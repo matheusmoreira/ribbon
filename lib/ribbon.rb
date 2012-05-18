@@ -229,8 +229,16 @@ class << Ribbon
     ribbon
   end
 
-  # Merges the hash of +new_ribbon+ with the hash of +old_ribbon+, creating a
-  # new ribbon in the process.
+  # Merges the hashes of the given ribbons.
+  #
+  # @param [Ribbon, Ribbon::Wrapper, Hash] old_ribbon the ribbon with old values
+  # @param [Ribbon, Ribbon::Wrapper, Hash] new_ribbon the ribbon with new values
+  # @return [Ribbon] a new ribbon containing the results of the merge
+  # @yieldparam key the key which identifies both values
+  # @yieldparam old_value the value from old_ribbon
+  # @yieldparam new_value the value from new_ribbon
+  # @yieldreturn the object that will be used as the new value
+  # @see extract_hash_from
   def merge(old_ribbon, new_ribbon, &block)
     old_hash = extract_hash_from old_ribbon
     new_hash = extract_hash_from new_ribbon
