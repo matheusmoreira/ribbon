@@ -153,16 +153,15 @@ class Ribbon < BasicObject
     end
   end
 
-  # Computes a simple key: value string for easy visualization of this ribbon.
+  # Generates a simple <tt>key: value</tt> string representation of this ribbon.
   #
-  # In +opts+ can be specified several options that customize how the string
-  # is generated. Among those options:
-  #
-  # [:separator]  Used to separate the key/value pair. Default is <tt>': '</tt>.
-  # [:key]        Symbol that will be sent to the key in order to obtain its
-  #               string representation. Default is <tt>:to_s</tt>.
-  # [:value]      Symbol that will be sent to the value in order to obtain its
-  #               string representation. Default is <tt>:inspect</tt>.
+  # @option opts [String] :separator Separates the key/value pair.
+  #                                  Default is <tt>': '</tt>.
+  # @option opts [Symbol] :key       Will be sent to the key in order to convert
+  #                                  it to a string. Default is <tt>:to_s</tt>.
+  # @option opts [Symbol] :value     Will be sent to the value in order to
+  #                                  convert it to a string. Default is
+  #                                  <tt>:inspect</tt>.
   def to_s(opts = {})
     __to_s_recursive__ ::Ribbon.extract_hash_from(opts)
   end
