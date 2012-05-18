@@ -277,11 +277,11 @@ class << Ribbon
   # Returns the hash of the given wrapped or unwrapped +ribbon+.
   #
   # Raises ArgumentError if given an unsupported argument.
-  def extract_hash_from(ribbon)
-    case ribbon
-      when Ribbon::Wrapper then ribbon.internal_hash
-      when Ribbon then ribbon.__hash__
-      when Hash then ribbon
+  def extract_hash_from(parameter)
+    case parameter
+      when Ribbon::Wrapper then parameter.internal_hash
+      when Ribbon then parameter.__hash__
+      when Hash then parameter
       else raise ArgumentError, "Couldn't extract hash from #{ribbon.inspect}"
     end
   end
