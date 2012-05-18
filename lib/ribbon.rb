@@ -203,6 +203,7 @@ class << Ribbon
   # Converts hashes to ribbons. Will look inside arrays.
   #
   # @param object the object to convert
+  # @return the converted value
   def convert(object)
     case object
       when Hash then Ribbon.new object
