@@ -195,6 +195,8 @@ end
 
 class << Ribbon
 
+  alias [] new
+
   # Proc used to store a new Ribbon instance as the value of a missing key.
   #
   # @return [Proc] the proc used when constructing new hashes
@@ -353,11 +355,6 @@ class << Ribbon
   def from_yaml(string)
     Ribbon.new YAML.load(string)
   end
-
-  # Creates a new Ribbon instance.
-  #
-  #   Ribbon[a: :a, b: :b, c: :c]
-  alias [] new
 
   private
 
