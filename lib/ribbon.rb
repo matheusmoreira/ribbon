@@ -166,7 +166,6 @@ class Ribbon < BasicObject
     __to_s_recursive__ ::Ribbon.extract_hash_from(opts)
   end
 
-  # Same as #to_s.
   alias inspect to_s
 
   private
