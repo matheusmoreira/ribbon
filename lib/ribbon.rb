@@ -360,11 +360,16 @@ class << Ribbon
 
   # Common logic for deep merge methods. +merge_method+ should be either
   # +:merge+ or +:merge!+, and denotes which method will be used to merge
-  # recursively. +args+ will be forwarded to the merge method.
+  # recursively.
   #
-  # If given a block, it will be called with the key, the old value and the
-  # new value as parameters and its return value will be used. The value of
-  # the new hash will be used, otherwise.
+  # @yieldparam key the key which identifies both values
+  # @yieldparam old_value the value from old_ribbon
+  # @yieldparam new_value the value from new_ribbon
+  # @yieldreturn the object that will be used as the new value
+  # @see merge!
+  # @see merge
+  # @see deep_merge
+  # @see deep_merge!
   def deep(merge_method, old_ribbon, new_ribbon, &block)
     send merge_method, old_ribbon, new_ribbon do |key, old_value, new_value|
       if instance?(old_value) and instance?(new_value)
