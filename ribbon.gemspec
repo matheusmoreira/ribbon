@@ -17,5 +17,6 @@ Gem::Specification.new('ribbon') do |gem|
   gem.files       = `git ls-files`.split "\n"
 
   gem.add_development_dependency 'rookie'
+  gem.add_development_dependency 'yard'
 
 end
