@@ -58,6 +58,7 @@ class Ribbon < BasicObject
   # The hash used internally.
   #
   # @return [Hash] the hash used by this Ribbon instance to store data
+  # @api private
   def __hash__
     @hash ||= (::Hash.new &::Ribbon.default_value_proc)
   end
