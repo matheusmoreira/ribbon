@@ -266,8 +266,18 @@ class << Ribbon
     old_ribbon
   end
 
-  # Merges the +new_ribbon+ and all nested ribbons with the +old_ribbon+
-  # recursively, returning a new ribbon.
+  # Merges all ribbons inside the given ribbons.
+  #
+  # @param [Ribbon, Ribbon::Wrapper, Hash] old_ribbon the ribbon with old values
+  # @param [Ribbon, Ribbon::Wrapper, Hash] new_ribbon the ribbon with new values
+  # @return [Ribbon] a new ribbon containing the results of the merge
+  # @yieldparam key the key which identifies both values
+  # @yieldparam old_value the value from old_ribbon
+  # @yieldparam new_value the value from new_ribbon
+  # @yieldreturn the object that will be used as the new value
+  # @see merge
+  # @see deep_merge!
+  # @see extract_hash_from
   def deep_merge(old_ribbon, new_ribbon, &block)
     deep :merge, old_ribbon, new_ribbon, &block
   end
