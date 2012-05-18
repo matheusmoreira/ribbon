@@ -299,7 +299,10 @@ class << Ribbon
     deep :merge!, old_ribbon, new_ribbon, &block
   end
 
-  # Returns +true+ if the given +object+ is a ribbon.
+  # Tests whether the given object is an instance of Ribbon.
+  #
+  # @param object the object to be tested
+  # @return [true, false] whether the object is an instance of Ribbon
   def instance?(object)
     Ribbon === object
   end
