@@ -7,8 +7,8 @@ require 'ribbon/version'
 Gem::Specification.new('ribbon') do |gem|
 
   gem.version     = Ribbon::Version::STRING
-  gem.summary     = 'Ruby Object Notation.'
-  gem.description = "#{gem.summary} Inspired by JSON and OpenStruct."
+  gem.summary     = 'Ruby Object Notation'
+  gem.description = "#{gem.summary} – Inspired by JSON and OpenStruct"
   gem.homepage    = 'https://github.com/matheusmoreira/ribbon'
 
   gem.author = 'Matheus Afonso Martins Moreira'
