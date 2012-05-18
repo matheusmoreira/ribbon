@@ -70,7 +70,8 @@ class Ribbon < BasicObject
   #
   # All objects inside the hash will be converted.
   #
-  # @param [#to_hash, Ribbon, Ribbon::Wrapper] hash the hash with the initial values
+  # @param [#to_hash, Ribbon, Ribbon::Wrapper] hash the hash with the initial
+  #                                                 values
   # @see CoreExt::BasicObject#__yield_or_eval__
   # @see convert_all!
   def initialize(hash = {}, &block)
