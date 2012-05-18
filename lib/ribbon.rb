@@ -156,126 +156,6 @@ class Ribbon < BasicObject
   # Same as #to_s.
   alias inspect to_s
 
-  class << self
-
-    # A Proc which returns a new ribbon as the default value for the given hash
-    # key.
-    def default_value_proc
-      @default_value_proc ||= (proc { |hash, key| hash[key] = Ribbon.new })
-    end
-
-    # If <tt>object</tt> is a hash, converts it to a ribbon. If it is an array,
-    # converts any hashes inside.
-    def convert(object)
-      case object
-        when Hash then Ribbon.new object
-        when Array then object.map { |element| convert element }
-        else object
-      end
-    end
-
-    # Converts all values in the given ribbon.
-    def convert_all!(ribbon)
-      ribbon.__hash__.each do |key, value|
-        ribbon[key] = case value
-          when Ribbon then convert_all! value
-          when Ribbon::Wrapper then convert_all! value.ribbon
-          else convert value
-        end
-      end
-      ribbon
-    end
-
-    # Merges the hash of +new_ribbon+ with the hash of +old_ribbon+, creating a
-    # new ribbon in the process.
-    def merge(old_ribbon, new_ribbon, &block)
-      old_hash = extract_hash_from old_ribbon
-      new_hash = extract_hash_from new_ribbon
-      merged_hash = old_hash.merge new_hash, &block
-      Ribbon.new merged_hash
-    end
-
-    # Merges the hash of +new_ribbon+ with the hash of +old_ribbon+, modifying
-    # +old_ribbon+'s hash in the process.
-    def merge!(old_ribbon, new_ribbon, &block)
-      old_hash = extract_hash_from old_ribbon
-      new_hash = extract_hash_from new_ribbon
-      old_hash.merge! new_hash, &block
-      old_ribbon
-    end
-
-    # Merges the +new_ribbon+ and all nested ribbons with the +old_ribbon+
-    # recursively, returning a new ribbon.
-    def deep_merge(old_ribbon, new_ribbon, &block)
-      deep :merge, old_ribbon, new_ribbon, &block
-    end
-
-    # Merges the +new_ribbon+ and all nested ribbons with the +old_ribbon+
-    # recursively, modifying all ribbons in place.
-    def deep_merge!(old_ribbon, new_ribbon, &block)
-      deep :merge!, old_ribbon, new_ribbon, &block
-    end
-
-    # Returns +true+ if the given +object+ is a ribbon.
-    def instance?(object)
-      Ribbon === object
-    end
-
-    # Returns +true+ if the given ribbon is wrapped.
-    def wrapped?(ribbon)
-      Ribbon::Wrapper === ribbon
-    end
-
-    # Wraps a ribbon instance in a Ribbon::Wrapper.
-    def wrap(ribbon = ::Ribbon.new)
-      Ribbon::Wrapper.new ribbon
-    end
-
-    # Returns the hash of the given wrapped or unwrapped +ribbon+.
-    #
-    # Raises ArgumentError if given an unsupported argument.
-    def extract_hash_from(ribbon)
-      case ribbon
-        when Ribbon::Wrapper then ribbon.internal_hash
-        when Ribbon then ribbon.__hash__
-        when Hash then ribbon
-        else raise ArgumentError, "Couldn't extract hash from #{ribbon.inspect}"
-      end
-    end
-
-    # Deserializes the hash from the +string+ using YAML and uses it to
-    # construct a new ribbon.
-    def from_yaml(string)
-      Ribbon.new YAML.load(string)
-    end
-
-    # Creates a new Ribbon instance.
-    #
-    #   Ribbon[a: :a, b: :b, c: :c]
-    alias [] new
-
-    private
-
-    # Common logic for deep merge methods. +merge_method+ should be either
-    # +:merge+ or +:merge!+, and denotes which method will be used to merge
-    # recursively. +args+ will be forwarded to the merge method.
-    #
-    # If given a block, it will be called with the key, the old value and the
-    # new value as parameters and its return value will be used. The value of
-    # the new hash will be used, otherwise.
-    def deep(merge_method, old_ribbon, new_ribbon, &block)
-      send merge_method, old_ribbon, new_ribbon do |key, old_value, new_value|
-        if instance?(old_value) and instance?(new_value)
-          deep merge_method, old_value, new_value, &block
-        else
-          if block then block.call key, old_value, new_value
-          else new_value end
-        end
-      end
-    end
-
-  end
-
   private
 
   # Computes a string value recursively for the given ribbon and all ribbons
@@ -292,6 +172,126 @@ class Ribbon < BasicObject
       "#{k}#{separator}#{v}"
     end.join ', '
     "{#{values}}"
+  end
+
+end
+
+class << Ribbon
+
+  # A Proc which returns a new ribbon as the default value for the given hash
+  # key.
+  def default_value_proc
+    @default_value_proc ||= (proc { |hash, key| hash[key] = Ribbon.new })
+  end
+
+  # If <tt>object</tt> is a hash, converts it to a ribbon. If it is an array,
+  # converts any hashes inside.
+  def convert(object)
+    case object
+      when Hash then Ribbon.new object
+      when Array then object.map { |element| convert element }
+      else object
+    end
+  end
+
+  # Converts all values in the given ribbon.
+  def convert_all!(ribbon)
+    ribbon.__hash__.each do |key, value|
+      ribbon[key] = case value
+        when Ribbon then convert_all! value
+        when Ribbon::Wrapper then convert_all! value.ribbon
+        else convert value
+      end
+    end
+    ribbon
+  end
+
+  # Merges the hash of +new_ribbon+ with the hash of +old_ribbon+, creating a
+  # new ribbon in the process.
+  def merge(old_ribbon, new_ribbon, &block)
+    old_hash = extract_hash_from old_ribbon
+    new_hash = extract_hash_from new_ribbon
+    merged_hash = old_hash.merge new_hash, &block
+    Ribbon.new merged_hash
+  end
+
+  # Merges the hash of +new_ribbon+ with the hash of +old_ribbon+, modifying
+  # +old_ribbon+'s hash in the process.
+  def merge!(old_ribbon, new_ribbon, &block)
+    old_hash = extract_hash_from old_ribbon
+    new_hash = extract_hash_from new_ribbon
+    old_hash.merge! new_hash, &block
+    old_ribbon
+  end
+
+  # Merges the +new_ribbon+ and all nested ribbons with the +old_ribbon+
+  # recursively, returning a new ribbon.
+  def deep_merge(old_ribbon, new_ribbon, &block)
+    deep :merge, old_ribbon, new_ribbon, &block
+  end
+
+  # Merges the +new_ribbon+ and all nested ribbons with the +old_ribbon+
+  # recursively, modifying all ribbons in place.
+  def deep_merge!(old_ribbon, new_ribbon, &block)
+    deep :merge!, old_ribbon, new_ribbon, &block
+  end
+
+  # Returns +true+ if the given +object+ is a ribbon.
+  def instance?(object)
+    Ribbon === object
+  end
+
+  # Returns +true+ if the given ribbon is wrapped.
+  def wrapped?(ribbon)
+    Ribbon::Wrapper === ribbon
+  end
+
+  # Wraps a ribbon instance in a Ribbon::Wrapper.
+  def wrap(ribbon = ::Ribbon.new)
+    Ribbon::Wrapper.new ribbon
+  end
+
+  # Returns the hash of the given wrapped or unwrapped +ribbon+.
+  #
+  # Raises ArgumentError if given an unsupported argument.
+  def extract_hash_from(ribbon)
+    case ribbon
+      when Ribbon::Wrapper then ribbon.internal_hash
+      when Ribbon then ribbon.__hash__
+      when Hash then ribbon
+      else raise ArgumentError, "Couldn't extract hash from #{ribbon.inspect}"
+    end
+  end
+
+  # Deserializes the hash from the +string+ using YAML and uses it to
+  # construct a new ribbon.
+  def from_yaml(string)
+    Ribbon.new YAML.load(string)
+  end
+
+  # Creates a new Ribbon instance.
+  #
+  #   Ribbon[a: :a, b: :b, c: :c]
+  alias [] new
+
+  private
+
+  # Common logic for deep merge methods. +merge_method+ should be either
+  # +:merge+ or +:merge!+, and denotes which method will be used to merge
+  # recursively. +args+ will be forwarded to the merge method.
+  #
+  # If given a block, it will be called with the key, the old value and the
+  # new value as parameters and its return value will be used. The value of
+  # the new hash will be used, otherwise.
+  def deep(merge_method, old_ribbon, new_ribbon, &block)
+    send merge_method, old_ribbon, new_ribbon do |key, old_value, new_value|
+      if instance?(old_value) and instance?(new_value)
+        deep merge_method, old_value, new_value, &block
+      else
+        if block then block.call key, old_value, new_value
+        else new_value end
+      end
+    end
   end
 
 end
