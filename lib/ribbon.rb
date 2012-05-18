@@ -193,8 +193,9 @@ end
 
 class << Ribbon
 
-  # A Proc which returns a new ribbon as the default value for the given hash
-  # key.
+  # Proc used to store a new Ribbon instance as the value of a missing key.
+  #
+  # @return [Proc] the proc used when constructing new hashes
   def default_value_proc
     @default_value_proc ||= (proc { |hash, key| hash[key] = Ribbon.new })
   end
