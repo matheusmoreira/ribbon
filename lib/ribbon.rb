@@ -85,6 +85,7 @@ class Ribbon < BasicObject
   # If given a block, the value will be yielded to it. If the block doesn't take
   # any arguments, it will be evaluated in the context of the value.
   #
+  # @param key the key which identifies the value
   # @return the value associated with the given key
   # @see CoreExt::BasicObject#__yield_or_eval__
   def [](key, &block)
