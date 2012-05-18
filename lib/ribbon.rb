@@ -323,9 +323,10 @@ class << Ribbon
     Ribbon::Wrapper.new object
   end
 
-  # Returns the hash of the given wrapped or unwrapped +ribbon+.
+  # Returns the hash of a Ribbon. Will attempt to convert other objects.
   #
-  # Raises ArgumentError if given an unsupported argument.
+  # @param [Ribbon, Ribbon::Wrapper, #to_hash] parameter the object to convert
+  # @return [Hash] the resulting hash
   def extract_hash_from(parameter)
     case parameter
       when Ribbon::Wrapper then parameter.internal_hash
