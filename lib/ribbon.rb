@@ -79,10 +79,13 @@ class Ribbon < BasicObject
    ::Ribbon.convert_all! self
   end
 
-  # Returns the value associated with the given +key+.
+  # Fetches the value associated with the given key.
   #
-  # If given a block, the value will be yielded to it. However, if the block
-  # takes zero arguments, it will be evaluated in the context of the value.
+  # If given a block, the value will be yielded to it. If the block doesn't take
+  # any arguments, it will be evaluated in the context of the value.
+  #
+  # @return the value associated with the given key
+  # @see CoreExt::BasicObject#__yield_or_eval__
   def [](key, &block)
     value = ::Ribbon.convert __hash__[key]
     value.__yield_or_eval__ &block
