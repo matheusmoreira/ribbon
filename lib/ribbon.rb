@@ -90,7 +90,7 @@ class Ribbon < BasicObject
     self[key] = value
   end
 
-  # Associates the given +values+ with the given +key+.
+  # Associates the given values with the given key.
   #
   #   ribbon = Ribbon.new
   #
@@ -101,6 +101,9 @@ class Ribbon < BasicObject
   #   ribbon[:key] = :multiple, :values
   #   ribbon[:key]
   #   # => [:multiple, :values]
+  #
+  # @param key the key that will identify the values
+  # @param values the values that will be associated with the key
   def []=(key, *values)
     __hash__[key] = if values.size == 1 then values.first else values end
   end
