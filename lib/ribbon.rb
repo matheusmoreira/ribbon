@@ -171,9 +171,11 @@ class Ribbon < BasicObject
 
   private
 
-  # Computes a string value recursively for the given ribbon and all ribbons
-  # inside it.
-  def __to_s_recursive__(opts, ribbon = self)
+  # Computes a string value recursively for the given ribbon, and all ribbons
+  # inside it, using the given options.
+  #
+  # @see #to_s
+  def __to_s_recursive__(opts = {}, ribbon = self)
     ksym = opts.fetch(:key,   :to_s).to_sym
     vsym = opts.fetch(:value, :inspect).to_sym
     separator = opts.fetch(:separator, ': ').to_s
