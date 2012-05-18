@@ -53,7 +53,7 @@ class Ribbon < BasicObject
     # not defined in the Ribbon itself.
     def initialize(ribbon = Ribbon.new, &block)
       self.ribbon = ribbon
-      if block.arity.zero? then instance_eval &block else block.call self end if block
+      __yield_or_eval__ &block
     end
 
     # Returns the hash of the wrapped ribbon.
