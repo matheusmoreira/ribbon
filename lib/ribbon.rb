@@ -65,9 +65,8 @@ class Ribbon < BasicObject
 
   # Initializes a new ribbon.
   #
-  # If given a block, the ribbon will be yielded to it. However, if the block
-  # doesn't take any arguments, it will be evaluated in the context of the
-  # ribbon.
+  # If given a block, the ribbon will be yielded to it. If the block doesn't
+  # take any arguments, it will be evaluated in the context of the ribbon.
   #
   # All objects inside the hash will be converted.
   #
