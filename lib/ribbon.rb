@@ -238,6 +238,7 @@ class << Ribbon
   # @yieldparam old_value the value from old_ribbon
   # @yieldparam new_value the value from new_ribbon
   # @yieldreturn the object that will be used as the new value
+  # @see merge!
   # @see extract_hash_from
   def merge(old_ribbon, new_ribbon, &block)
     old_hash = extract_hash_from old_ribbon
@@ -256,6 +257,7 @@ class << Ribbon
   # @yieldparam old_value the value from old_ribbon
   # @yieldparam new_value the value from new_ribbon
   # @yieldreturn the object that will be used as the new value
+  # @see merge
   # @see extract_hash_from
   def merge!(old_ribbon, new_ribbon, &block)
     old_hash = extract_hash_from old_ribbon
