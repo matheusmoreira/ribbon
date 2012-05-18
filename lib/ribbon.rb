@@ -150,7 +150,7 @@ class Ribbon < BasicObject
   # [:value]      Symbol that will be sent to the value in order to obtain its
   #               string representation. Default is <tt>:inspect</tt>.
   def to_s(opts = {})
-    __to_s_recursive__ opts
+    __to_s_recursive__ ::Ribbon.extract_hash_from(opts)
   end
 
   # Same as #to_s.
