@@ -345,8 +345,11 @@ class << Ribbon
     end
   end
 
-  # Deserializes the hash from the +string+ using YAML and uses it to
-  # construct a new ribbon.
+  # Deserializes the hash from the string using YAML and uses it to construct a
+  # new ribbon.
+  #
+  # @param [String] string a valid YAML string
+  # @return [Ribbon] a new Ribbon
   def from_yaml(string)
     Ribbon.new YAML.load(string)
   end
