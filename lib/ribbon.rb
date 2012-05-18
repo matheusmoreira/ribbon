@@ -200,8 +200,9 @@ class << Ribbon
     @default_value_proc ||= (proc { |hash, key| hash[key] = Ribbon.new })
   end
 
-  # If <tt>object</tt> is a hash, converts it to a ribbon. If it is an array,
-  # converts any hashes inside.
+  # Converts hashes to ribbons. Will look inside arrays.
+  #
+  # @param object the object to convert
   def convert(object)
     case object
       when Hash then Ribbon.new object
