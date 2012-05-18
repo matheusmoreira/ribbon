@@ -266,7 +266,7 @@ class << Ribbon
     old_ribbon
   end
 
-  # Merges all ribbons inside the given ribbons.
+  # Merges everything inside the given ribbons.
   #
   # @param [Ribbon, Ribbon::Wrapper, Hash] old_ribbon the ribbon with old values
   # @param [Ribbon, Ribbon::Wrapper, Hash] new_ribbon the ribbon with new values
@@ -282,7 +282,7 @@ class << Ribbon
     deep :merge, old_ribbon, new_ribbon, &block
   end
 
-  # Merges all ribbons inside the given ribbons in place.
+  # Merges everything inside the given ribbons in place.
   #
   # @param [Ribbon, Ribbon::Wrapper, Hash] old_ribbon the ribbon with old values
   # @param [Ribbon, Ribbon::Wrapper, Hash] new_ribbon the ribbon with new values
