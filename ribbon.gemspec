@@ -18,5 +18,6 @@ Gem::Specification.new('ribbon') do |gem|
 
   gem.add_development_dependency 'rookie'
   gem.add_development_dependency 'yard'
+  gem.add_development_dependency 'redcarpet' # yard uses it for markdown formatting
 
 end
