@@ -162,6 +162,7 @@ class Ribbon < BasicObject
   # @option opts [Symbol] :value     Will be sent to the value in order to
   #                                  convert it to a string. Default is
   #                                  <tt>:inspect</tt>.
+  # @return [String] the string representation of this ribbon
   def to_s(opts = {})
     __to_s_recursive__ ::Ribbon.extract_hash_from(opts)
   end
