@@ -167,8 +167,8 @@ class Ribbon < BasicObject
     values = ribbon.__hash__.map do |k, v|
       k = k.ribbon if ::Ribbon.wrapped? k
       v = v.ribbon if ::Ribbon.wrapped? v
-      k = if ::Ribbon.instance? k then __to_s_recursive__ opts, k else k.send ksym end
-      v = if ::Ribbon.instance? v then __to_s_recursive__ opts, v else v.send vsym end
+      k = if ::Ribbon.instance? k then __to_s_recursive__ opts, k else k.__send__ ksym end
+      v = if ::Ribbon.instance? v then __to_s_recursive__ opts, v else v.__send__ vsym end
       "#{k}#{separator}#{v}"
     end.join ', '
     "{#{values}}"
