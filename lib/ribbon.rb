@@ -315,9 +315,12 @@ class << Ribbon
     Ribbon::Wrapper === ribbon
   end
 
-  # Wraps a ribbon instance in a Ribbon::Wrapper.
-  def wrap(ribbon = ::Ribbon.new)
-    Ribbon::Wrapper.new ribbon
+  # Wraps an object in a {Ribbon::Wrapper}.
+  #
+  # @param [Ribbon, Ribbon::Wrapper, Hash] object the object to be wrapped
+  # @return [Ribbon::Wrapper] a new wrapped ribbon
+  def wrap(object = ::Ribbon.new)
+    Ribbon::Wrapper.new object
   end
 
   # Returns the hash of the given wrapped or unwrapped +ribbon+.
