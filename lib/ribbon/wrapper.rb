@@ -197,7 +197,7 @@ class Ribbon < BasicObject
 
     # Wraps a Ribbon instance.
     #
-    #   Ribbon::Wrapper[ribbon]
+    # @see #initialize
     alias [] new
 
     # Deserializes the hash from the +string+ using YAML and uses it to
