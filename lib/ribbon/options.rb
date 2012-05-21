@@ -19,10 +19,13 @@ class Ribbon < BasicObject
   # @since 0.6.0
   class Options < BasicObject
 
-    # Applies the given options to all methods sent to the receiver.
+    # Applies the given options to all methods sent to the receiver. Will apply
+    # the block immediately, if given one.
     #
-    # Will apply the block immediately, if given one.
-    #
+    # @param receiver the object that will be receiving the methods
+    # @param [Ribbon, Ribbon::Wrapper, #to_hash] options the options that will
+    #                                                    be applied to all
+    #                                                    methods
     # @see CoreExt::BasicObject#__yield_or_eval__
     def initialize(receiver, options = {}, &block)
       @receiver, @options = receiver, options
