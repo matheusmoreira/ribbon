@@ -43,9 +43,8 @@ class Ribbon < BasicObject
     def ribbon=(ribbon)
       @ribbon = case ribbon
         when Wrapper then ribbon.ribbon
-        when Hash then Ribbon.new ribbon
         when Ribbon then ribbon
-        else raise ArgumentError, "Can't wrap #{ribbon.class}"
+        else Ribbon.new ribbon.to_hash
       end
     end
 
