@@ -125,6 +125,8 @@ class Ribbon < BasicObject
     end
 
     # Converts the wrapped Ribbon and all ribbons inside into hashes.
+    #
+    # @return [Hash] the converted contents of this wrapped Ribbon
     def to_hash
       to_hash_recursive
     end
