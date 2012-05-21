@@ -95,8 +95,17 @@ class Ribbon < BasicObject
       Ribbon.wrap Ribbon.deep_merge(self, ribbon, &block)
     end
 
-    # Merges the +new_ribbon+ and all nested ribbons with the +old_ribbon+
-    # recursively, modifying all ribbons in place.
+    # Merges this wrapped Ribbon with the given Ribbon.
+    #
+    # @param [Ribbon, Ribbon::Wrapper, #to_hash] ribbon the ribbon with new
+    #                                                   values
+    # @return [self] this Ribbon::Wrapper instance
+    # @yieldparam key the key which identifies both values
+    # @yieldparam old_value the value from this wrapped Ribbon
+    # @yieldparam new_value the value from the given ribbon
+    # @yieldreturn the object that will be used as the new value
+    # @see #deep_merge
+    # @see Ribbon.deep_merge!
     def deep_merge!(ribbon, &block)
       Ribbon.deep_merge! self, ribbon, &block
     end
