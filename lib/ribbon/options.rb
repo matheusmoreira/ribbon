@@ -7,13 +7,16 @@ class Ribbon < BasicObject
   #
   #   Ribbon::Options.new(object, option: :value) do
   #     method_with some: :settings  # equivalent to { some: :settings, option: :value }
-  #     override option: :another_value
+  #     overrides option: { with: :another_value }
   #   end
   #
   #   Ribbon::Options.apply_to(Ribbon.new, separator: '->') do |ribbon|
   #     ribbon.to_s
   #     ribbon.inspect
   #   end
+  #
+  # @author Matheus Afonso Martins Moreira
+  # @since 0.6.0
   class Options < BasicObject
 
     # Applies the given options to all methods sent to the receiver.
