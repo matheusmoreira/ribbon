@@ -33,13 +33,19 @@ class Ribbon < BasicObject
   #   wrapper.unwrap_all!
   class Wrapper
 
-    # The wrapped Ribbon object.
+    # @!attribute [r] ribbon
+    #
+    #   The wrapped Ribbon.
+    #
+    #   @return [Ribbon] the ribbon wrapped by this instance
     attr :ribbon
 
-    # Wraps +ribbon+. If it is already wrapped, uses the wrapped ribbon as this
-    # wrapper's ribbon. If it is a hash, creates a new Ribbon with its data.
+    # @!attribute [w] ribbon
     #
-    # Raises ArgumentError if given something unsupported.
+    #   Wraps a Ribbon, another Wrapper's Ribbon or a hash.
+    #
+    #   @param [Ribbon, Ribbon::Wrapper, #to_hash] ribbon the ribbon to wrap
+    #   @return the wrapped Ribbon
     def ribbon=(ribbon)
       @ribbon = case ribbon
         when Wrapper then ribbon.ribbon
