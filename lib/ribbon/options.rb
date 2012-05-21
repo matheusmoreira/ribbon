@@ -21,7 +21,9 @@ class Ribbon < BasicObject
 
     # Applies the given options to all methods sent to the receiver.
     #
-    # Will #apply the block immediately, if given one.
+    # Will apply the block immediately, if given one.
+    #
+    # @see CoreExt::BasicObject#__yield_or_eval__
     def initialize(receiver, options = {}, &block)
       @receiver, @options = receiver, options
       __yield_or_eval__ &block
