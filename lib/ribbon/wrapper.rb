@@ -5,12 +5,12 @@ class Ribbon < BasicObject
   # Wraps a Ribbon in order to provide general-purpose methods.
   #
   # Ribbons are designed to use methods as hash keys. In order to maximize the
-  # number of possibilities, many useful methods were left out of the ribbon
-  # class and implemented in this wrapper class instead.
+  # number of possibilities, many useful methods, including methods from Object,
+  # were left out and included in this class instead.
   #
-  # This class lets you to use ribbons like an ordinary hash. Any undefined
-  # methods will be sent to the ribbon's hash. If the hash doesn't respond to
-  # the method, it will be sent to the ribbon itself.
+  # You can use wrapped ribbons like an ordinary hash. Any undefined methods
+  # will be sent to the ribbon's hash. If the hash doesn't respond to the
+  # method, it will be sent to the ribbon itself.
   #
   #   wrapper = Ribbon::Wrapper.new
   #
@@ -30,6 +30,8 @@ class Ribbon < BasicObject
   #
   #   wrapper.wrap_all!
   #   wrapper.unwrap_all!
+  # @author Matheus Afonso Martins Moreira
+  # @see Ribbon
   class Wrapper
 
     # The wrapped Ribbon.
