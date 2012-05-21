@@ -131,14 +131,10 @@ class Ribbon < BasicObject
       to_hash_recursive
     end
 
-    # Converts the wrapped ribbon to a hash and serializes it with YAML. To get
-    # a Ribbon back from the serialized hash, you can simply load the hash and
-    # pass it to the Ribbon constructor:
+    # Converts the wrapped ribbon to a hash and serializes it with YAML.
     #
-    #   ribbon = Ribbon.new YAML.load(str)
-    #
-    # Alternatively, you can pass a YAML string to the Wrapper::from_yaml
-    # method.
+    # @return [String] the YAML string that represents this Ribbon
+    # @see from_yaml
     def to_yaml
       to_hash.to_yaml
     end
