@@ -41,7 +41,9 @@ class Ribbon < BasicObject
 
   class << Options
 
-    # Same as #new.
+    # Applies options to all method calls.
+    #
+    # @see #initialize
     alias apply_to new
 
   end
