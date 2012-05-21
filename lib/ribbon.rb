@@ -50,6 +50,7 @@ end
 #   r['/some/path'].entries = []
 #
 # @author Matheus Afonso Martins Moreira
+# @since 0.1.0
 # @see Ribbon::Wrapper
 class Ribbon < BasicObject
 
