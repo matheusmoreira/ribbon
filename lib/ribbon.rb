@@ -173,6 +173,7 @@ class Ribbon < BasicObject
   # Computes a string value recursively for the given ribbon, and all ribbons
   # inside it, using the given options.
   #
+  # @since 0.3.0
   # @see #to_s
   def __to_s_recursive__(opts = {}, ribbon = self)
     ksym = opts.fetch(:key,   :to_s).to_sym
@@ -197,6 +198,7 @@ class << Ribbon
   # Proc used to store a new Ribbon instance as the value of a missing key.
   #
   # @return [Proc] the proc used when constructing new hashes
+  # @since 0.4.6
   def default_value_proc
     @default_value_proc ||= (proc { |hash, key| hash[key] = Ribbon.new })
   end
@@ -205,6 +207,7 @@ class << Ribbon
   #
   # @param object the object to convert
   # @return the converted value
+  # @since 0.2.0
   def convert(object)
     case object
       when Hash then Ribbon.new object
@@ -218,6 +221,7 @@ class << Ribbon
   # @param [Ribbon, Ribbon::Wrapper] ribbon the ribbon whose values are to be
   #                                         converted
   # @return [Ribbon, Ribbon::Wrapper] the ribbon with all values converted
+  # @since 0.2.0
   # @see convert
   def convert_all!(ribbon)
     ribbon.__hash__.each do |key, value|
@@ -241,6 +245,7 @@ class << Ribbon
   # @yieldparam old_value the value from old_ribbon
   # @yieldparam new_value the value from new_ribbon
   # @yieldreturn the object that will be used as the new value
+  # @since 0.3.0
   # @see merge!
   # @see extract_hash_from
   def merge(old_ribbon, new_ribbon, &block)
@@ -262,6 +267,7 @@ class << Ribbon
   # @yieldparam old_value the value from old_ribbon
   # @yieldparam new_value the value from new_ribbon
   # @yieldreturn the object that will be used as the new value
+  # @since 0.3.0
   # @see merge
   # @see extract_hash_from
   def merge!(old_ribbon, new_ribbon, &block)
@@ -282,6 +288,7 @@ class << Ribbon
   # @yieldparam old_value the value from old_ribbon
   # @yieldparam new_value the value from new_ribbon
   # @yieldreturn the object that will be used as the new value
+  # @since 0.4.5
   # @see merge
   # @see deep_merge!
   # @see extract_hash_from
@@ -301,6 +308,7 @@ class << Ribbon
   # @yieldparam old_value the value from old_ribbon
   # @yieldparam new_value the value from new_ribbon
   # @yieldreturn the object that will be used as the new value
+  # @since 0.4.5
   # @see merge!
   # @see deep_merge
   # @see extract_hash_from
@@ -312,6 +320,7 @@ class << Ribbon
   #
   # @param object the object to be tested
   # @return [true, false] whether the object is an instance of Ribbon
+  # @since 0.2.0
   def instance?(object)
     Ribbon === object
   end
@@ -320,6 +329,7 @@ class << Ribbon
   #
   # @param object the object to be tested
   # @return [true, false] whether the object is an instance of {Ribbon::Wrapper}
+  # @since 0.2.0
   def wrapped?(ribbon)
     Ribbon::Wrapper === ribbon
   end
@@ -328,6 +338,7 @@ class << Ribbon
   #
   # @param [Ribbon, Ribbon::Wrapper, #to_hash] object the object to be wrapped
   # @return [Ribbon::Wrapper] a new wrapped ribbon
+  # @since 0.2.0
   def wrap(object = ::Ribbon.new)
     Ribbon::Wrapper.new object
   end
@@ -336,6 +347,7 @@ class << Ribbon
   #
   # @param [Ribbon, Ribbon::Wrapper, #to_hash] parameter the object to convert
   # @return [Hash] the resulting hash
+  # @since 0.2.1
   def extract_hash_from(parameter)
     case parameter
       when Ribbon::Wrapper then parameter.internal_hash
@@ -349,6 +361,7 @@ class << Ribbon
   #
   # @param [String] string a valid YAML string
   # @return [Ribbon] a new Ribbon
+  # @since 0.4.7
   def from_yaml(string)
     Ribbon.new YAML.load(string)
   end
@@ -363,6 +376,7 @@ class << Ribbon
   # @yieldparam old_value the value from old_ribbon
   # @yieldparam new_value the value from new_ribbon
   # @yieldreturn the object that will be used as the new value
+  # @since 0.4.5
   # @see merge!
   # @see merge
   # @see deep_merge
