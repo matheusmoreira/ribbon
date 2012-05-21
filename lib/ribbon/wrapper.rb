@@ -111,6 +111,8 @@ class Ribbon < BasicObject
     end
 
     # Wraps all ribbons contained by this wrapper's ribbon.
+    #
+    # @return [self] this Ribbon::Wrapper instance
     def wrap_all!
       wrap_all_recursive!
     end
