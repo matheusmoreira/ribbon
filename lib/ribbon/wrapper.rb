@@ -33,11 +33,9 @@ class Ribbon < BasicObject
   #   wrapper.unwrap_all!
   class Wrapper
 
-    # @!attribute [r] ribbon
+    # The wrapped Ribbon.
     #
-    #   The wrapped Ribbon.
-    #
-    #   @return [Ribbon] the ribbon wrapped by this instance
+    # @return [Ribbon] the ribbon wrapped by this instance
     attr :ribbon
 
     # @!attribute [w] ribbon
