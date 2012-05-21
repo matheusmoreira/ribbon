@@ -82,6 +82,8 @@ class Ribbon < BasicObject
     # recursively, returning a new ribbon.
     def deep_merge(ribbon)
       Ribbon.wrap Ribbon.deep_merge(self, ribbon)
+    def deep_merge(ribbon, &block)
+      Ribbon.wrap Ribbon.deep_merge(self, ribbon, &block)
     end
 
     # Merges the +new_ribbon+ and all nested ribbons with the +old_ribbon+
