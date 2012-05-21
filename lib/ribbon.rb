@@ -47,7 +47,7 @@ end
 #
 # You can use any object as key with the <tt>[]</tt> and <tt>[]=</tt> operators:
 #
-#   r['/some/path'].entries = nil
+#   r['/some/path'].entries = []
 #
 # @author Matheus Afonso Martins Moreira
 # @see Ribbon::Wrapper
