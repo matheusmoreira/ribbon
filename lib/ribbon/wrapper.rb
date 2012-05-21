@@ -70,6 +70,7 @@ class Ribbon < BasicObject
     # The hash used by the wrapped Ribbon.
     #
     # @return [Hash] the internal hash of the Ribbon wrapped by this instance
+    # @since 0.5.0
     def internal_hash
       ribbon.__hash__
     end
@@ -92,6 +93,7 @@ class Ribbon < BasicObject
     # @yieldparam old_value the value from this wrapped Ribbon
     # @yieldparam new_value the value from the given ribbon
     # @yieldreturn the object that will be used as the new value
+    # @since 0.4.5
     # @see #deep_merge!
     # @see Ribbon.deep_merge
     def deep_merge(ribbon, &block)
@@ -107,6 +109,7 @@ class Ribbon < BasicObject
     # @yieldparam old_value the value from this wrapped Ribbon
     # @yieldparam new_value the value from the given ribbon
     # @yieldreturn the object that will be used as the new value
+    # @since 0.4.5
     # @see #deep_merge
     # @see Ribbon.deep_merge!
     def deep_merge!(ribbon, &block)
@@ -116,6 +119,7 @@ class Ribbon < BasicObject
     # Wraps all ribbons contained by this wrapper's ribbon.
     #
     # @return [self] this Ribbon::Wrapper instance
+    # @since 0.3.0
     def wrap_all!
       wrap_all_recursive!
     end
@@ -123,6 +127,7 @@ class Ribbon < BasicObject
     # Unwraps all ribbons contained by this wrapper's ribbon.
     #
     # @return [Ribbon] the Ribbon wrapped by this instance
+    # @since 0.3.0
     def unwrap_all!
       unwrap_all_recursive!
     end
@@ -171,6 +176,7 @@ class Ribbon < BasicObject
     # Recursively wraps all ribbons and hashes inside.
     #
     # @return [self] this Ribbon::Wrapper instance
+    # @since 0.3.0
     def wrap_all_recursive!(wrapper = self)
       (hash = wrapper.internal_hash).each do |key, value|
         hash[key] = case value
@@ -184,6 +190,7 @@ class Ribbon < BasicObject
     # Recursively unwraps all wrapped ribbons inside.
     #
     # @return [Ribbon] the Ribbon wrapped by this instance
+    # @since 0.3.0
     def unwrap_all_recursive!(ribbon = self.ribbon)
       ribbon.__hash__.each do |key, value|
         ribbon[key] = case value
@@ -207,6 +214,7 @@ class Ribbon < BasicObject
     # construct a new wrapped ribbon.
     #
     # @return [Ribbon::Wrapper] a new wrapped Ribbon
+    # @since 0.4.4
     # @see #to_yaml
     def from_yaml(string)
       ::Ribbon::Wrapper.new YAML.load(string)
