@@ -31,6 +31,7 @@ class Ribbon < BasicObject
   #   wrapper.wrap_all!
   #   wrapper.unwrap_all!
   # @author Matheus Afonso Martins Moreira
+  # @since 0.2.0
   # @see Ribbon
   class Wrapper
 
