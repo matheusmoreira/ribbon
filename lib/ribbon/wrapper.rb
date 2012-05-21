@@ -54,8 +54,13 @@ class Ribbon < BasicObject
       end
     end
 
-    # Wraps a Ribbon object, providing many general-purpose methods that were
-    # not defined in the Ribbon itself.
+    # Wraps the given Ribbon, another Wrapper's Ribbon or a hash.
+    #
+    # If given a block, the wrapper will be yielded to it. If the block doesn't
+    # take any arguments, it will be evaluated in the context of the wrapper.
+    #
+    # @see #ribbon=
+    # @see Ribbon#initialize
     def initialize(ribbon = Ribbon.new, &block)
       self.ribbon = ribbon
       __yield_or_eval__ &block
