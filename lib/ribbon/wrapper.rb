@@ -64,7 +64,9 @@ class Ribbon < BasicObject
       __yield_or_eval__ &block
     end
 
-    # Returns the hash of the wrapped ribbon.
+    # The hash used by the wrapped Ribbon.
+    #
+    # @return [Hash] the internal hash of the Ribbon wrapped by this instance
     def internal_hash
       ribbon.__hash__
     end
