@@ -2,57 +2,55 @@
   require file.prepend 'ribbon/'
 end
 
-# == Ruby Object Notation.
-#
-# ==== Inspired by JSON and OpenStruct.
-#
-# Ribbons are essentially hashes that use method calls as keys. This is done via
-# <tt>method_missing</tt>. On top of that, one may still use it as a
-# general-purpose hash, since the <tt>[key]</tt> and <tt>[key] = value</tt>
-# methods are defined.
-#
-# Ribbons support cascading references seamlessly. If you access a property that
-# hasn't been set, a new ribbon is created and returned, allowing you to
-# continue your calls:
+# Ribbons are essentially hashes that use method names as keys.
 #
 #   r = Ribbon.new
+#   r.key = :value
+#
+# If you access a property that hasn't been set, a new ribbon will be returned.
+# This allows you to easily work with nested structures:
+#
 #   r.a.b.c = 10
 #
 # You can also assign properties by passing an argument to the method:
 #
-#   r.a.b.c 10
+#   r.a.b.c 20
 #
 # If you pass a block, the value will be yielded:
 #
-#   r.a { |a| a.b { |b| b.c 10 } }
+#   r.a do |a|
+#     a.b do |b|
+#       b.c 30
+#     end
+#   end
 #
-# If the block passed takes no arguments, it will be <tt>instance_eval</tt>ed on
-# the value instead:
+# If the block passed takes no arguments, it will be <tt>instance_eval</tt>uated
+# in the context of the value instead:
 #
-#   r.a { b { c 10 } }
+#   r.a do
+#     b do
+#       c 40
+#     end
+#   end
 #
-# Appending a <tt>!</tt> to the end of the property sets the value and returns
-# the receiver:
+# Appending a bang (<tt>!</tt>) to the end of the property sets the value and
+# returns the receiver:
 #
-#   r.x!(10).y!(20).z!(30)    # Equivalent to: r.x = 10; r.y = 20; r.z = 30
+#   Ribbon.new.x!(10).y!(20).z!(30)
 #    => {x: 10, y: 20, z: 30}
 #
-# Appending a <tt>?</tt> to the end of the property allows you to peek at the
+# Appending a question mark (<tt>?</tt>) to the end of the property returns the
 # contents of the property without creating a new ribbon if it is missing:
 #
-#   r.p?
+#   r.unknown_property?
 #    => nil
 #
-# Seamless reference cascade using arbitrary keys are also supported via the
-# <tt>[key]</tt> and <tt>[key] = value</tt> operators, which allow you to
-# directly manipulate the internal hash:
+# You can use any object as key with the <tt>[]</tt> and <tt>[]=</tt> operators:
 #
-#   r[:j][:k][:l]
+#   r['/some/path'].entries = nil
 #
-# Keep in mind that the <tt>[key]</tt> operator will always create new ribbons
-# for missing properties, which is something that may not be desirable; consider
-# wrapping the ribbon with a Ribbon::Wrapper in order to have better access to
-# the underlying hash.
+# @author Matheus Afonso Martins Moreira
+# @see Ribbon::Wrapper
 class Ribbon < BasicObject
 
   # The hash used internally.
