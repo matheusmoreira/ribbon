@@ -1,7 +1,7 @@
 require 'ribbon/options'
 
 class Ribbon < BasicObject
-  module CoreExt
+  module CoreExtensions
 
     module Object
 
@@ -15,7 +15,7 @@ class Ribbon < BasicObject
 
     end
 
-    ::Object.send :include, ::Ribbon::CoreExt::Object
+    ::Object.send :include, ::Ribbon::CoreExtensions::Object
 
   end
 end

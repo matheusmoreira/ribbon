@@ -1,7 +1,10 @@
 class Ribbon < BasicObject
-  module CoreExt
+  module CoreExtensions
 
     # Some useful methods.
+    #
+    # @author Matheus Afonso Martins Moreira
+    # @since 0.6.0
     module BasicObject
 
       # Evaluates the block using +instance_eval+ if it takes no arguments;
@@ -12,7 +15,7 @@ class Ribbon < BasicObject
 
     end
 
-    ::BasicObject.send :include, ::Ribbon::CoreExt::BasicObject
+    ::BasicObject.send :include, ::Ribbon::CoreExtensions::BasicObject
 
   end
 end

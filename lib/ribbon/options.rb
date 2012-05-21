@@ -1,5 +1,5 @@
 require 'ribbon'
-require 'ribbon/core_ext/array'
+require 'ribbon/core_extensions/array'
 
 class Ribbon < BasicObject
 

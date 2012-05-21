@@ -1,4 +1,4 @@
-%w(core_ext/basic_object options version wrapper).each do |file|
+%w(core_extensions/basic_object options version wrapper).each do |file|
   require file.prepend 'ribbon/'
 end
 

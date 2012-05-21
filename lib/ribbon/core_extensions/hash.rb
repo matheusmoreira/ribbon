@@ -1,9 +1,12 @@
 require 'ribbon'
 
 class Ribbon < BasicObject
-  module CoreExt
+  module CoreExtensions
 
     # Includes methods to convert hashes to ribbons.
+    #
+    # @author Matheus Afonso Martins Moreira
+    # @since 0.6.0
     module Hash
 
       # Converts this hash to a Ribbon.
@@ -24,7 +27,7 @@ class Ribbon < BasicObject
 
     end
 
-    ::Hash.send :include, ::Ribbon::CoreExt::Hash
+    ::Hash.send :include, ::Ribbon::CoreExtensions::Hash
 
   end
 end

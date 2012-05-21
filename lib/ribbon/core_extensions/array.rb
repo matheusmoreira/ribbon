@@ -1,9 +1,12 @@
 require 'ribbon'
 
 class Ribbon < BasicObject
-  module CoreExt
+  module CoreExtensions
 
     # Methods to work with ribbons in arrays.
+    #
+    # @author Matheus Afonso Martins Moreira
+    # @since 0.6.0
     module Array
 
       # If the last argument is a hash, removes and converts it to a ribbon,
@@ -31,7 +34,7 @@ class Ribbon < BasicObject
 
     end
 
-    ::Array.send :include, ::Ribbon::CoreExt::Array
+    ::Array.send :include, ::Ribbon::CoreExtensions::Array
 
   end
 end
