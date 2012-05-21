@@ -139,7 +139,10 @@ class Ribbon < BasicObject
       to_hash.to_yaml
     end
 
-    # Delegates to Ribbon#to_s.
+    # Delegates to the wrapped Ribbon.
+    #
+    # @return [String] the string representation of this Ribbon::Wrapper
+    # @see Ribbon#to_s
     def to_s
       ribbon.to_s
     end
