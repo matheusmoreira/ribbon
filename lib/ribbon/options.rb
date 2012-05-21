@@ -21,11 +21,6 @@ class Ribbon < BasicObject
     # Will #apply the block immediately, if given one.
     def initialize(receiver, options = {}, &block)
       @receiver, @options = receiver, options
-      apply &block
-    end
-
-    # @see CoreExt::BasicObject.__yield_or_eval__
-    def apply(&block)
       __yield_or_eval__ &block
     end
 
