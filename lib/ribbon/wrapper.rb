@@ -2,7 +2,7 @@ require 'ribbon'
 
 class Ribbon < BasicObject
 
-  # Wraps around a Ribbon in order to provide general-purpose methods.
+  # Wraps a Ribbon in order to provide general-purpose methods.
   #
   # Ribbons are designed to use methods as hash keys. In order to maximize the
   # number of possibilities, many useful methods were left out of the ribbon
@@ -19,8 +19,7 @@ class Ribbon < BasicObject
   #   wrapper.keys
   #    => [:a]
   #
-  # Keep in mind that the wrapped hash may contain other ribbons, which may not
-  # be wrapped:
+  # Keep in mind that nested ribbons may or may not be wrapped:
   #
   #   wrapper.a.b.c.keys
   #    => {}
