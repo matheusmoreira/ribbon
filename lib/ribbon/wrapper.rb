@@ -118,6 +118,8 @@ class Ribbon < BasicObject
     end
 
     # Unwraps all ribbons contained by this wrapper's ribbon.
+    #
+    # @return [Ribbon] the Ribbon wrapped by this instance
     def unwrap_all!
       unwrap_all_recursive!
     end
