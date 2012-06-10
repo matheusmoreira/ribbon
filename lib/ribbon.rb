@@ -339,8 +339,8 @@ class << Ribbon
   # @param [Ribbon, Ribbon::Wrapper, #to_hash] object the object to be wrapped
   # @return [Ribbon::Wrapper] a new wrapped ribbon
   # @since 0.2.0
-  def wrap(object = ::Ribbon.new)
-    Ribbon::Wrapper.new object
+  def wrap(object = ::Ribbon.new, &block)
+    Ribbon::Wrapper.new object, &block
   end
 
   # Returns the hash of a Ribbon. Will attempt to convert other objects.
