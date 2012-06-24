@@ -6,7 +6,7 @@ class Ribbon < BasicObject
   #
   # @author Matheus Afonso Martins Moreira
   # @since 0.7.0
-  class Gem < Jewel::Gem
+  class Gem < ::Jewel::Gem
 
     root '../..'
 
