@@ -1,6 +1,11 @@
-%w(core_extensions/basic_object options version wrapper).each do |file|
-  require file.prepend 'ribbon/'
-end
+%w(
+
+ribbon/core_extensions/basic_object
+ribbon/gem
+ribbon/options
+ribbon/wrapper
+
+).each { |file| require file }
 
 # Ribbons are essentially hashes that use method names as keys.
 #
