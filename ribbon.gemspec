@@ -17,6 +17,8 @@ Gem::Specification.new 'ribbon' do |gem|
 
   gem.files = `git ls-files`.split "\n"
 
+  gem.add_runtime_dependency 'jewel'
+
   gem.add_development_dependency 'rookie'
   gem.add_development_dependency 'yard'
   gem.add_development_dependency 'redcarpet' # yard uses it for markdown formatting
