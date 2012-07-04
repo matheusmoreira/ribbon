@@ -109,7 +109,7 @@ class Ribbon
   # @param [Ribbon, Ribbon::Raw, #to_hash] ribbon the ribbon with new values
   # @return [Ribbon] a new ribbon containing the results of the deep merge
   # @yieldparam key the key which identifies both values
-  # @yieldparam old_value the value from this wrapped Ribbon
+  # @yieldparam old_value the value from this ribbon
   # @yieldparam new_value the value from the given ribbon
   # @yieldreturn the object that will be used as the new value
   # @since 0.8.0
@@ -124,7 +124,7 @@ class Ribbon
   # @param [Ribbon, Ribbon::Raw, #to_hash] ribbon the ribbon with new values
   # @return [self] this ribbon
   # @yieldparam key the key which identifies both values
-  # @yieldparam old_value the value from this wrapped Ribbon
+  # @yieldparam old_value the value from this ribbon
   # @yieldparam new_value the value from the given ribbon
   # @yieldreturn the object that will be used as the new value
   # @since 0.8.0
