@@ -56,6 +56,7 @@ class Ribbon
     #
     # @param key the key that will identify the values
     # @param values the values that will be associated with the key
+    # @raise [ArgumentError] if the given key is a raw ribbon
     # @example
     #   ribbon = Ribbon.new
     #
