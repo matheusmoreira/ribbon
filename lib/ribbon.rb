@@ -335,8 +335,8 @@ class << Ribbon
   # @param object the object to be tested
   # @return [true, false] whether the object is an instance of {Ribbon::Wrapper}
   # @since 0.2.0
-  def wrapped?(ribbon)
-    Ribbon::Wrapper === ribbon
+  def wrapped?(object)
+    Ribbon::Wrapper === object
   end
 
   # Wraps an object in a {Ribbon::Wrapper}.
