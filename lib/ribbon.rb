@@ -1,9 +1,8 @@
 %w(
 
-ribbon/core_extensions/basic_object
 ribbon/gem
 ribbon/options
-ribbon/wrapper
+ribbon/raw
 
 ).each { |file| require file }
 
@@ -56,308 +55,177 @@ ribbon/wrapper
 #
 # @author Matheus Afonso Martins Moreira
 # @since 0.1.0
-# @see Ribbon::Wrapper
-class Ribbon < BasicObject
+# @see Ribbon::Raw
+class Ribbon
 
-  # The hash used internally.
+  # The wrapped Ribbon.
   #
-  # @return [Hash] the hash used by this Ribbon instance to store data
-  # @api private
-  def __hash__
-    @hash ||= (::Hash.new &::Ribbon.default_value_proc)
+  # @return [Ribbon::Raw] the ribbon wrapped by this instance
+  # @since 0.8.0
+  def raw
+    @raw ||= Ribbon::Raw.new
   end
 
-  # Initializes a new ribbon.
+  # Sets this Ribbon's raw ribbon.
+  #
+  # @param [Ribbon, Ribbon::Raw, #to_hash] object the hash-like object
+  # @return [Ribbon::Raw] the raw ribbon
+  # @since 0.8.0
+  def raw=(object)
+    @raw = Ribbon.extract_raw_from object
+  end
+
+  # Initializes a new Ribbon with the given values
   #
   # If given a block, the ribbon will be yielded to it. If the block doesn't
   # take any arguments, it will be evaluated in the context of the ribbon.
   #
-  # All objects inside the hash will be converted.
-  #
-  # @param [#to_hash, Ribbon, Ribbon::Wrapper] hash the hash with the initial
-  #                                                 values
-  # @see CoreExt::BasicObject#__yield_or_eval__
-  # @see convert_all!
-  def initialize(hash = {}, &block)
-    __hash__.merge! ::Ribbon.extract_hash_from(hash)
+  # @param [Ribbon, Ribbon::Raw, #to_hash] initial_values the initial values
+  # @see #ribbon=
+  # @see Ribbon#initialize
+  def initialize(initial_values = Ribbon::Raw.new, &block)
+    self.raw = initial_values
     __yield_or_eval__ &block
-   ::Ribbon.convert_all! self
   end
 
-  # Fetches the value associated with the given key.
+  # The hash used by the wrapped Ribbon.
   #
-  # If given a block, the value will be yielded to it. If the block doesn't take
-  # any arguments, it will be evaluated in the context of the value.
-  #
-  # @param key the key which identifies the value
-  # @return the value associated with the given key
-  # @see CoreExt::BasicObject#__yield_or_eval__
-  def [](key, &block)
-    value = ::Ribbon.convert __hash__[key]
-    value.__yield_or_eval__ &block
-    self[key] = value
+  # @return [Hash] the internal hash of the Ribbon wrapped by this instance
+  # @since 0.5.0
+  def internal_hash
+    raw.__hash__
   end
 
-  # Associates the given values with the given key.
-  #
-  # @param key the key that will identify the values
-  # @param values the values that will be associated with the key
-  # @example
-  #   ribbon = Ribbon.new
-  #
-  #   ribbon[:key] = :value
-  #   ribbon[:key]
-  #   # => :value
-  #
-  #   ribbon[:key] = :multiple, :values
-  #   ribbon[:key]
-  #   # => [:multiple, :values]
-  def []=(key, *values)
-    __hash__[key] = if values.size == 1 then values.first else values end
+  # Forwards the method, arguments and block to the wrapped Ribbon's hash, if
+  # it responds to the method, or to the ribbon itself otherwise.
+  def method_missing(method, *arguments, &block)
+    if (hash = internal_hash).respond_to? method then hash
+    else raw end.__send__ method, *arguments, &block
   end
 
-  # Handles the following cases:
+  # Merges everything inside this ribbon with everything inside the given
+  # ribbon, creating a new instance in the process.
   #
-  #   ribbon.method                  =>  ribbon[method]
-  #   ribbon.method   value          =>  ribbon[method] = value
-  #   ribbon.method          &block  =>  ribbon[method, &block]
-  #   ribbon.method   value, &block  =>  ribbon[method] = value
-  #                                      ribbon[method, &block]
-  #
-  #   ribbon.method = value          =>  ribbon[method] = value
-  #
-  #   ribbon.method!  value          =>  ribbon[method] = value
-  #                                      self
-  #   ribbon.method!         &block  =>  ribbon[method, &block]
-  #                                      self
-  #   ribbon.method!  value, &block  =>  ribbon[method] = value
-  #                                      ribbon[method, &block]
-  #                                      self
-  #
-  #   ribbon.method?                 =>  ribbon.__hash__.fetch method
-  #   ribbon.method?  value          =>  ribbon.__hash__.fetch method, value
-  #   ribbon.method?         &block  =>  ribbon.__hash__.fetch method, &block
-  #   ribbon.method?  value, &block  =>  ribbon.__hash__.fetch method, value, &block
-  def method_missing(method, *args, &block)
-    method_string = method.to_s
-    key = method_string.strip.gsub(/[=?!]$/, '').strip.intern
-    case method_string[-1]
-      when ?=
-        __send__ :[]=, key, *args
-      when ?!
-        __send__ :[]=, key, *args unless args.empty?
-        self[key, &block]
-        self
-      when ??
-        begin self.__hash__.fetch key, *args, &block
-        rescue ::KeyError; nil end
-      else
-        __send__ :[]=, key, *args unless args.empty?
-        self[key, &block]
-    end
+  # @param [Ribbon, Ribbon::Raw, #to_hash] ribbon the ribbon with new values
+  # @return [Ribbon] a new ribbon containing the results of the deep merge
+  # @yieldparam key the key which identifies both values
+  # @yieldparam old_value the value from this wrapped Ribbon
+  # @yieldparam new_value the value from the given ribbon
+  # @yieldreturn the object that will be used as the new value
+  # @since 0.4.5
+  # @see #deep_merge!
+  # @see Ribbon.deep_merge
+  def deep_merge(ribbon, &block)
+    Ribbon.new Ribbon::Raw.deep_merge(self, ribbon, &block)
   end
 
-  # Generates a simple <tt>key: value</tt> string representation of this ribbon.
+  # Merges everything inside this ribbon with the given ribbon in place.
   #
-  # @option opts [String] :separator Separates the key/value pair.
-  #                                  Default is <tt>': '</tt>.
-  # @option opts [Symbol] :key       Will be sent to the key in order to convert
-  #                                  it to a string. Default is <tt>:to_s</tt>.
-  # @option opts [Symbol] :value     Will be sent to the value in order to
-  #                                  convert it to a string. Default is
-  #                                  <tt>:inspect</tt>.
+  # @param [Ribbon, Ribbon::Raw, #to_hash] ribbon the ribbon with new values
+  # @return [self] this ribbon
+  # @yieldparam key the key which identifies both values
+  # @yieldparam old_value the value from this wrapped Ribbon
+  # @yieldparam new_value the value from the given ribbon
+  # @yieldreturn the object that will be used as the new value
+  # @since 0.4.5
+  # @see #deep_merge
+  # @see Ribbon.deep_merge!
+  def deep_merge!(ribbon, &block)
+    Ribbon::Raw.deep_merge! self, ribbon, &block
+  end
+
+  # Converts this ribbon and all ribbons inside into hashes.
+  #
+  # @return [Hash] the converted contents of this wrapped ribbon
+  def to_hash
+    to_hash_recursive
+  end
+
+  # Converts this ribbon to a hash and serializes it with YAML.
+  #
+  # @return [String] the YAML string that represents this ribbon
+  # @see from_yaml
+  def to_yaml
+    to_hash.to_yaml
+  end
+
+  # Delegates to the raw ribbon.
+  #
   # @return [String] the string representation of this ribbon
-  def to_s(opts = {})
-    __to_s_recursive__ ::Ribbon.extract_hash_from(opts)
+  # @see Ribbon::Raw#to_s
+  def to_s
+    raw.to_s
   end
-
-  alias inspect to_s
 
   private
 
-  # Computes a string value recursively for the given ribbon, and all ribbons
-  # inside it, using the given options.
+  # Converts this ribbon and all ribbons inside into hashes using recursion.
   #
-  # @since 0.3.0
-  # @see #to_s
-  def __to_s_recursive__(opts = {}, ribbon = self)
-    ksym = opts.fetch(:key,   :to_s).to_sym
-    vsym = opts.fetch(:value, :inspect).to_sym
-    separator = opts.fetch(:separator, ': ').to_s
-    values = ribbon.__hash__.map do |k, v|
-      k = k.ribbon if ::Ribbon.wrapped? k
-      v = v.ribbon if ::Ribbon.wrapped? v
-      k = if ::Ribbon.instance? k then __to_s_recursive__ opts, k else k.__send__ ksym end
-      v = if ::Ribbon.instance? v then __to_s_recursive__ opts, v else v.__send__ vsym end
-      "#{k}#{separator}#{v}"
-    end.join ', '
-    "{#{values}}"
+  # @return [Hash] the converted contents of this ribbon
+  def to_hash_recursive(raw_ribbon = self.raw)
+    {}.tap do |hash|
+      raw_ribbon.__hash__.each do |key, value|
+        hash[key] = case value
+          when Ribbon then to_hash_recursive value.raw
+          when Ribbon::Raw then to_hash_recursive value
+          else value
+        end
+      end
+    end
   end
 
 end
 
 class << Ribbon
 
+  # Wraps a Ribbon instance.
+  #
+  # @see #initialize
   alias [] new
 
-  # Proc used to store a new Ribbon instance as the value of a missing key.
+  # Deserializes the hash from the string using YAML and uses it to construct a
+  # new ribbon.
   #
-  # @return [Proc] the proc used when constructing new hashes
-  # @since 0.4.6
-  def default_value_proc
-    @default_value_proc ||= (proc { |hash, key| hash[key] = Ribbon.new })
+  # @return [Ribbon] a new ribbon
+  # @since 0.4.4
+  # @see #to_yaml
+  def from_yaml(string)
+    Ribbon.new YAML.load string
   end
 
-  # Converts hashes to ribbons. Will look inside arrays.
-  #
-  # @param object the object to convert
-  # @return the converted value
-  # @since 0.2.0
-  def convert(object)
-    case object
-      when Hash then Ribbon.new object
-      when Array then object.map { |element| convert element }
-      else object
-    end
-  end
-
-  # Converts all values inside the given ribbon.
-  #
-  # @param [Ribbon, Ribbon::Wrapper] ribbon the ribbon whose values are to be
-  #                                         converted
-  # @return [Ribbon, Ribbon::Wrapper] the ribbon with all values converted
-  # @since 0.2.0
-  # @see convert
-  def convert_all!(ribbon)
-    ribbon.__hash__.each do |key, value|
-      ribbon[key] = case value
-        when Ribbon then convert_all! value
-        when Ribbon::Wrapper then convert_all! value.ribbon
-        else convert value
-      end
-    end
-    ribbon
-  end
-
-  # Merges the hashes of the given ribbons.
-  #
-  # @param [Ribbon, Ribbon::Wrapper, #to_hash] old_ribbon the ribbon with old
-  #                                                       values
-  # @param [Ribbon, Ribbon::Wrapper, #to_hash] new_ribbon the ribbon with new
-  #                                                       values
-  # @return [Ribbon] a new ribbon containing the results of the merge
-  # @yieldparam key the key which identifies both values
-  # @yieldparam old_value the value from old_ribbon
-  # @yieldparam new_value the value from new_ribbon
-  # @yieldreturn the object that will be used as the new value
-  # @since 0.3.0
-  # @see merge!
-  # @see extract_hash_from
-  def merge(old_ribbon, new_ribbon, &block)
-    old_hash = extract_hash_from old_ribbon
-    new_hash = extract_hash_from new_ribbon
-    merged_hash = old_hash.merge new_hash, &block
-    Ribbon.new merged_hash
-  end
-
-  # Merges the hashes of the given ribbons in place.
-  #
-  # @param [Ribbon, Ribbon::Wrapper, #to_hash] old_ribbon the ribbon with old
-  #                                                       values
-  # @param [Ribbon, Ribbon::Wrapper, #to_hash] new_ribbon the ribbon with new
-  #                                                       values
-  # @return [Ribbon, Ribbon::Wrapper, Hash] old_ribbon, which will contain the
-  #                                         results of the merge
-  # @yieldparam key the key which identifies both values
-  # @yieldparam old_value the value from old_ribbon
-  # @yieldparam new_value the value from new_ribbon
-  # @yieldreturn the object that will be used as the new value
-  # @since 0.3.0
-  # @see merge
-  # @see extract_hash_from
-  def merge!(old_ribbon, new_ribbon, &block)
-    old_hash = extract_hash_from old_ribbon
-    new_hash = extract_hash_from new_ribbon
-    old_hash.merge! new_hash, &block
-    old_ribbon
-  end
-
-  # Merges everything inside the given ribbons.
-  #
-  # @param [Ribbon, Ribbon::Wrapper, #to_hash] old_ribbon the ribbon with old
-  #                                                       values
-  # @param [Ribbon, Ribbon::Wrapper, #to_hash] new_ribbon the ribbon with new
-  #                                                       values
-  # @return [Ribbon] a new ribbon containing the results of the merge
-  # @yieldparam key the key which identifies both values
-  # @yieldparam old_value the value from old_ribbon
-  # @yieldparam new_value the value from new_ribbon
-  # @yieldreturn the object that will be used as the new value
-  # @since 0.4.5
-  # @see merge
-  # @see deep_merge!
-  # @see extract_hash_from
-  def deep_merge(old_ribbon, new_ribbon, &block)
-    deep :merge, old_ribbon, new_ribbon, &block
-  end
-
-  # Merges everything inside the given ribbons in place.
-  #
-  # @param [Ribbon, Ribbon::Wrapper, #to_hash] old_ribbon the ribbon with old
-  #                                                       values
-  # @param [Ribbon, Ribbon::Wrapper, #to_hash] new_ribbon the ribbon with new
-  #                                                       values
-  # @return [Ribbon, Ribbon::Wrapper, Hash] old_ribbon, which will contain the
-  #                                         results of the merge
-  # @yieldparam key the key which identifies both values
-  # @yieldparam old_value the value from old_ribbon
-  # @yieldparam new_value the value from new_ribbon
-  # @yieldreturn the object that will be used as the new value
-  # @since 0.4.5
-  # @see merge!
-  # @see deep_merge
-  # @see extract_hash_from
-  def deep_merge!(old_ribbon, new_ribbon, &block)
-    deep :merge!, old_ribbon, new_ribbon, &block
-  end
-
-  # Tests whether the given object is an instance of Ribbon.
+  # Whether the given object is a {Ribbon::Raw raw ribbon}.
   #
   # @param object the object to be tested
-  # @return [true, false] whether the object is an instance of Ribbon
-  # @since 0.2.0
-  def instance?(object)
-    Ribbon === object
+  # @return [true, false] whether the object is a raw ribbon
+  # @since 0.8.0
+  def raw?(object)
+    Ribbon::Raw === object
   end
 
-  # Tests whether the given object is an instance of {Ribbon::Wrapper}.
-  #
-  # @param object the object to be tested
-  # @return [true, false] whether the object is an instance of {Ribbon::Wrapper}
-  # @since 0.2.0
-  def wrapped?(object)
-    Ribbon::Wrapper === object
-  end
+  alias instance? ===
 
-  # Wraps an object in a {Ribbon::Wrapper}.
+  # Extracts the hash of a ribbon. Will attempt to convert other objects.
   #
-  # @param [Ribbon, Ribbon::Wrapper, #to_hash] object the object to be wrapped
-  # @return [Ribbon::Wrapper] a new wrapped ribbon
-  # @since 0.2.0
-  def wrap(object = ::Ribbon.new, &block)
-    Ribbon::Wrapper.new object, &block
-  end
-
-  # Returns the hash of a Ribbon. Will attempt to convert other objects.
-  #
-  # @param [Ribbon, Ribbon::Wrapper, #to_hash] parameter the object to convert
+  # @param [Ribbon, Ribbon::Raw, #to_hash] object the object to convert
   # @return [Hash] the resulting hash
   # @since 0.2.1
-  def extract_hash_from(parameter)
-    case parameter
-      when Ribbon::Wrapper then parameter.internal_hash
-      when Ribbon then parameter.__hash__
-      else parameter.to_hash
+  def extract_hash_from(object)
+    case object
+      when Ribbon, Ribbon::Raw then object.__hash__
+      else object.to_hash
+    end
+  end
+
+  # Extracts a {Ribbon::Raw raw ribbon} from the given object.
+  #
+  # @param [Ribbon, Ribbon::Raw, #to_hash] object the hash-like object
+  # @return [Ribbon::Raw] the raw ribbon
+  # @since 0.8.0
+  def extract_raw_from(object)
+    case object
+      when Ribbon then object.raw
+      when Ribbon::Raw then object
+      else Ribbon::Raw.new object.to_hash
     end
   end
 
@@ -369,32 +237,6 @@ class << Ribbon
   # @since 0.4.7
   def from_yaml(string)
     Ribbon.new YAML.load(string)
-  end
-
-  private
-
-  # Common logic for deep merge methods. +merge_method+ should be either
-  # +:merge+ or +:merge!+, and denotes which method will be used to merge
-  # recursively.
-  #
-  # @yieldparam key the key which identifies both values
-  # @yieldparam old_value the value from old_ribbon
-  # @yieldparam new_value the value from new_ribbon
-  # @yieldreturn the object that will be used as the new value
-  # @since 0.4.5
-  # @see merge!
-  # @see merge
-  # @see deep_merge
-  # @see deep_merge!
-  def deep(merge_method, old_ribbon, new_ribbon, &block)
-    send merge_method, old_ribbon, new_ribbon do |key, old_value, new_value|
-      if instance?(old_value) and instance?(new_value)
-        deep merge_method, old_value, new_value, &block
-      else
-        if block then block.call key, old_value, new_value
-        else new_value end
-      end
-    end
   end
 
 end
