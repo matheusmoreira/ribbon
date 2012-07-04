@@ -193,6 +193,16 @@ class << Ribbon
     Ribbon::Raw === object
   end
 
+  # Whether the object is compatible with methods that take hashes or ribbons as
+  # arguments.
+  #
+  # @param object the object to be tested
+  # @return [true, false] whether the object is a raw ribbon
+  # @since 0.8.0
+  def compatible?(object)
+    [Ribbon, Ribbon::Raw, Hash].any? { |type| type === object }
+  end
+
   # Extracts the hash of a ribbon. Will attempt to convert other objects.
   #
   # @param [Ribbon, Ribbon::Raw, #to_hash] object the object to convert
