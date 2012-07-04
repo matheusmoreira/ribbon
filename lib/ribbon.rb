@@ -91,7 +91,7 @@ class Ribbon
   # The hash used by the wrapped Ribbon.
   #
   # @return [Hash] the internal hash of the Ribbon wrapped by this instance
-  # @since 0.5.0
+  # @since 0.8.0
   def internal_hash
     raw.__hash__
   end
@@ -112,7 +112,7 @@ class Ribbon
   # @yieldparam old_value the value from this wrapped Ribbon
   # @yieldparam new_value the value from the given ribbon
   # @yieldreturn the object that will be used as the new value
-  # @since 0.4.5
+  # @since 0.8.0
   # @see #deep_merge!
   # @see Ribbon.deep_merge
   def deep_merge(ribbon, &block)
@@ -127,7 +127,7 @@ class Ribbon
   # @yieldparam old_value the value from this wrapped Ribbon
   # @yieldparam new_value the value from the given ribbon
   # @yieldreturn the object that will be used as the new value
-  # @since 0.4.5
+  # @since 0.8.0
   # @see #deep_merge
   # @see Ribbon.deep_merge!
   def deep_merge!(ribbon, &block)
@@ -137,6 +137,7 @@ class Ribbon
   # Converts this ribbon and all ribbons inside into hashes.
   #
   # @return [Hash] the converted contents of this wrapped ribbon
+  # @since 0.8.0
   def to_hash
     to_hash_recursive
   end
@@ -144,6 +145,7 @@ class Ribbon
   # Converts this ribbon to a hash and serializes it with YAML.
   #
   # @return [String] the YAML string that represents this ribbon
+  # @since 0.8.0
   # @see from_yaml
   def to_yaml
     to_hash.to_yaml
