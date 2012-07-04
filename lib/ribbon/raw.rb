@@ -72,26 +72,28 @@ class Ribbon
 
     # Handles the following cases:
     #
-    #   ribbon.method                  =>  ribbon[method]
-    #   ribbon.method   value          =>  ribbon[method] = value
-    #   ribbon.method          &block  =>  ribbon[method, &block]
-    #   ribbon.method   value, &block  =>  ribbon[method] = value
-    #                                      ribbon[method, &block]
+    #   ribbon.method                  =>  ribbon[:method]
+    #   ribbon.method   value          =>  ribbon[:method] = value
+    #   ribbon.method          &block  =>  ribbon[:method, &block]
+    #   ribbon.method   value, &block  =>  ribbon[:method] = value
+    #                                      ribbon[:method, &block]
     #
-    #   ribbon.method = value          =>  ribbon[method] = value
+    #   ribbon.method = value          =>  ribbon[:method] = value
     #
-    #   ribbon.method!  value          =>  ribbon[method] = value
+    #   ribbon.method!  value          =>  ribbon[:method] = value
     #                                      self
-    #   ribbon.method!         &block  =>  ribbon[method, &block]
+    #   ribbon.method!         &block  =>  if ribbon.__hash__.include? :method
+    #                                        block.call ribbon[:method]
+    #                                      end
     #                                      self
-    #   ribbon.method!  value, &block  =>  ribbon[method] = value
-    #                                      ribbon[method, &block]
+    #   ribbon.method!  value, &block  =>  ribbon[:method] = value
+    #                                      block.call ribbon[:method]
     #                                      self
     #
-    #   ribbon.method?                 =>  ribbon.__hash__.fetch method
-    #   ribbon.method?  value          =>  ribbon.__hash__.fetch method, value
-    #   ribbon.method?         &block  =>  ribbon.__hash__.fetch method, &block
-    #   ribbon.method?  value, &block  =>  ribbon.__hash__.fetch method, value, &block
+    #   ribbon.method?                 =>  ribbon.__hash__.fetch :method
+    #   ribbon.method?  value          =>  ribbon.__hash__.fetch :method, value
+    #   ribbon.method?         &block  =>  ribbon.__hash__.fetch :method, &block
+    #   ribbon.method?  value, &block  =>  ribbon.__hash__.fetch :method, value, &block
     def method_missing(method, *arguments, &block)
       method_name = method.to_s
       key = method_name.strip.gsub(/[=?!]$/, '').strip.intern
