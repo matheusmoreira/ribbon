@@ -331,7 +331,7 @@ class << Ribbon
   # @see deep_merge!
   def deep(merge_method, old_ribbon, new_ribbon, &block)
     send merge_method, old_ribbon, new_ribbon do |key, old_value, new_value|
-      if instance?(old_value) and instance?(new_value)
+      if [old_value, new_value].all? { |value| compatible? value }
         deep merge_method, old_value, new_value, &block
       else
         if block then block.call key, old_value, new_value
