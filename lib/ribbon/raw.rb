@@ -22,7 +22,7 @@ class Ribbon
       @hash ||= (::Hash.new &::Ribbon::Raw.default_value_proc)
     end
 
-    # Initializes a new ribbon.
+    # Initializes a new raw ribbon with the given values.
     #
     # If given a block, the ribbon will be yielded to it. If the block doesn't
     # take any arguments, it will be evaluated in the context of the ribbon.
