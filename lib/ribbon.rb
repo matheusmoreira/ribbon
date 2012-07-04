@@ -180,16 +180,6 @@ class << Ribbon
 
   alias [] new
 
-  # Deserializes the hash from the string using YAML and uses it to construct a
-  # new ribbon.
-  #
-  # @return [Ribbon] a new ribbon
-  # @since 0.4.4
-  # @see #to_yaml
-  def from_yaml(string)
-    Ribbon.new YAML.load string
-  end
-
   # Whether the given object is a {Ribbon::Raw raw ribbon}.
   #
   # @param object the object to be tested
