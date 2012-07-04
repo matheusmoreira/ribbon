@@ -88,16 +88,16 @@ class Ribbon
     __yield_or_eval__ &block
   end
 
-  # The hash used by the wrapped Ribbon.
+  # The hash used by the raw ribbon.
   #
-  # @return [Hash] the internal hash of the Ribbon wrapped by this instance
+  # @return [Hash] the internal hash of the raw ribbon
   # @since 0.8.0
   def internal_hash
     raw.__hash__
   end
 
-  # Forwards the method, arguments and block to the wrapped Ribbon's hash, if
-  # it responds to the method, or to the ribbon itself otherwise.
+  # Forwards the method, arguments and block to the raw ribbon's hash, if it
+  # responds to the method, or to the raw ribbon itself otherwise.
   def method_missing(method, *arguments, &block)
     if (hash = internal_hash).respond_to? method then hash
     else raw end.__send__ method, *arguments, &block
