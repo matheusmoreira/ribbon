@@ -157,6 +157,8 @@ class Ribbon
     raw.to_s
   end
 
+  alias inspect to_s
+
   private
 
   # Converts this ribbon and all ribbons inside into hashes using recursion.
