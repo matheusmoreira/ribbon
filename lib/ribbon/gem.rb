@@ -1,6 +1,6 @@
 require 'jewel'
 
-class Ribbon < BasicObject
+class Ribbon
 
   # Ribbon gem information and metadata.
   #

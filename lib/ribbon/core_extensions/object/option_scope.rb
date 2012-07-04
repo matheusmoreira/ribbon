@@ -1,6 +1,6 @@
 require 'ribbon/options'
 
-class Ribbon < BasicObject
+class Ribbon
   module CoreExtensions
 
     module Object

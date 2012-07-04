@@ -1,6 +1,6 @@
 require 'ribbon/core_extensions/basic_object'
 
-class Ribbon < BasicObject
+class Ribbon
   module CoreExtensions
 
     module Object

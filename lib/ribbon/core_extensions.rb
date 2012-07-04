@@ -1,4 +1,4 @@
-class Ribbon < BasicObject
+class Ribbon
 
   # Extensions to the standard library.
   #

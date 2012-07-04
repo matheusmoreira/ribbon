@@ -1,4 +1,4 @@
-class Ribbon < BasicObject
+class Ribbon
   module CoreExtensions
 
     # Some useful methods.

@@ -1,6 +1,6 @@
 require 'ribbon'
 
-class Ribbon < BasicObject
+class Ribbon
   module CoreExtensions
 
     # Includes methods to convert hashes to ribbons.
@@ -9,29 +9,21 @@ class Ribbon < BasicObject
     # @since 0.6.0
     module Hash
 
-      # Converts this hash to a Ribbon.
+      # Converts this hash to a ribbon.
       #
-      # @return a new Ribbon with the contents of this hash
+      # @return [Ribbon] a new ribbon with the contents of this hash
       def to_ribbon
         Ribbon.new self
       end
 
-      # Converts this hash to a Ribbon::Wrapper.
-      #
-      # @return a new wrapped Ribbon with the contents of this hash
-      def to_ribbon_wrapper
-        Ribbon.wrap self
-      end
-
-      # Same as #to_ribbon.
-      #
-      # @return a new Ribbon with the contents of this hash
       alias to_rbon to_ribbon
 
-      # Same as #to_ribbon_wrapper.
+      # Converts this hash to a raw ribbon.
       #
-      # @return a new wrapped Ribbon with the contents of this hash
-      alias to_wrapped_ribbon to_ribbon_wrapper
+      # @return [Ribbon::Raw] a new raw ribbon with the contents of this hash
+      def to_raw_ribbon
+        Ribbon.wrap self
+      end
 
     end
 
