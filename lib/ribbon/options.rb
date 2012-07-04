@@ -29,7 +29,7 @@ class Ribbon
     # @param receiver the object that will be receiving the methods
     # @param [Ribbon, Ribbon::Raw, #to_hash] options the options that will be
     #   applied to all methods
-    # @see CoreExt::BasicObject#__yield_or_eval__
+    # @see CoreExtensions::BasicObject#__yield_or_eval__
     def initialize(receiver, options = {}, &block)
       @receiver, @options = receiver, options
       __yield_or_eval__ &block
