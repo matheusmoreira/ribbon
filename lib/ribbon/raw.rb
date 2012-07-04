@@ -93,9 +93,9 @@ class Ribbon
     #   ribbon.method?         &block  =>  ribbon.__hash__.fetch method, &block
     #   ribbon.method?  value, &block  =>  ribbon.__hash__.fetch method, value, &block
     def method_missing(method, *arguments, &block)
-      method_string = method.to_s
-      key = method_string.strip.gsub(/[=?!]$/, '').strip.intern
-      case method_string[-1]
+      method_name = method.to_s
+      key = method_name.strip.gsub(/[=?!]$/, '').strip.intern
+      case method_name[-1]
         when ?=
           __send__ :[]=, key, *arguments
         when ?!
