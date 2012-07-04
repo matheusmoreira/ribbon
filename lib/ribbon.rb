@@ -189,8 +189,6 @@ class << Ribbon
     Ribbon::Raw === object
   end
 
-  alias instance? ===
-
   # Extracts the hash of a ribbon. Will attempt to convert other objects.
   #
   # @param [Ribbon, Ribbon::Raw, #to_hash] object the object to convert
