@@ -83,9 +83,7 @@ class Ribbon
     #
     #   ribbon.method!  value          =>  ribbon[:method] = value
     #                                      self
-    #   ribbon.method!         &block  =>  if ribbon.__hash__.include? :method
-    #                                        block.call ribbon[:method]
-    #                                      end
+    #   ribbon.method!         &block  =>  block.call ribbon[:method] if ribbon.__hash__.include? :method
     #                                      self
     #   ribbon.method!  value, &block  =>  ribbon[:method] = value
     #                                      block.call ribbon[:method]
