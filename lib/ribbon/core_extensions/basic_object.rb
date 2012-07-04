@@ -13,7 +13,11 @@ class Ribbon
       # @yieldparam [self] object this instance
       # @return [Object, nil] the result of the block or nil if not given one
       def __yield_or_eval__(&block)
-        if block.arity.zero? then instance_eval &block else block.call self end if block
+        if block.arity.zero?
+          instance_eval &block
+        else
+          block.call self
+        end unless block.nil?
       end
 
     end
