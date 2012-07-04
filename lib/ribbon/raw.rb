@@ -29,7 +29,7 @@ class Ribbon
     #
     # All objects inside the hash will be {convert_all! converted}.
     #
-    # @param [Ribbon, Ribbon::Raw, to_hash] hash the hash with initial values
+    # @param [Ribbon, Ribbon::Raw, #to_hash] hash the hash with initial values
     # @see CoreExt::BasicObject#__yield_or_eval__
     def initialize(hash = {}, &block)
       __hash__.merge! ::Ribbon.extract_hash_from hash
