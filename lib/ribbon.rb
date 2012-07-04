@@ -114,9 +114,9 @@ class Ribbon
   # @yieldreturn the object that will be used as the new value
   # @since 0.8.0
   # @see #deep_merge!
-  # @see Ribbon::Raw.deep_merge
+  # @see deep_merge
   def deep_merge(ribbon, &block)
-    Ribbon.new Ribbon::Raw.deep_merge(self, ribbon, &block)
+    Ribbon.new Ribbon.deep_merge(self, ribbon, &block)
   end
 
   # Merges everything inside this ribbon with the given ribbon in place.
@@ -129,9 +129,9 @@ class Ribbon
   # @yieldreturn the object that will be used as the new value
   # @since 0.8.0
   # @see #deep_merge
-  # @see Ribbon::Raw.deep_merge!
+  # @see deep_merge!
   def deep_merge!(ribbon, &block)
-    Ribbon::Raw.deep_merge! self, ribbon, &block
+    Ribbon.deep_merge! self, ribbon, &block
   end
 
   # Converts this ribbon and all ribbons inside into hashes.
@@ -226,6 +226,108 @@ class << Ribbon
   # @since 0.4.7
   def from_yaml(string)
     Ribbon.new YAML.load(string)
+  end
+
+  # Merges the hashes of the given ribbons.
+  #
+  # @param [Ribbon, Ribbon::Raw, #to_hash] old_ribbon the ribbon with old values
+  # @param [Ribbon, Ribbon::Raw, #to_hash] new_ribbon the ribbon with new values
+  # @return [Ribbon] a new ribbon containing the results of the merge
+  # @yieldparam key the key which identifies both values
+  # @yieldparam old_value the value from old_ribbon
+  # @yieldparam new_value the value from new_ribbon
+  # @yieldreturn the object that will be used as the new value
+  # @since 0.8.0
+  # @see merge!
+  # @see extract_hash_from
+  def merge(old_ribbon, new_ribbon, &block)
+    old_hash = extract_hash_from old_ribbon
+    new_hash = extract_hash_from new_ribbon
+    merged_hash = old_hash.merge new_hash, &block
+    Ribbon.new merged_hash
+  end
+
+  # Merges the hashes of the given ribbons in place.
+  #
+  # @param [Ribbon, Ribbon::Raw, #to_hash] old_ribbon the ribbon with old values
+  # @param [Ribbon, Ribbon::Raw, #to_hash] new_ribbon the ribbon with new values
+  # @return [Ribbon, Ribbon::Raw, Hash] old_ribbon, which will contain the
+  #   results of the merge
+  # @yieldparam key the key which identifies both values
+  # @yieldparam old_value the value from old_ribbon
+  # @yieldparam new_value the value from new_ribbon
+  # @yieldreturn the object that will be used as the new value
+  # @since 0.8.0
+  # @see merge
+  # @see extract_hash_from
+  def merge!(old_ribbon, new_ribbon, &block)
+    old_hash = extract_hash_from old_ribbon
+    new_hash = extract_hash_from new_ribbon
+    old_hash.merge! new_hash, &block
+    old_ribbon
+  end
+
+  # Merges everything inside the given ribbons.
+  #
+  # @param [Ribbon, Ribbon::Raw, #to_hash] old_ribbon the ribbon with old values
+  # @param [Ribbon, Ribbon::Raw, #to_hash] new_ribbon the ribbon with new values
+  # @return [Ribbon] a new ribbon containing the results of the merge
+  # @yieldparam key the key which identifies both values
+  # @yieldparam old_value the value from old_ribbon
+  # @yieldparam new_value the value from new_ribbon
+  # @yieldreturn the object that will be used as the new value
+  # @since 0.8.0
+  # @see merge
+  # @see deep_merge!
+  # @see extract_hash_from
+  def deep_merge(old_ribbon, new_ribbon, &block)
+    deep :merge, old_ribbon, new_ribbon, &block
+  end
+
+  # Merges everything inside the given ribbons in place.
+  #
+  # @param [Ribbon, Ribbon::Raw, #to_hash] old_ribbon the ribbon with old values
+  # @param [Ribbon, Ribbon::Raw, #to_hash] new_ribbon the ribbon with new values
+  # @return [Ribbon, Ribbon::Raw, Hash] old_ribbon, which will contain the
+  #   results of the merge
+  # @yieldparam key the key which identifies both values
+  # @yieldparam old_value the value from old_ribbon
+  # @yieldparam new_value the value from new_ribbon
+  # @yieldreturn the object that will be used as the new value
+  # @since 0.8.0
+  # @see merge!
+  # @see deep_merge
+  # @see extract_hash_from
+  def deep_merge!(old_ribbon, new_ribbon, &block)
+    deep :merge!, old_ribbon, new_ribbon, &block
+  end
+
+  private
+
+  # Common logic for deep merge methods.
+  #
+  # @param [:merge, :merge!] merge_method the method that will be used to merge
+  #   recursively
+  # @param [Ribbon, Ribbon::Raw, #to_hash] old_ribbon the ribbon with old values
+  # @param [Ribbon, Ribbon::Raw, #to_hash] new_ribbon the ribbon with new values
+  # @yieldparam key the key which identifies both values
+  # @yieldparam old_value the value from old_ribbon
+  # @yieldparam new_value the value from new_ribbon
+  # @yieldreturn the object that will be used as the new value
+  # @since 0.8.0
+  # @see merge!
+  # @see merge
+  # @see deep_merge
+  # @see deep_merge!
+  def deep(merge_method, old_ribbon, new_ribbon, &block)
+    send merge_method, old_ribbon, new_ribbon do |key, old_value, new_value|
+      if instance?(old_value) and instance?(new_value)
+        deep merge_method, old_value, new_value, &block
+      else
+        if block then block.call key, old_value, new_value
+        else new_value end
+      end
+    end
   end
 
 end
