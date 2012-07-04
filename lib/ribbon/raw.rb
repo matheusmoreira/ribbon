@@ -155,7 +155,8 @@ class << Ribbon::Raw
 
   alias [] new
 
-  # Proc used to store a new Ribbon instance as the value of a missing key.
+  # Proc used to store a new {Ribbon ribbon} instance as the value of a missing
+  # key.
   #
   # @return [Proc] the proc used when constructing new hashes
   def default_value_proc
