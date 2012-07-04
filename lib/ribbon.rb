@@ -114,7 +114,7 @@ class Ribbon
   # @yieldreturn the object that will be used as the new value
   # @since 0.8.0
   # @see #deep_merge!
-  # @see Ribbon.deep_merge
+  # @see Ribbon::Raw.deep_merge
   def deep_merge(ribbon, &block)
     Ribbon.new Ribbon::Raw.deep_merge(self, ribbon, &block)
   end
@@ -129,7 +129,7 @@ class Ribbon
   # @yieldreturn the object that will be used as the new value
   # @since 0.8.0
   # @see #deep_merge
-  # @see Ribbon.deep_merge!
+  # @see Ribbon::Raw.deep_merge!
   def deep_merge!(ribbon, &block)
     Ribbon::Raw.deep_merge! self, ribbon, &block
   end
