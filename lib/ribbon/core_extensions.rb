@@ -8,6 +8,11 @@ class Ribbon < BasicObject
 
 end
 
-%w(array basic_object hash object).each do |file|
-  require file.prepend 'ribbon/core_extensions/'
-end
+%w(
+
+ribbon/core_extensions/array
+ribbon/core_extensions/basic_object
+ribbon/core_extensions/hash
+ribbon/core_extensions/object
+
+).each { |file| require file }

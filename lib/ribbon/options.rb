@@ -1,7 +1,11 @@
-require 'ribbon'
-require 'ribbon/core_extensions/array'
+%w(
 
-class Ribbon < BasicObject
+ribbon
+ribbon/core_extensions/array
+
+).each { |file| require file }
+
+class Ribbon
 
   # Applies options to all method calls.
   #

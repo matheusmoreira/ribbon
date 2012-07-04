@@ -13,6 +13,9 @@ class Ribbon < BasicObject
   end
 end
 
-%w(option_scope yield_or_eval).each do |file|
-  require file.prepend 'ribbon/core_extensions/object/'
-end
+%w(
+
+ribbon/core_extensions/object/option_scope
+ribbon/core_extensions/object/yield_or_eval
+
+).each { |file| require file }
