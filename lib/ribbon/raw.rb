@@ -100,10 +100,10 @@ class Ribbon
           __send__ :[]=, key, *arguments
         when ?!
           __send__ :[]=, key, *arguments unless arguments.empty?
-          self[key, &block]
+          block.call self[key] if block and __hash__.include? key
           self
         when ??
-          begin self.__hash__.fetch key, *arguments, &block
+          begin __hash__.fetch key, *arguments, &block
           rescue ::KeyError; nil end
         else
           __send__ :[]=, key, *arguments unless arguments.empty?
