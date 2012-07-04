@@ -81,8 +81,8 @@ class Ribbon
   # take any arguments, it will be evaluated in the context of the ribbon.
   #
   # @param [Ribbon, Ribbon::Raw, #to_hash] initial_values the initial values
-  # @see #ribbon=
-  # @see Ribbon#initialize
+  # @see #raw=
+  # @see Ribbon::Raw#initialize
   def initialize(initial_values = Ribbon::Raw.new, &block)
     self.raw = initial_values
     __yield_or_eval__ &block
