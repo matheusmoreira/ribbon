@@ -45,7 +45,7 @@ class Ribbon
     #
     # @param key the key which identifies the value
     # @return the value associated with the given key
-    # @see CoreExt::BasicObject#__yield_or_eval__
+    # @see CoreExtensions::BasicObject#__yield_or_eval__
     def [](key, &block)
       value = ::Ribbon::Raw.convert __hash__[key]
       value.__yield_or_eval__ &block
