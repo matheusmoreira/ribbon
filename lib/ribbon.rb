@@ -205,7 +205,7 @@ class << Ribbon
     end
   end
 
-  # Extracts a {Ribbon::Raw raw ribbon} from the given object.
+  # Extracts a raw ribbon from the given object.
   #
   # @param [Ribbon, Ribbon::Raw, #to_hash] object the hash-like object
   # @return [Ribbon::Raw] the raw ribbon
