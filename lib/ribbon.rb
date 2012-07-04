@@ -178,9 +178,6 @@ end
 
 class << Ribbon
 
-  # Wraps a Ribbon instance.
-  #
-  # @see #initialize
   alias [] new
 
   # Deserializes the hash from the string using YAML and uses it to construct a
