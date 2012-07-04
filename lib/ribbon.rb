@@ -155,8 +155,8 @@ class Ribbon
   #
   # @return [String] the string representation of this ribbon
   # @see Ribbon::Raw#to_s
-  def to_s
-    raw.to_s
+  def to_s(*arguments, &block)
+    raw.to_s *arguments, &block
   end
 
   alias inspect to_s
