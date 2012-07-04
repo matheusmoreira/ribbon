@@ -21,6 +21,7 @@ class Ribbon
       # Converts this hash to a raw ribbon.
       #
       # @return [Ribbon::Raw] a new raw ribbon with the contents of this hash
+      # @since 0.8.0
       def to_raw_ribbon
         Ribbon.wrap self
       end

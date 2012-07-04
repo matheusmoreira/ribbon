@@ -26,6 +26,7 @@ class Ribbon
       # Extracts the last argument as a raw ribbon or returns an empty one.
       #
       # @return [Ribbon::Raw] the raw ribbon at the end of this array
+      # @since 0.8.0
       # @see #extract_ribbon!
       def extract_raw_ribbon!
         Ribbon::Raw.new extract_ribbon!
