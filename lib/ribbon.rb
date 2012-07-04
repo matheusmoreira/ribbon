@@ -58,15 +58,15 @@ ribbon/raw
 # @see Ribbon::Raw
 class Ribbon
 
-  # The wrapped Ribbon.
+  # The raw ribbon.
   #
-  # @return [Ribbon::Raw] the ribbon wrapped by this instance
+  # @return [Ribbon::Raw] this ribbon's raw ribbon
   # @since 0.8.0
   def raw
     @raw ||= Ribbon::Raw.new
   end
 
-  # Sets this Ribbon's raw ribbon.
+  # Sets this ribbon's raw ribbon.
   #
   # @param [Ribbon, Ribbon::Raw, #to_hash] object the hash-like object
   # @return [Ribbon::Raw] the raw ribbon
@@ -75,7 +75,7 @@ class Ribbon
     @raw = Ribbon.extract_raw_from object
   end
 
-  # Initializes a new Ribbon with the given values
+  # Initializes a new ribbon with the given values.
   #
   # If given a block, the ribbon will be yielded to it. If the block doesn't
   # take any arguments, it will be evaluated in the context of the ribbon.
