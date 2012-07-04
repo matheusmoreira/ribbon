@@ -8,10 +8,10 @@ class Ribbon
     module BasicObject
 
       # Evaluates the block using +instance_eval+ if it takes no arguments;
-      # yields +self+ to it otherwise.
+      # yields this object to it otherwise.
       #
-      # @yieldparam [self] object this instance
-      # @return [Object, nil] the result of the block or nil if not given one
+      # @yieldparam [self] object this object
+      # @return [::Object, nil] the result of the block or nil if not given one
       def __yield_or_eval__(&block)
         if block.arity.zero?
           instance_eval &block
