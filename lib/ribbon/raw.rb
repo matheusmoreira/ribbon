@@ -24,8 +24,9 @@ class Ribbon
 
     # Initializes a new raw ribbon with the given values.
     #
-    # If given a block, the ribbon will be yielded to it. If the block doesn't
-    # take any arguments, it will be evaluated in the context of the ribbon.
+    # If given a block, the raw ribbon will be yielded to it. If the block
+    # doesn't take any arguments, it will be evaluated in the context of the raw
+    # ribbon.
     #
     # All objects inside the hash will be {convert_all! converted}.
     #
